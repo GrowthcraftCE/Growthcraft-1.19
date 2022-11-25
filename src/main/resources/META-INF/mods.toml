@@ -1,0 +1,128 @@
+modLoader="javafml" #mandatory
+loaderVersion="[40,)"
+license = "GPL-3.0"
+issueTrackerURL = "https://github.com/GrowthcraftCE/Growthcraft-1.18/issues"
+
+[[mods]]
+modId = "growthcraft"
+version = "8.0.0"
+displayName = "Growthcraft"
+updateJSONURL = "https://raw.githubusercontent.com/GrowthcraftCE/Growthcraft-Updates/master/growthcraft-versions.json"
+displayURL = "https://github.com/GrowthcraftCE/Growthcraft-1.18/wiki"
+logoFile = "growthcraft_core_logo.png"
+credits = "Thanks to Gwafu for starting a great mod. And the Growthcraft CE Development for continuing the work."
+authors = "Alatyami"
+description = '''
+Growthcraft is a realistic and immersive Forge mod that adds various new elements to the game of Minecraft.
+'''
+
+[[dependencies.growthcraft]] #optional
+modId = "forge"
+mandatory = true
+versionRange = "[40,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.growthcraft]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.18,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[mods]]
+modId = "growthcraft_apiary"
+version = "8.0.0"
+displayName = "Growthcraft Apiary"
+logoFile = "growthcraft_bees_logo.png"
+description = '''
+  Growthcraft Apiary (Bees) adds honey generation and processing.
+'''
+
+[[dependencies.growthcraft_apiary]]
+modId = "growthcraft"
+mandatory = true
+versionRange = "[7,)"
+ordering = "AFTER"
+side = "BOTH"
+
+[[mods]]
+modId = "growthcraft_apples"
+version = "8.0.0"
+displayName = "Growthcraft Apples"
+logoFile = "growthcraft_apples_logo.png"
+description = '''
+  Growthcraft Apples adds more ways to grow apples and to process it into juice and fermented drinks.
+'''
+
+[[dependencies.growthcraft_apples]]
+modId = "growthcraft"
+mandatory = true
+versionRange = "[7,)"
+ordering = "AFTER"
+side = "BOTH"
+
+[[mods]]
+modId = "growthcraft_bamboo"
+version = "8.0.0"
+displayName = "Growthcraft Bamboo"
+logoFile = "growthcraft_bamboo_logo.png"
+description = '''
+  Growthcraft Bamboo adds more ways to grow bamboo and to craft with it.
+'''
+
+[[dependencies.growthcraft_apples]]
+modId = "growthcraft"
+mandatory = true
+versionRange = "[7,)"
+ordering = "AFTER"
+side = "BOTH"
+
+[[mods]]
+modId = "growthcraft_cellar"
+version = "8.0.0"
+displayName = "Growthcraft Cellar"
+logoFile = "growthcraft_cellar_logo.png"
+description = '''
+  Growthcraft Cellar adds processing and fermentation for various items and drinks.
+'''
+
+[[dependencies.growthcraft_cellar]]
+modId = "growthcraft"
+mandatory = true
+versionRange = "[7,)"
+ordering = "AFTER"
+side = "BOTH"
+
+[[mods]]
+modId = "growthcraft_milk"
+version = "8.0.0"
+displayName = "Growthcraft Milk"
+logoFile = "growthcraft_milk_logo.png"
+description = '''
+  Growthcraft Milk adds more functionality to Vanilla Milk and provides processing to make it into cheese, ice cream, and various foods and drinks.
+'''
+
+[[dependencies.growthcraft_milk]]
+modId = "growthcraft"
+mandatory = true
+versionRange = "[7,)"
+ordering = "AFTER"
+side = "BOTH"
+
+[[mods]]
+modId = "growthcraft_rice"
+version = "8.0.0"
+displayName = "Growthcraft Rice"
+logoFile = "growthcraft_rice_logo.png"
+description = '''
+  Growthcraft Rice adds the ability to grow rice and produce food and fermented drinks from it.
+'''
+
+[[dependencies.growthcraft_rice]]
+modId = "growthcraft"
+mandatory = true
+versionRange = "[7,)"
+ordering = "AFTER"
+side = "BOTH"
+
