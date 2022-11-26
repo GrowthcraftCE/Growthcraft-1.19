@@ -8,7 +8,7 @@ import growthcraft.cellar.init.client.GrowthcraftCellarItemRenderers;
 import growthcraft.cellar.init.config.GrowthcraftCellarConfig;
 import growthcraft.cellar.shared.Reference;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.client.event.ColorHandlerEvent;
+import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
@@ -65,7 +65,7 @@ public class GrowthcraftCellar {
     }
 
     @SubscribeEvent
-    public static void onColorHandle(ColorHandlerEvent.Item event) {
+    public static void onColorHandle(RegisterColorHandlersEvent.Item event) {
         GrowthcraftCellarItemRenderers.registerItemRenders(event);
     }
 }
