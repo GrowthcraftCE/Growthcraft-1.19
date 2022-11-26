@@ -10,7 +10,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
@@ -30,8 +29,8 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
@@ -45,7 +44,7 @@ import java.util.List;
 public class BeeBoxBlockEntity extends BlockEntity implements BlockEntityTicker<BeeBoxBlockEntity>, MenuProvider {
 
     private int tickClock = 0;
-    private int tickMax;
+    private final int tickMax;
 
     private Component customName;
 
@@ -58,7 +57,7 @@ public class BeeBoxBlockEntity extends BlockEntity implements BlockEntityTicker<
         @Override
         public boolean isItemValid(int slot, @NotNull ItemStack stack) {
             return (slot == 0 && stack.is(GrowthcraftApiaryTags.Items.BEE)) ||
-                    ( slot > 0 && slot <=27 && stack.is(GrowthcraftApiaryTags.Items.HONEY_COMB)) ;
+                    (slot > 0 && slot <= 27 && stack.is(GrowthcraftApiaryTags.Items.HONEY_COMB));
         }
     };
 
@@ -68,14 +67,14 @@ public class BeeBoxBlockEntity extends BlockEntity implements BlockEntityTicker<
         this(GrowthcraftApiaryBlockEntities.BEE_BOX_BLOCK_ENTITY.get(), pos, state, GrowthcraftApiaryConfig.getBeeBoxMaxProcessingTime());
     }
 
-    public BeeBoxBlockEntity(BlockEntityType<?> blockEntityType,  BlockPos pos, BlockState state, int tickMax) {
+    public BeeBoxBlockEntity(BlockEntityType<?> blockEntityType, BlockPos pos, BlockState state, int tickMax) {
         super(blockEntityType, pos, state);
         this.tickMax = tickMax;
     }
 
     @Override
     public @NotNull Component getDisplayName() {
-        return new TranslatableComponent("container.growthcraft_apiary.bee_box");
+        return Component.translatable("container.growthcraft_apiary.bee_box");
     }
 
     @Nullable
@@ -92,7 +91,7 @@ public class BeeBoxBlockEntity extends BlockEntity implements BlockEntityTicker<
 
     @Override
     public void tick(Level level, BlockPos pos, BlockState blockState, BeeBoxBlockEntity beeBoxBlockEntity) {
-        if(!level.isClientSide && this.itemStackHandler.getStackInSlot(0).getCount() > 0) {
+        if (!level.isClientSide && this.itemStackHandler.getStackInSlot(0).getCount() > 0) {
             SecureRandom random = new SecureRandom();
 
             if (tickClock >= tickMax) {
@@ -122,8 +121,8 @@ public class BeeBoxBlockEntity extends BlockEntity implements BlockEntityTicker<
                             // Try and fill an empty honey comb.
                             if (slotNeedsCombConversion > 0) {
                                 this.itemStackHandler.setStackInSlot(
-                                    slotNeedsCombConversion,
-                                    new ItemStack(GrowthcraftApiaryItems.HONEY_COMB_FULL.get())
+                                        slotNeedsCombConversion,
+                                        new ItemStack(GrowthcraftApiaryItems.HONEY_COMB_FULL.get())
                                 );
                             }
                             break;
@@ -139,8 +138,8 @@ public class BeeBoxBlockEntity extends BlockEntity implements BlockEntityTicker<
                             int emptySlotID = getEmptySlot();
                             if (emptySlotID > 0) {
                                 this.itemStackHandler.setStackInSlot(
-                                    emptySlotID,
-                                    new ItemStack(GrowthcraftApiaryItems.HONEY_COMB_EMPTY.get())
+                                        emptySlotID,
+                                        new ItemStack(GrowthcraftApiaryItems.HONEY_COMB_EMPTY.get())
                                 );
                             }
 
@@ -155,22 +154,23 @@ public class BeeBoxBlockEntity extends BlockEntity implements BlockEntityTicker<
     }
 
     private int getSlotWithVanillaHoneyComb() {
-        for(int slotID = 1; slotID < this.itemStackHandler.getSlots(); slotID++) {
-            if(this.itemStackHandler.getStackInSlot(slotID).getItem() == Items.HONEYCOMB) return slotID;
+        for (int slotID = 1; slotID < this.itemStackHandler.getSlots(); slotID++) {
+            if (this.itemStackHandler.getStackInSlot(slotID).getItem() == Items.HONEYCOMB) return slotID;
         }
         return -1;
     }
 
     private int getSlotWithEmptyHoneyComb() {
-        for(int slotID = 1; slotID < this.itemStackHandler.getSlots(); slotID++) {
-            if(this.itemStackHandler.getStackInSlot(slotID).getItem() == GrowthcraftApiaryItems.HONEY_COMB_EMPTY.get()) return slotID;
+        for (int slotID = 1; slotID < this.itemStackHandler.getSlots(); slotID++) {
+            if (this.itemStackHandler.getStackInSlot(slotID).getItem() == GrowthcraftApiaryItems.HONEY_COMB_EMPTY.get())
+                return slotID;
         }
         return -1;
     }
 
     private int getEmptySlot() {
-        for(int slotID = 1; slotID < this.itemStackHandler.getSlots(); slotID++) {
-            if(this.itemStackHandler.getStackInSlot(slotID).isEmpty()) return slotID;
+        for (int slotID = 1; slotID < this.itemStackHandler.getSlots(); slotID++) {
+            if (this.itemStackHandler.getStackInSlot(slotID).isEmpty()) return slotID;
         }
         return -1;
     }
@@ -214,9 +214,10 @@ public class BeeBoxBlockEntity extends BlockEntity implements BlockEntityTicker<
             nbt.putString("CustomName", Component.Serializer.toJson(this.customName));
         }
     }
+
     @Override
     public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
-        this.load(  pkt.getTag());
+        this.load(pkt.getTag());
     }
 
     @Override
@@ -240,7 +241,7 @@ public class BeeBoxBlockEntity extends BlockEntity implements BlockEntityTicker<
         BlockPos lowerBoundPos = pos.below(2).south(beeBoxFlowerRange).west(beeBoxFlowerRange);
         BlockPos upperBoundPos = pos.above(2).north(beeBoxFlowerRange).east(beeBoxFlowerRange);
 
-        for(BlockPos blockpos : BlockPos.betweenClosed(lowerBoundPos, upperBoundPos)) {
+        for (BlockPos blockpos : BlockPos.betweenClosed(lowerBoundPos, upperBoundPos)) {
             BlockPos surroundingPos = blockpos.immutable();
 
             if (level.getBlockState(surroundingPos).is(BlockTags.FLOWERS)) {
@@ -256,7 +257,7 @@ public class BeeBoxBlockEntity extends BlockEntity implements BlockEntityTicker<
         SecureRandom random = new SecureRandom();
         int rand = random.nextInt(100);
 
-        if(!flowerBlocks.isEmpty() && !airBlocks.isEmpty() && rand <= GrowthcraftApiaryConfig.getChanceToReplicateFlowers()) {
+        if (!flowerBlocks.isEmpty() && !airBlocks.isEmpty() && rand <= GrowthcraftApiaryConfig.getChanceToReplicateFlowers()) {
             int randomFlower = level.getRandom().nextInt(flowerBlocks.size());
             int randomAirBlock = level.getRandom().nextInt(airBlocks.size());
 
@@ -268,7 +269,7 @@ public class BeeBoxBlockEntity extends BlockEntity implements BlockEntityTicker<
     @NotNull
     @Override
     public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-        if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+        if (cap == ForgeCapabilities.ITEM_HANDLER) {
             return itemHandlerLazyOptional.cast();
         }
         return super.getCapability(cap, side);

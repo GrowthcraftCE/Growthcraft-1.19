@@ -4,10 +4,8 @@ import growthcraft.apiary.init.*;
 import growthcraft.apiary.init.client.GrowthcraftApiaryItemRenders;
 import growthcraft.apiary.init.config.GrowthcraftApiaryConfig;
 import growthcraft.apiary.shared.Reference;
-import net.minecraft.world.item.Item;
-import net.minecraftforge.client.event.ColorHandlerEvent;
+import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -15,7 +13,6 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.IForgeRegistry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -41,7 +38,6 @@ public class GrowthcraftApiary {
         MinecraftForge.EVENT_BUS.register(this);
     }
 
-
     private void clientSetupEvent(final FMLClientSetupEvent event) {
         GrowthcraftApiaryMenus.registerMenus();
     }
@@ -54,18 +50,11 @@ public class GrowthcraftApiary {
 
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
-        LOGGER.info("Growthcraft Apiary starting up ...");
+        LOGGER.info("Growthcraft Apiary starting up server-side ...");
     }
 
     @SubscribeEvent
-    public static void onItemsRegistry(final RegistryEvent.Register<Item> event) {
-        final IForgeRegistry<Item> itemRegistry = event.getRegistry();
-        final Item.Properties properties = new Item.Properties().tab(growthcraft.core.shared.Reference.CREATIVE_TAB);
-        GrowthcraftApiaryBlocks.registerBlockItems(itemRegistry, properties);
-    }
-
-    @SubscribeEvent
-    public static void onColorHandle(ColorHandlerEvent.Item event) {
+    public static void onColorHandle(RegisterColorHandlersEvent.Item event) {
         GrowthcraftApiaryItemRenders.registerItemRenders(event);
     }
 }

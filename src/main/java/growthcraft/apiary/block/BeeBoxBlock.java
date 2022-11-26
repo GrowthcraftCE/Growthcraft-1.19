@@ -119,7 +119,7 @@ public class BeeBoxBlock extends BaseEntityBlock {
             level.playSound(player, pos, SoundEvents.BARREL_OPEN, SoundSource.BLOCKS, 1.0F, 1.0F);
             try {
                 BeeBoxBlockEntity blockEntity = (BeeBoxBlockEntity) level.getBlockEntity(pos);
-                NetworkHooks.openGui(((ServerPlayer) player), blockEntity, pos);
+                NetworkHooks.openScreen(((ServerPlayer) player), blockEntity, pos);
             } catch (Exception ex) {
                 GrowthcraftApiary.LOGGER.error(String.format("%s unable to open BeeBoxBlockEntity GUI at %s.",
                         player.getDisplayName().getString(), pos));
