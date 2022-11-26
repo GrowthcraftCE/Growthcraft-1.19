@@ -1,22 +1,24 @@
 package growthcraft.apples.init;
 
+import growthcraft.apiary.init.GrowthcraftApiaryItems;
 import growthcraft.apples.block.AppleBeeBoxBlock;
 import growthcraft.apples.block.AppleTreeFruit;
 import growthcraft.apples.block.AppleTreeLeaves;
 import growthcraft.apples.shared.Reference;
 import growthcraft.apples.world.feature.tree.AppleTreeGrower;
 import growthcraft.lib.block.*;
-import growthcraft.lib.utils.FluidUtils;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryObject;
 
 import java.util.ArrayList;
+import java.util.function.Supplier;
+
+import static growthcraft.core.shared.Reference.CREATIVE_TAB;
 
 public class GrowthcraftApplesBlocks {
 
@@ -24,107 +26,122 @@ public class GrowthcraftApplesBlocks {
             ForgeRegistries.BLOCKS, Reference.MODID
     );
 
-    public static final RegistryObject<GrowthcraftPlankBlock> APPLE_PLANK = BLOCKS.register(
+    public static final RegistryObject<Block> APPLE_PLANK = registerBlock(
             Reference.UnlocalizedName.APPLE_PLANK,
             GrowthcraftPlankBlock::new
     );
 
-    public static final RegistryObject<GrowthcraftButtonBlock> APPLE_PLANK_BUTTON = BLOCKS.register(
+    public static final RegistryObject<Block> APPLE_PLANK_BUTTON = registerBlock(
             Reference.UnlocalizedName.APPLE_PLANK_BUTTON,
             GrowthcraftButtonBlock::new
     );
 
-    public static final RegistryObject<GrowthcraftDoorBlock> APPLE_PLANK_DOOR = BLOCKS.register(
+    public static final RegistryObject<Block> APPLE_PLANK_DOOR = registerBlock(
             Reference.UnlocalizedName.APPLE_PLANK_DOOR,
             GrowthcraftDoorBlock::new
     );
 
-    public static final RegistryObject<GrowthcraftFenceBlock> APPLE_PLANK_FENCE = BLOCKS.register(
+    public static final RegistryObject<Block> APPLE_PLANK_FENCE = registerBlock(
             Reference.UnlocalizedName.APPLE_PLANK_FENCE,
             GrowthcraftFenceBlock::new
     );
 
-    public static final RegistryObject<GrowthcraftFenceGateBlock> APPLE_PLANK_FENCE_GATE = BLOCKS.register(
+    public static final RegistryObject<Block> APPLE_PLANK_FENCE_GATE = registerBlock(
             Reference.UnlocalizedName.APPLE_PLANK_FENCE_GATE,
             GrowthcraftFenceGateBlock::new
     );
 
-    public static final RegistryObject<GrowthcraftPressurePlateBlock> APPLE_PLANK_PRESSURE_PLATE = BLOCKS.register(
+    public static final RegistryObject<Block> APPLE_PLANK_PRESSURE_PLATE = registerBlock(
             Reference.UnlocalizedName.APPLE_PLANK_PRESSURE_PLATE,
             GrowthcraftPressurePlateBlock::new
     );
 
-    public static final RegistryObject<GrowthcraftSlabBlock> APPLE_PLANK_SLAB = BLOCKS.register(
+    public static final RegistryObject<Block> APPLE_PLANK_SLAB = registerBlock(
             Reference.UnlocalizedName.APPLE_PLANK_SLAB,
             GrowthcraftSlabBlock::new
     );
 
-    public static final RegistryObject<GrowthcraftStairsBlock> APPLE_PLANK_STAIRS = BLOCKS.register(
+    public static final RegistryObject<Block> APPLE_PLANK_STAIRS = registerBlock(
             Reference.UnlocalizedName.APPLE_PLANK_STAIRS,
             GrowthcraftStairsBlock::new
     );
 
-    public static final RegistryObject<GrowthcraftTrapDoorBlock> APPLE_PLANK_TRAPDOOR = BLOCKS.register(
+    public static final RegistryObject<Block> APPLE_PLANK_TRAPDOOR = registerBlock(
             Reference.UnlocalizedName.APPLE_PLANK_TRAPDOOR,
             GrowthcraftTrapDoorBlock::new
     );
 
-    public static final RegistryObject<AppleTreeFruit> APPLE_TREE_FRUIT = BLOCKS.register(
+    public static final RegistryObject<Block> APPLE_TREE_FRUIT = registerBlock(
             Reference.UnlocalizedName.APPLE_TREE_FRUIT,
-            AppleTreeFruit::new
+            AppleTreeFruit::new,
+            true
     );
 
-    public static final RegistryObject<Block> APPLE_TREE_LEAVES = BLOCKS.register(
+    public static final RegistryObject<Block> APPLE_TREE_LEAVES = registerBlock(
             Reference.UnlocalizedName.APPLE_TREE_LEAVES,
             AppleTreeLeaves::new
     );
 
-    public static final RegistryObject<GrowthcraftSaplingBlock> APPLE_TREE_SAPLING = BLOCKS.register(
+    public static final RegistryObject<Block> APPLE_TREE_SAPLING = registerBlock(
             Reference.UnlocalizedName.APPLE_TREE_SAPLING,
             () -> new GrowthcraftSaplingBlock(
                 new AppleTreeGrower()
             )
     );
 
-    public static final RegistryObject<GrowthcraftLogBlock> APPLE_WOOD = BLOCKS.register(
+    public static final RegistryObject<Block> APPLE_WOOD = registerBlock(
             Reference.UnlocalizedName.APPLE_WOOD,
             GrowthcraftLogBlock::new
     );
 
-    public static final RegistryObject<GrowthcraftLogBlock> APPLE_WOOD_LOG = BLOCKS.register(
+    public static final RegistryObject<Block> APPLE_WOOD_LOG = registerBlock(
             Reference.UnlocalizedName.APPLE_WOOD_LOG,
             GrowthcraftLogBlock::new
     );
 
-    public static final RegistryObject<GrowthcraftLogBlock> APPLE_WOOD_LOG_STRIPPED = BLOCKS.register(
+    public static final RegistryObject<Block> APPLE_WOOD_LOG_STRIPPED = registerBlock(
             Reference.UnlocalizedName.APPLE_WOOD_LOG_STRIPPED,
             GrowthcraftLogBlock::new
     );
 
-    public static final RegistryObject<GrowthcraftLogBlock> APPLE_WOOD_STRIPPED = BLOCKS.register(
+    public static final RegistryObject<Block> APPLE_WOOD_STRIPPED = registerBlock(
             Reference.UnlocalizedName.APPLE_WOOD_STRIPPED,
             GrowthcraftLogBlock::new
     );
 
-    public static final RegistryObject<AppleBeeBoxBlock> BEE_BOX_APPLE = BLOCKS.register(
+    public static final RegistryObject<Block> BEE_BOX_APPLE = registerBlock(
             Reference.UnlocalizedName.BEE_BOX_APPLE, AppleBeeBoxBlock::new
     );
 
-    public static void registerBlockItems(IForgeRegistry<Item> itemRegistry, Item.Properties properties) {
-        BLOCKS.getEntries().stream().map(RegistryObject::get).forEach(block -> {
-            if (block.getRegistryName() != null && !excludeBlockItemRegistry(block.getRegistryName())) {
-                final BlockItem blockItem = new BlockItem(block, properties);
-                blockItem.setRegistryName(block.getRegistryName());
-                itemRegistry.register(blockItem);
-            }
-        });
+    private static RegistryObject<Block> registerBlock(String name, Supplier<Block> block) {
+        return registerBlock(name, block, false);
     }
 
+    private static RegistryObject<Block> registerBlock(String name, Supplier<Block> block, boolean excludeBlockItemRegistry) {
+        RegistryObject<Block> registryObject = BLOCKS.register(name, block);
+        if (!excludeBlockItemRegistry) {
+            registerBlockItem(name, registryObject);
+        }
+        return registryObject;
+    }
+
+    private static void registerBlockItem(String name, RegistryObject<Block> blockRegistryObject) {
+        GrowthcraftApiaryItems.ITEMS.register(
+                name,
+                () -> new BlockItem(blockRegistryObject.get(), getDefaultItemProperties())
+        );
+    }
+
+    private static Item.Properties getDefaultItemProperties() {
+        Item.Properties properties = new Item.Properties();
+        properties.tab(CREATIVE_TAB);
+        return properties;
+    }
+
+    @Deprecated
     private static boolean excludeBlockItemRegistry(ResourceLocation registryName) {
         ArrayList<String> excludeBlocks = new ArrayList<>();
-        excludeBlocks.add(Reference.MODID + ":" + Reference.UnlocalizedName.APPLE_TREE_FRUIT);
-        excludeBlocks.add(Reference.MODID + ":" + FluidUtils.getFluidNames(Reference.UnlocalizedName.APPLE_CIDER).get(FluidUtils.BLOCK));
-        excludeBlocks.add(Reference.MODID + ":" + FluidUtils.getFluidNames(Reference.UnlocalizedName.APPLE_JUICE).get(FluidUtils.BLOCK));
+        //excludeBlocks.add(Reference.MODID + ":" + Reference.UnlocalizedName.APPLE_TREE_FRUIT);
         return excludeBlocks.contains(registryName.toString());
     }
 }

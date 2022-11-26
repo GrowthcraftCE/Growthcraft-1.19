@@ -38,6 +38,7 @@ public class Reference {
         public static final String APPLE_WOOD_LOG_STRIPPED = "apple_wood_log_stripped";
         public static final String BEE_BOX = "bee_box";
         public static final String BEE_BOX_APPLE = "bee_box_apple";
+        public static final String APPLE_TREE = "apple_tree";
 
         private UnlocalizedName() {
             /* Disable Automatic Creation of Public Constructor */

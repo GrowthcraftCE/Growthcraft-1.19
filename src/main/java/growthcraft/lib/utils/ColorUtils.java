@@ -20,5 +20,6 @@ public class ColorUtils {
         public Color getColor() {
             return color;
         }
+
     }
 }
