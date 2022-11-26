@@ -38,6 +38,7 @@ public class Reference {
         public static final String CROWBAR_YELLOW = "crowbar_yellow";
 
         public static final String SALT_ORE = "salt_ore";
+        public static final String SALT_ORE_PLACED = "salt_ore_placed";
         public static final String SALT_BLOCK = "salt_block";
         public static final String SALT_ITEM = "salt";
 
