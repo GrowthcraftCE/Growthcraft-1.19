@@ -67,8 +67,8 @@ public class Reference {
     }
 
     public static class FluidColor {
-        public static final ColorUtils.GrowthcraftColor HONEY_FLUID_COLOR = new ColorUtils.GrowthcraftColor(0xFFFFBF00);
-        public static final ColorUtils.GrowthcraftColor HONEY_MEAD_FLUID_COLOR = new ColorUtils.GrowthcraftColor(0xFFD79334);
+        public static final ColorUtils.GrowthcraftColor HONEY = new ColorUtils.GrowthcraftColor(0xFFFFBF00);
+        public static final ColorUtils.GrowthcraftColor HONEY_MEAD = new ColorUtils.GrowthcraftColor(0xFFD79334);
         public static final ColorUtils.GrowthcraftColor WAX_BLACK_COLOR = new ColorUtils.GrowthcraftColor(0xFF232323);
         public static final ColorUtils.GrowthcraftColor WAX_BLUE_COLOR = new ColorUtils.GrowthcraftColor(0xFF0000FF);
         public static final ColorUtils.GrowthcraftColor WAX_BROWN_COLOR = new ColorUtils.GrowthcraftColor(0xFF964B00);

@@ -36,6 +36,7 @@ public class GrowthcraftApples {
         // Blocks, Items, Fluids, Block Entities, Containers
         GrowthcraftApplesBlocks.BLOCKS.register(modEventBus);
         GrowthcraftApplesItems.ITEMS.register(modEventBus);
+        GrowthcraftApplesFluids.FLUID_TYPES.register(modEventBus);
         GrowthcraftApplesFluids.FLUIDS.register(modEventBus);
         GrowthcraftApplesBlockEntities.BLOCK_ENTITIES.register(modEventBus);
 

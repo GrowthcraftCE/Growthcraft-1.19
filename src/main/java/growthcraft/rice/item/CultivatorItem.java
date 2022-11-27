@@ -37,9 +37,9 @@ public class CultivatorItem extends HoeItem {
         BlockPos blockpos = context.getClickedPos();
         Player player = context.getPlayer();
 
-        // WARN: Will be an issue for 1.19
-        int hook = net.minecraftforge.event.ForgeEventFactory.onHoeUse(context);
-        if (hook != 0) return hook > 0 ? InteractionResult.SUCCESS : InteractionResult.FAIL;
+        // TODO: WARN: CultivatorItem and ForgeEventFactory.onToolUse
+        //int hook = net.minecraftforge.event.ForgeEventFactory.onToolUse(context);
+        //if (hook != 0) return hook > 0 ? InteractionResult.SUCCESS : InteractionResult.FAIL;
 
         if (context.getClickedFace() != Direction.DOWN && level.getBlockState(blockpos.above()).isAir()) {
             BlockState blockstate = level.getBlockState(blockpos).getToolModifiedState(context, ToolActions.HOE_TILL, false);

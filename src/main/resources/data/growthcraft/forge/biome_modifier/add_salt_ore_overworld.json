@@ -1,6 +1,6 @@
 {
   "type": "forge:add_features",
   "biomes": "#minecraft:is_overworld",
-  "features": "growthcraft:salt_ore_placed",
+  "features": "growthcraft:salt_ore",
   "step": "underground_ores"
 }

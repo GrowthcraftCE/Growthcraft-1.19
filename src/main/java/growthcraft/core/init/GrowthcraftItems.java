@@ -1,5 +1,6 @@
 package growthcraft.core.init;
 
+import growthcraft.core.block.RopeBlock;
 import growthcraft.core.item.CrowbarItem;
 import growthcraft.core.item.RopeItem;
 import growthcraft.core.shared.Reference;
@@ -77,7 +78,7 @@ public class GrowthcraftItems {
     );
 
     public static final RegistryObject<RopeItem> ROPE_LINEN = ITEMS.register(
-            Reference.UnlocalizedName.ROPE_LINEN, () -> new RopeItem(GrowthcraftBlocks.ROPE_LINEN.get())
+            Reference.UnlocalizedName.ROPE_LINEN, () -> new RopeItem((RopeBlock) GrowthcraftBlocks.ROPE_LINEN.get())
     );
 
     public static final RegistryObject<GrowthcraftItem> SALT = ITEMS.register(

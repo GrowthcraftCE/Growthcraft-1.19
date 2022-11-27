@@ -7,6 +7,7 @@ import growthcraft.lib.utils.CheeseUtils;
 import growthcraft.milk.item.MilkingBucketItem;
 import growthcraft.milk.shared.Reference;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
@@ -140,7 +141,7 @@ public class GrowthcraftMilkItems {
 
     public static final RegistryObject<MilkingBucketItem> MILKING_BUCKET_IRON = ITEMS.register(
             Reference.UnlocalizedName.MILKING_BUCKET_IRON,
-            MilkingBucketItem::new
+            () -> new MilkingBucketItem(Fluids.EMPTY)
     );
 
     public static final RegistryObject<GrowthcraftItem> STARTER_CULTURE = ITEMS.register(
