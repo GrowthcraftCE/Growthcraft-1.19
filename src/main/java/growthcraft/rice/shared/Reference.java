@@ -33,9 +33,9 @@ public class Reference {
     }
 
     public static class FluidColor {
-        public static final ColorUtils.GrowthcraftColor RICE_WATER_FLUID_COLOR = new ColorUtils.GrowthcraftColor(0xFFF6F8ED);
-        public static final ColorUtils.GrowthcraftColor RICE_WINE_FLUID_COLOR = new ColorUtils.GrowthcraftColor(0xFFD9DADB);
-        public static final ColorUtils.GrowthcraftColor SAKE_FLUID_COLOR = new ColorUtils.GrowthcraftColor(0xFFEAECEC);
+        public static final ColorUtils.GrowthcraftColor RICE_WATER = new ColorUtils.GrowthcraftColor(0xFFF6F8ED);
+        public static final ColorUtils.GrowthcraftColor RICE_WINE = new ColorUtils.GrowthcraftColor(0xFFD9DADB);
+        public static final ColorUtils.GrowthcraftColor SAKE = new ColorUtils.GrowthcraftColor(0xFFEAECEC);
 
         private FluidColor() {
             /* Disable Automatic Creation of Public Constructor */
