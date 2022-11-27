@@ -1,21 +1,23 @@
 package growthcraft.cellar.init;
 
+import growthcraft.apiary.init.GrowthcraftApiaryItems;
 import growthcraft.cellar.block.GrapeVineCropBlock;
 import growthcraft.cellar.block.GrapeVineFruitBlock;
 import growthcraft.cellar.block.GrapeVineLeavesCropBlock;
 import growthcraft.cellar.block.HopsCropBlock;
 import growthcraft.cellar.shared.Reference;
-import growthcraft.lib.utils.FluidUtils;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryObject;
 
 import java.util.ArrayList;
+import java.util.function.Supplier;
+
+import static growthcraft.core.shared.Reference.CREATIVE_TAB;
 
 public class GrowthcraftCellarBlocks {
 
@@ -32,98 +34,82 @@ public class GrowthcraftCellarBlocks {
     // TODO: FRUIT_PRESS
     // TODO: FRUIT_PRESS_PISTON
 
-    // TODO: GRAPE_VINE
-
-    public static final RegistryObject<GrapeVineFruitBlock> RED_GRAPE_VINE_FRUIT = BLOCKS.register(
+    public static final RegistryObject<Block> RED_GRAPE_VINE_FRUIT = registerBlock(
             Reference.UnlocalizedName.RED_GRAPE_VINE_FRUIT,
-            GrapeVineFruitBlock::new
+            GrapeVineFruitBlock::new, true
     );
-    public static final RegistryObject<GrapeVineLeavesCropBlock> RED_GRAPE_VINE_LEAVES = BLOCKS.register(
+    public static final RegistryObject<Block> RED_GRAPE_VINE_LEAVES = registerBlock(
             Reference.UnlocalizedName.RED_GRAPE_VINE_LEAVES,
-            () -> new GrapeVineLeavesCropBlock(RED_GRAPE_VINE_FRUIT.get())
+            () -> new GrapeVineLeavesCropBlock((GrapeVineFruitBlock) RED_GRAPE_VINE_FRUIT.get()), true
     );
-    public static final RegistryObject<GrapeVineCropBlock> RED_GRAPE_VINE = BLOCKS.register(
+    public static final RegistryObject<Block> RED_GRAPE_VINE = registerBlock(
             Reference.UnlocalizedName.RED_GRAPE_VINE,
-            () -> new GrapeVineCropBlock(RED_GRAPE_VINE_LEAVES.get())
+            () -> new GrapeVineCropBlock((GrapeVineLeavesCropBlock) RED_GRAPE_VINE_LEAVES.get()), true
     );
 
-    public static final RegistryObject<GrapeVineFruitBlock> PURPLE_GRAPE_VINE_FRUIT = BLOCKS.register(
+    public static final RegistryObject<Block> PURPLE_GRAPE_VINE_FRUIT = registerBlock(
             Reference.UnlocalizedName.PURPLE_GRAPE_VINE_FRUIT,
-            GrapeVineFruitBlock::new
+            GrapeVineFruitBlock::new, true
     );
-    public static final RegistryObject<GrapeVineLeavesCropBlock> PURPLE_GRAPE_VINE_LEAVES = BLOCKS.register(
+    public static final RegistryObject<Block> PURPLE_GRAPE_VINE_LEAVES = registerBlock(
             Reference.UnlocalizedName.PURPLE_GRAPE_VINE_LEAVES,
-            () -> new GrapeVineLeavesCropBlock(PURPLE_GRAPE_VINE_FRUIT.get())
+            () -> new GrapeVineLeavesCropBlock((GrapeVineFruitBlock) PURPLE_GRAPE_VINE_FRUIT.get()), true
     );
-    public static final RegistryObject<GrapeVineCropBlock> PURPLE_GRAPE_VINE = BLOCKS.register(
+    public static final RegistryObject<Block> PURPLE_GRAPE_VINE = registerBlock(
             Reference.UnlocalizedName.PURPLE_GRAPE_VINE,
-            () -> new GrapeVineCropBlock(PURPLE_GRAPE_VINE_LEAVES.get())
+            () -> new GrapeVineCropBlock((GrapeVineLeavesCropBlock) PURPLE_GRAPE_VINE_LEAVES.get()), true
     );
 
-    public static final RegistryObject<GrapeVineFruitBlock> WHITE_GRAPE_VINE_FRUIT = BLOCKS.register(
+    public static final RegistryObject<Block> WHITE_GRAPE_VINE_FRUIT = registerBlock(
             Reference.UnlocalizedName.WHITE_GRAPE_VINE_FRUIT,
-            GrapeVineFruitBlock::new
+            GrapeVineFruitBlock::new, true
     );
-    public static final RegistryObject<GrapeVineLeavesCropBlock> WHITE_GRAPE_VINE_LEAVES = BLOCKS.register(
+    public static final RegistryObject<Block> WHITE_GRAPE_VINE_LEAVES = registerBlock(
             Reference.UnlocalizedName.WHITE_GRAPE_VINE_LEAVES,
-            () -> new GrapeVineLeavesCropBlock(WHITE_GRAPE_VINE_FRUIT.get())
+            () -> new GrapeVineLeavesCropBlock((GrapeVineFruitBlock) WHITE_GRAPE_VINE_FRUIT.get()), true
     );
-    public static final RegistryObject<GrapeVineCropBlock> WHITE_GRAPE_VINE = BLOCKS.register(
+    public static final RegistryObject<Block> WHITE_GRAPE_VINE = registerBlock(
             Reference.UnlocalizedName.WHITE_GRAPE_VINE,
-            () -> new GrapeVineCropBlock(WHITE_GRAPE_VINE_LEAVES.get())
+            () -> new GrapeVineCropBlock((GrapeVineLeavesCropBlock) WHITE_GRAPE_VINE_LEAVES.get()), true
     );
 
-    public static final RegistryObject<HopsCropBlock> HOPS_VINE = BLOCKS.register(
-            Reference.UnlocalizedName.HOPS_VINE, HopsCropBlock::new
+    public static final RegistryObject<Block> HOPS_VINE = registerBlock(
+            Reference.UnlocalizedName.HOPS_VINE, HopsCropBlock::new, true
     );
 
     // TODO: ROASTER
 
-    public static void registerBlockItems(IForgeRegistry<Item> itemRegistry, Item.Properties properties) {
-        BLOCKS.getEntries().stream().map(RegistryObject::get).forEach(block -> {
-            if (block.getRegistryName() != null && !excludeBlockItemRegistry(block.getRegistryName())) {
-                final BlockItem blockItem = new BlockItem(block, properties);
-                blockItem.setRegistryName(block.getRegistryName());
-                itemRegistry.register(blockItem);
-            }
-        });
+    private static RegistryObject<Block>  registerBlock(String name, Supplier<Block> block) {
+        return registerBlock(name, block, false);
     }
 
-    private static boolean excludeBlockItemRegistry(ResourceLocation registryName) {
+    private static RegistryObject<Block> registerBlock(String name, Supplier<Block> block, boolean excludeBlockItemRegistry) {
+        RegistryObject<Block> registryObject = BLOCKS.register(name, block);
+        if (!excludeBlockItemRegistry) {
+            registerBlockItem(name, registryObject);
+        }
+        return registryObject;
+    }
+
+    private static void registerBlockItem(String name, RegistryObject<Block> blockRegistryObject) {
+        GrowthcraftApiaryItems.ITEMS.register(
+                name,
+                () -> new BlockItem(blockRegistryObject.get(), getDefaultItemProperties())
+        );
+    }
+
+    private static Item.Properties getDefaultItemProperties() {
+        Item.Properties properties = new Item.Properties();
+        properties.tab(CREATIVE_TAB);
+        return properties;
+    }
+
+
+    private static boolean excludeBlockItemRegistryOld(ResourceLocation registryName) {
         ArrayList<String> excludeBlocks = new ArrayList<>();
         // Exclude any blocks that do not need to be accessible via the Creative tab
         //excludeBlocks.add(Reference.MODID + ":" + Reference.UnlocalizedName.APPLE_TREE_FRUIT);
-        // Exclude Fluid Blocks
-        excludeBlocks.add(Reference.MODID + ":" + FluidUtils.getFluidNames(Reference.UnlocalizedName.AMBER_ALE).get(FluidUtils.BLOCK));
-        excludeBlocks.add(Reference.MODID + ":" + FluidUtils.getFluidNames(Reference.UnlocalizedName.AMBER_LAGER).get(FluidUtils.BLOCK));
-        excludeBlocks.add(Reference.MODID + ":" + FluidUtils.getFluidNames(Reference.UnlocalizedName.AMBER_WORT).get(FluidUtils.BLOCK));
-        excludeBlocks.add(Reference.MODID + ":" + FluidUtils.getFluidNames(Reference.UnlocalizedName.BROWN_ALE).get(FluidUtils.BLOCK));
-        excludeBlocks.add(Reference.MODID + ":" + FluidUtils.getFluidNames(Reference.UnlocalizedName.BROWN_LAGER).get(FluidUtils.BLOCK));
-        excludeBlocks.add(Reference.MODID + ":" + FluidUtils.getFluidNames(Reference.UnlocalizedName.BROWN_WORT).get(FluidUtils.BLOCK));
-        excludeBlocks.add(Reference.MODID + ":" + FluidUtils.getFluidNames(Reference.UnlocalizedName.COPPER_ALE).get(FluidUtils.BLOCK));
-        excludeBlocks.add(Reference.MODID + ":" + FluidUtils.getFluidNames(Reference.UnlocalizedName.COPPER_LAGER).get(FluidUtils.BLOCK));
-        excludeBlocks.add(Reference.MODID + ":" + FluidUtils.getFluidNames(Reference.UnlocalizedName.COPPER_WORT).get(FluidUtils.BLOCK));
-        excludeBlocks.add(Reference.MODID + ":" + FluidUtils.getFluidNames(Reference.UnlocalizedName.DARK_LAGER).get(FluidUtils.BLOCK));
-        excludeBlocks.add(Reference.MODID + ":" + FluidUtils.getFluidNames(Reference.UnlocalizedName.DARK_WORT).get(FluidUtils.BLOCK));
-        excludeBlocks.add(Reference.MODID + ":" + FluidUtils.getFluidNames(Reference.UnlocalizedName.DEEP_AMBER_WORT).get(FluidUtils.BLOCK));
-        excludeBlocks.add(Reference.MODID + ":" + FluidUtils.getFluidNames(Reference.UnlocalizedName.DEEP_COPPER_WORT).get(FluidUtils.BLOCK));
-        excludeBlocks.add(Reference.MODID + ":" + FluidUtils.getFluidNames(Reference.UnlocalizedName.GOLDEN_WORT).get(FluidUtils.BLOCK));
-        excludeBlocks.add(Reference.MODID + ":" + FluidUtils.getFluidNames(Reference.UnlocalizedName.HOPPED_GOLDEN_WORT).get(FluidUtils.BLOCK));
-        excludeBlocks.add(Reference.MODID + ":" + FluidUtils.getFluidNames(Reference.UnlocalizedName.IPA_ALE).get(FluidUtils.BLOCK));
-        excludeBlocks.add(Reference.MODID + ":" + FluidUtils.getFluidNames(Reference.UnlocalizedName.OLD_PORT_ALE).get(FluidUtils.BLOCK));
-        excludeBlocks.add(Reference.MODID + ":" + FluidUtils.getFluidNames(Reference.UnlocalizedName.PALE_ALE).get(FluidUtils.BLOCK));
-        excludeBlocks.add(Reference.MODID + ":" + FluidUtils.getFluidNames(Reference.UnlocalizedName.PALE_GOLDEN_WORT).get(FluidUtils.BLOCK));
-        excludeBlocks.add(Reference.MODID + ":" + FluidUtils.getFluidNames(Reference.UnlocalizedName.PALE_LAGER).get(FluidUtils.BLOCK));
-        excludeBlocks.add(Reference.MODID + ":" + FluidUtils.getFluidNames(Reference.UnlocalizedName.PILSNER_LAGER).get(FluidUtils.BLOCK));
-        excludeBlocks.add(Reference.MODID + ":" + FluidUtils.getFluidNames(Reference.UnlocalizedName.PURPLE_GRAPE_JUICE).get(FluidUtils.BLOCK));
-        excludeBlocks.add(Reference.MODID + ":" + FluidUtils.getFluidNames(Reference.UnlocalizedName.PURPLE_GRAPE_WINE).get(FluidUtils.BLOCK));
-        excludeBlocks.add(Reference.MODID + ":" + FluidUtils.getFluidNames(Reference.UnlocalizedName.RED_GRAPE_JUICE).get(FluidUtils.BLOCK));
-        excludeBlocks.add(Reference.MODID + ":" + FluidUtils.getFluidNames(Reference.UnlocalizedName.RED_GRAPE_WINE).get(FluidUtils.BLOCK));
-        excludeBlocks.add(Reference.MODID + ":" + FluidUtils.getFluidNames(Reference.UnlocalizedName.STOUT_ALE).get(FluidUtils.BLOCK));
-        excludeBlocks.add(Reference.MODID + ":" + FluidUtils.getFluidNames(Reference.UnlocalizedName.VIENNA_LAGER).get(FluidUtils.BLOCK));
-        excludeBlocks.add(Reference.MODID + ":" + FluidUtils.getFluidNames(Reference.UnlocalizedName.WHITE_GRAPE_JUICE).get(FluidUtils.BLOCK));
-        excludeBlocks.add(Reference.MODID + ":" + FluidUtils.getFluidNames(Reference.UnlocalizedName.WHITE_GRAPE_WINE).get(FluidUtils.BLOCK));
-        excludeBlocks.add(Reference.MODID + ":" + FluidUtils.getFluidNames(Reference.UnlocalizedName.WORT).get(FluidUtils.BLOCK));
+
         // Exclude Crop Blocks
         excludeBlocks.add(Reference.MODID + ":" + Reference.UnlocalizedName.HOPS_VINE);
         excludeBlocks.add(Reference.MODID + ":" + Reference.UnlocalizedName.RED_GRAPE_VINE);
