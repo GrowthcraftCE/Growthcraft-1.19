@@ -2,19 +2,19 @@ package growthcraft.lib.item;
 
 import growthcraft.core.shared.Reference;
 import net.minecraft.world.food.FoodProperties;
-import net.minecraft.world.item.Item;
+import net.minecraft.world.item.BowlFoodItem;
 
-public class GrowthcraftFoodItem extends Item {
+public class GrowthcraftBowlFoodItem extends BowlFoodItem {
 
-    public GrowthcraftFoodItem() {
+    public GrowthcraftBowlFoodItem() {
         this(1, 0.2F, 64);
     }
 
-    public GrowthcraftFoodItem(int maxStackSize) {
+    public GrowthcraftBowlFoodItem(int maxStackSize) {
         this(1, 0.2F, maxStackSize);
     }
 
-    public GrowthcraftFoodItem(int hunger, float saturation, int maxStackSize) {
+    public GrowthcraftBowlFoodItem(int hunger, float saturation, int maxStackSize) {
         super(getInitProperties(hunger, saturation, maxStackSize));
     }
 
@@ -25,8 +25,4 @@ public class GrowthcraftFoodItem extends Item {
         properties.food(new FoodProperties.Builder().nutrition(hunger).saturationMod(saturation).build());
         return properties;
     }
-
-
-
-
 }

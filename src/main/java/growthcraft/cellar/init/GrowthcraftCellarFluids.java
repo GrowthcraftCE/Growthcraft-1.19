@@ -1,6 +1,6 @@
 package growthcraft.cellar.init;
 
-import growthcraft.apiary.lib.turtywurty.registry.FluidRegistryContainer;
+import growthcraft.cellar.lib.turtywurty.registry.FluidRegistryContainer;
 import growthcraft.cellar.shared.Reference;
 import growthcraft.lib.utils.FluidUtils;
 import net.minecraft.world.item.Item;
@@ -16,6 +16,10 @@ import static growthcraft.core.shared.Reference.CREATIVE_TAB;
 public class GrowthcraftCellarFluids {
     public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(
             ForgeRegistries.FLUIDS, Reference.MODID
+    );
+
+    public static final DeferredRegister<FluidType> FLUID_TYPES = DeferredRegister.create(
+            ForgeRegistries.Keys.FLUID_TYPES, growthcraft.apples.shared.Reference.MODID
     );
 
     public static final FluidRegistryContainer AMBER_ALE = new FluidRegistryContainer(

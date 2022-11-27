@@ -11,10 +11,6 @@ public class GrowthcraftCellarItemRenderers {
     public static void registerItemRenders(RegisterColorHandlersEvent.Item event) {
         GrowthcraftItemColor itemColor = new GrowthcraftItemColor();
 
-        for (RegistryObject<? extends Item> bucket : GrowthcraftCellarItems.BUCKETS) {
-            event.getItemColors().register(itemColor, bucket::get);
-        }
-
         for (RegistryObject<? extends Item> grain : GrowthcraftCellarItems.GRAINS) {
             event.getItemColors().register(itemColor, grain::get);
         }
