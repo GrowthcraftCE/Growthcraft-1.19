@@ -32,8 +32,6 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Random;
-
 public class AppleTreeFruit extends BushBlock implements BonemealableBlock {
     public static final int MAX_AGE = 7;
     public static final IntegerProperty AGE = BlockStateProperties.AGE_7;
@@ -97,7 +95,7 @@ public class AppleTreeFruit extends BushBlock implements BonemealableBlock {
     }
 
     @Override
-    public void randomTick(@NotNull BlockState blockState, ServerLevel level, @NotNull BlockPos blockPos, @NotNull Random random) {
+    public void randomTick(@NotNull BlockState blockState, ServerLevel level, @NotNull BlockPos blockPos, @NotNull RandomSource random) {
         if (!level.isAreaLoaded(blockPos, 1)) return; // Forge: prevent loading unloaded chunks when checking neighbor's light
         if (level.getRawBrightness(blockPos, 0) >= 9) {
             int i = this.getAge(blockState);

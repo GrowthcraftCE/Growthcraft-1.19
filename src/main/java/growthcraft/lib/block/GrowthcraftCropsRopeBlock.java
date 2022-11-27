@@ -41,7 +41,6 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
-import java.util.Random;
 
 public class GrowthcraftCropsRopeBlock extends BushBlock implements BonemealableBlock {
 
@@ -105,7 +104,7 @@ public class GrowthcraftCropsRopeBlock extends BushBlock implements Bonemealable
     }
 
     @Override
-    public void randomTick(BlockState state, ServerLevel level, BlockPos pos, Random random) {
+    public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         this.tryGrow(state, level, pos, random.nextInt(4));
     }
 
