@@ -102,16 +102,16 @@ public class Reference {
     }
 
     public static class FluidColor {
-        public static final ColorUtils.GrowthcraftColor BUTTER_MILK_FLUID_COLOR = new ColorUtils.GrowthcraftColor(0xFFFEF1B5);
-        public static final ColorUtils.GrowthcraftColor CHEESE_BASE_FLUID_COLOR = new ColorUtils.GrowthcraftColor(0xFFFDD0);
-        public static final ColorUtils.GrowthcraftColor CONDENSED_MILK_FLUID_COLOR = new ColorUtils.GrowthcraftColor(0xFFFFFFFA);
-        public static final ColorUtils.GrowthcraftColor CREAM_FLUID_COLOR = new ColorUtils.GrowthcraftColor(0xFFFFFDD0);
-        public static final ColorUtils.GrowthcraftColor CULTURED_MILK_FLUID_COLOR = new ColorUtils.GrowthcraftColor(0xFFF7D99E);
-        public static final ColorUtils.GrowthcraftColor KUMIS_FLUID_COLOR = new ColorUtils.GrowthcraftColor(0xFFF9F9F9);
-        public static final ColorUtils.GrowthcraftColor MILK_FLUID_COLOR = new ColorUtils.GrowthcraftColor(0xFFF6F8ED);
-        public static final ColorUtils.GrowthcraftColor RENNET_FLUID_COLOR = new ColorUtils.GrowthcraftColor(0xFF877243);
-        public static final ColorUtils.GrowthcraftColor SKIM_MILK_FLUID_COLOR = new ColorUtils.GrowthcraftColor(0xFFFFFFFA);
-        public static final ColorUtils.GrowthcraftColor WHEY_FLUID_COLOR = new ColorUtils.GrowthcraftColor(0xFF94a860);
+        public static final ColorUtils.GrowthcraftColor BUTTER_MILK = new ColorUtils.GrowthcraftColor(0xFFFEF1B5);
+        public static final ColorUtils.GrowthcraftColor CHEESE_BASE = new ColorUtils.GrowthcraftColor(0xFFFDD0);
+        public static final ColorUtils.GrowthcraftColor CONDENSED_MILK = new ColorUtils.GrowthcraftColor(0xFFFFFFFA);
+        public static final ColorUtils.GrowthcraftColor CREAM = new ColorUtils.GrowthcraftColor(0xFFFFFDD0);
+        public static final ColorUtils.GrowthcraftColor CULTURED_MILK = new ColorUtils.GrowthcraftColor(0xFFF7D99E);
+        public static final ColorUtils.GrowthcraftColor KUMIS = new ColorUtils.GrowthcraftColor(0xFFF9F9F9);
+        public static final ColorUtils.GrowthcraftColor MILK = new ColorUtils.GrowthcraftColor(0xFFF6F8ED);
+        public static final ColorUtils.GrowthcraftColor RENNET = new ColorUtils.GrowthcraftColor(0xFF877243);
+        public static final ColorUtils.GrowthcraftColor SKIM_MILK = new ColorUtils.GrowthcraftColor(0xFFFFFFFA);
+        public static final ColorUtils.GrowthcraftColor WHEY = new ColorUtils.GrowthcraftColor(0xFF94a860);
 
         private FluidColor() {
             /* Disable Automatic Creation of Public Constructor */
