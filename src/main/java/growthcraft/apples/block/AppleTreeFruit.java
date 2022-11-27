@@ -5,6 +5,7 @@ import growthcraft.apples.init.GrowthcraftApplesItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -179,16 +180,18 @@ public class AppleTreeFruit extends BushBlock implements BonemealableBlock {
         return new ItemStack(this.getBaseSeedId());
     }
 
-    public boolean isValidBonemealTarget(BlockGetter p_52258_, BlockPos p_52259_, BlockState p_52260_, boolean p_52261_) {
-        return !this.isMaxAge(p_52260_);
+    public boolean isValidBonemealTarget(BlockGetter blockGetter, BlockPos blockPos, BlockState state, boolean p_52261_) {
+        return !this.isMaxAge(state);
     }
 
-    public boolean isBonemealSuccess(Level p_52268_, Random p_52269_, BlockPos p_52270_, BlockState p_52271_) {
+    @Override
+    public boolean isBonemealSuccess(Level level, RandomSource random, BlockPos blockPos, BlockState state) {
         return true;
     }
 
-    public void performBonemeal(ServerLevel p_52249_, Random p_52250_, BlockPos p_52251_, BlockState p_52252_) {
-        this.growCrops(p_52249_, p_52251_, p_52252_);
+    @Override
+    public void performBonemeal(ServerLevel level, RandomSource random, BlockPos blockPos, BlockState state) {
+        this.growCrops(level, blockPos, state);
     }
 
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> p_52286_) {

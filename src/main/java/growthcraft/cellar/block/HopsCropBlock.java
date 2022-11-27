@@ -9,6 +9,7 @@ import growthcraft.lib.block.GrowthcraftCropsRopeBlock;
 import growthcraft.lib.utils.BlockStateUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -103,7 +104,7 @@ public class HopsCropBlock extends GrowthcraftCropsRopeBlock {
     }
 
     @Override
-    public void performBonemeal(ServerLevel level, Random random, BlockPos pos, BlockState state) {
+    public void performBonemeal(ServerLevel level, RandomSource random, BlockPos pos, BlockState state) {
         super.performBonemeal(level, random, pos, state);
         this.tryGrowNewHopsVine(level, pos);
     }
