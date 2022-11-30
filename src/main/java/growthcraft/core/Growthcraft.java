@@ -27,7 +27,6 @@ public class Growthcraft {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         modEventBus.addListener(this::setup);
         modEventBus.addListener(this::clientSetupEvent);
-        //modEventBus.addListener(GrowthcraftOreGeneration::onBiomeLoadingEvent);
 
         GrowthcraftConfig.loadConfig();
 
@@ -52,7 +51,7 @@ public class Growthcraft {
 
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
-        LOGGER.info("HELLO from server starting");
+        //LOGGER.info("HELLO from server starting");
     }
 
 }

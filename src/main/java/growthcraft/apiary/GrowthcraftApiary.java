@@ -1,6 +1,7 @@
 package growthcraft.apiary;
 
 import growthcraft.apiary.init.*;
+import growthcraft.apiary.init.client.GrowthcraftApiaryBlockRenders;
 import growthcraft.apiary.init.client.GrowthcraftApiaryItemRenders;
 import growthcraft.apiary.init.config.GrowthcraftApiaryConfig;
 import growthcraft.apiary.shared.Reference;
@@ -40,6 +41,7 @@ public class GrowthcraftApiary {
     }
 
     private void clientSetupEvent(final FMLClientSetupEvent event) {
+        GrowthcraftApiaryBlockRenders.setRenderLayers();
         GrowthcraftApiaryMenus.registerMenus();
     }
 
