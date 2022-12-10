@@ -1,8 +1,10 @@
 package growthcraft.milk.init.client;
 
 public class GrowthcraftMilkBlockRenderers {
+
+    @Deprecated(forRemoval = true, since = "1.19")
     public static void setRenderLayers() {
-        //ItemBlockRenderTypes.setRenderLayer(GrowthcraftRiceBlocks.RICE_CROP.get(), RenderType.cutout());
+        // No longer programmatically set. Use "render_type": "cutout|translucent" in block model json.
     }
 
     private GrowthcraftMilkBlockRenderers() {

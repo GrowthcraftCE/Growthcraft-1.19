@@ -1,13 +1,9 @@
 package growthcraft.apples.init.client;
 
-import growthcraft.apples.init.GrowthcraftApplesBlocks;
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
-import net.minecraft.client.renderer.RenderType;
-
 public class GrowthcraftApplesBlockRenderers {
+    @Deprecated(forRemoval = true, since = "1.19")
     public static void setRenderLayers() {
-        ItemBlockRenderTypes.setRenderLayer(GrowthcraftApplesBlocks.APPLE_TREE_LEAVES.get(), RenderType.cutout());
-        ItemBlockRenderTypes.setRenderLayer(GrowthcraftApplesBlocks.APPLE_TREE_SAPLING.get(), RenderType.cutout());
+        // No longer programmatically set. Use "render_type": "cutout|translucent" in block model json.
     }
 
     private GrowthcraftApplesBlockRenderers() {

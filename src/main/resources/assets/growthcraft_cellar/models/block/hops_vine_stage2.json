@@ -1,4 +1,5 @@
 {
+  "render_type": "cutout",
   "textures": {
     "0": "growthcraft_cellar:block/leaves",
     "particle": "growthcraft_cellar:block/leaves"
