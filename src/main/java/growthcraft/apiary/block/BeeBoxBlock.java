@@ -35,8 +35,8 @@ public class BeeBoxBlock extends BaseEntityBlock {
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 
     private static final VoxelShape VOXEL_SHAPE = Block.box(
-            2.0D, 0.0D, 2.0D, 14.0D,
-            16.0D, 14.0D
+            2.0D, 0.0D, 2.0D,
+            14.0D, 16.0D, 14.0D
     );
 
     public BeeBoxBlock() {

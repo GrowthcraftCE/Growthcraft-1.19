@@ -1,5 +1,6 @@
 package growthcraft.milk;
 
+import growthcraft.milk.init.GrowthcraftMilkBlockEntities;
 import growthcraft.milk.init.GrowthcraftMilkBlocks;
 import growthcraft.milk.init.GrowthcraftMilkFluids;
 import growthcraft.milk.init.GrowthcraftMilkItems;
@@ -36,6 +37,7 @@ public class GrowthcraftMilk {
         // Blocks, Items, Fluids, Block Entities, Containers
         GrowthcraftMilkBlocks.BLOCKS.register(modEventBus);
         GrowthcraftMilkItems.ITEMS.register(modEventBus);
+        GrowthcraftMilkBlockEntities.BLOCK_ENTITIES.register(modEventBus);
         GrowthcraftMilkFluids.FLUID_TYPES.register(modEventBus);
         GrowthcraftMilkFluids.FLUIDS.register(modEventBus);
 
