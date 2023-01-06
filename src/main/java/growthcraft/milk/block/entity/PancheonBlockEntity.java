@@ -52,7 +52,7 @@ public class PancheonBlockEntity extends BlockEntity implements BlockEntityTicke
 
     @Override
     public Component getDisplayName() {
-        return Component.translatable("container.growthcraft_milk.pancheon.json");
+        return Component.translatable("container.growthcraft_milk.pancheon");
     }
 
     @Nullable

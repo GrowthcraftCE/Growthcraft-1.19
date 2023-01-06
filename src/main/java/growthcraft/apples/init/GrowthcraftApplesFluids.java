@@ -11,8 +11,6 @@ import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
-import static growthcraft.apples.shared.Reference.FluidColor.APPLE_CIDER_FLUID_COLOR;
-import static growthcraft.apples.shared.Reference.FluidColor.APPLE_JUICE_FLUID_COLOR;
 import static growthcraft.core.shared.Reference.CREATIVE_TAB;
 
 public class GrowthcraftApplesFluids {
@@ -32,11 +30,11 @@ public class GrowthcraftApplesFluids {
                     new FluidRegistryContainer.ClientExtensions(
                             Reference.MODID,
                             FluidUtils.getFluidNames(Reference.UnlocalizedName.APPLE_CIDER).get(FluidUtils.STILL)
-                    ).tint(APPLE_CIDER_FLUID_COLOR.toIntValue())
+                    ).tint(Reference.FluidColor.APPLE_CIDER_FLUID_COLOR.toIntValue())
                             .fogColor(
-                                    APPLE_CIDER_FLUID_COLOR.getColor().getRed(),
-                                    APPLE_CIDER_FLUID_COLOR.getColor().getGreen(),
-                                    APPLE_CIDER_FLUID_COLOR.getColor().getBlue()
+                                    Reference.FluidColor.APPLE_CIDER_FLUID_COLOR.toFloatValues().get("red"),
+                                    Reference.FluidColor.APPLE_CIDER_FLUID_COLOR.toFloatValues().get("green"),
+                                    Reference.FluidColor.APPLE_CIDER_FLUID_COLOR.toFloatValues().get("blue")
                             )
             ),
             BlockBehaviour.Properties.copy(Blocks.WATER),
@@ -50,11 +48,11 @@ public class GrowthcraftApplesFluids {
                     new FluidRegistryContainer.ClientExtensions(
                             Reference.MODID,
                             FluidUtils.getFluidNames(Reference.UnlocalizedName.APPLE_JUICE).get(FluidUtils.STILL)
-                    ).tint(APPLE_JUICE_FLUID_COLOR.toIntValue())
+                    ).tint(Reference.FluidColor.APPLE_JUICE_FLUID_COLOR.toIntValue())
                             .fogColor(
-                                    APPLE_JUICE_FLUID_COLOR.getColor().getRed(),
-                                    APPLE_JUICE_FLUID_COLOR.getColor().getGreen(),
-                                    APPLE_JUICE_FLUID_COLOR.getColor().getBlue()
+                                    Reference.FluidColor.APPLE_JUICE_FLUID_COLOR.toFloatValues().get("red"),
+                                    Reference.FluidColor.APPLE_JUICE_FLUID_COLOR.toFloatValues().get("green"),
+                                    Reference.FluidColor.APPLE_JUICE_FLUID_COLOR.toFloatValues().get("blue")
                             )
             ),
             BlockBehaviour.Properties.copy(Blocks.WATER),

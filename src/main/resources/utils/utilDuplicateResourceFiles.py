@@ -1,28 +1,21 @@
 import shutil
 
-templateBaseString = "milk"
+templateBaseString = "honey"
 
 baseStrings = [
-  "skim_milk",
-  "condensed_milk",
-  "cream",
-  "whey",
-  "cultured_milk",
-  "butter_milk",
-  "rennet",
-  "kumis"
+  "cheese_base"
 ]
 
 for baseString in baseStrings:
   if baseString == templateBaseString:
     continue
   sourceFiles = [
-    "../assets/growthcraft_milk/textures/block/fluid/%s_fluid.png" % templateBaseString,
-    "../assets/growthcraft_milk/textures/block/fluid/%s_fluid_flowing.png" % templateBaseString,
-    "../assets/growthcraft_milk/textures/block/fluid/%s_fluid_flowing.png.mcmeta" % templateBaseString,
-    "../assets/growthcraft_milk/textures/block/fluid/%s_fluid_overlay.png" % templateBaseString,
-    "../assets/growthcraft_milk/textures/block/fluid/%s_fluid_still.png" % templateBaseString,
-    "../assets/growthcraft_milk/textures/block/fluid/%s_fluid_still.png.mcmeta" % templateBaseString
+    "../assets/growthcraft_apiary/textures/block/fluid/%s_fluid.png" % templateBaseString,
+    "../assets/growthcraft_apiary/textures/block/fluid/%s_fluid_flowing.png" % templateBaseString,
+    "../assets/growthcraft_apiary/textures/block/fluid/%s_fluid_flowing.png.mcmeta" % templateBaseString,
+    "../assets/growthcraft_apiary/textures/block/fluid/%s_fluid_overlay.png" % templateBaseString,
+    "../assets/growthcraft_apiary/textures/block/fluid/%s_fluid_still.png" % templateBaseString,
+    "../assets/growthcraft_apiary/textures/block/fluid/%s_fluid_still.png.mcmeta" % templateBaseString
     ]
   targetFiles = [
     "../assets/growthcraft_milk/textures/block/fluid/%s_fluid.png" % baseString,

@@ -30,13 +30,13 @@ public class GrowthcraftMilkFluids {
                             Reference.MODID,
                             FluidUtils.getFluidNames(Reference.UnlocalizedName.BUTTER_MILK).get(FluidUtils.STILL)
                     ).tint(
-                            Reference.FluidColor.BUTTER_MILK.toIntValue()
-                    )
-                    .fogColor(
-                            Reference.FluidColor.BUTTER_MILK.toFloatValues().get("red"),
-                            Reference.FluidColor.BUTTER_MILK.toFloatValues().get("green"),
-                            Reference.FluidColor.BUTTER_MILK.toFloatValues().get("blue")
-                    )
+                                    Reference.FluidColor.BUTTER_MILK.toIntValue()
+                            )
+                            .fogColor(
+                                    Reference.FluidColor.BUTTER_MILK.toFloatValues().get("red"),
+                                    Reference.FluidColor.BUTTER_MILK.toFloatValues().get("green"),
+                                    Reference.FluidColor.BUTTER_MILK.toFloatValues().get("blue")
+                            )
             ),
             BlockBehaviour.Properties.copy(Blocks.WATER),
             new Item.Properties().tab(CREATIVE_TAB).stacksTo(1)
@@ -157,12 +157,13 @@ public class GrowthcraftMilkFluids {
                     new FluidRegistryContainer.ClientExtensions(
                             Reference.MODID,
                             FluidUtils.getFluidNames(Reference.UnlocalizedName.RENNET).get(FluidUtils.STILL)
-                    ).tint(Reference.FluidColor.RENNET.toIntValue())
-                            .fogColor(
-                                    Reference.FluidColor.RENNET.toFloatValues().get("red"),
-                                    Reference.FluidColor.RENNET.toFloatValues().get("green"),
-                                    Reference.FluidColor.RENNET.toFloatValues().get("blue")
-                            )
+                    ).tint(
+                            Reference.FluidColor.RENNET.toIntValue()
+                    ).fogColor(
+                            Reference.FluidColor.RENNET.toFloatValues().get("red"),
+                            Reference.FluidColor.RENNET.toFloatValues().get("green"),
+                            Reference.FluidColor.RENNET.toFloatValues().get("blue")
+                    )
             ),
             BlockBehaviour.Properties.copy(Blocks.WATER),
             new Item.Properties().tab(CREATIVE_TAB).stacksTo(1)

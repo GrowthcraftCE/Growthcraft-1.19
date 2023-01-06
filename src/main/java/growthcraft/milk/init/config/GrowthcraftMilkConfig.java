@@ -16,7 +16,7 @@ public class GrowthcraftMilkConfig {
 
     private static final String CATEGORY_CHURN = "churn";
     private static final String CATEGORY_MIXING_VAT = "mixing_vat";
-    private static final String CATEGORY_PANCHEON = "pancheon.json";
+    private static final String CATEGORY_PANCHEON = "pancheon";
 
     private static ForgeConfigSpec.BooleanValue churnGuiEnabled;
     private static ForgeConfigSpec.BooleanValue mixingVatGuiEnabled;
