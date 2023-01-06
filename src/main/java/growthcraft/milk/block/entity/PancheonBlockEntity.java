@@ -46,15 +46,13 @@ public class PancheonBlockEntity extends BlockEntity implements BlockEntityTicke
     private LazyOptional<IFluidHandler> lazyOutputFluidHandler0 = LazyOptional.empty();
     private LazyOptional<IFluidHandler> lazyOutputFluidHandler1 = LazyOptional.empty();
 
-
-
     public PancheonBlockEntity(BlockPos blockPos, BlockState state) {
         super(GrowthcraftMilkBlockEntities.PANCHEON_BLOCK_ENTITY.get(), blockPos, state);
     }
 
     @Override
     public Component getDisplayName() {
-        return Component.translatable("container.growthcraft_milk.pancheon");
+        return Component.translatable("container.growthcraft_milk.pancheon.json");
     }
 
     @Nullable
@@ -71,7 +69,7 @@ public class PancheonBlockEntity extends BlockEntity implements BlockEntityTicke
 
     @Override
     public void tick(Level level, BlockPos pos, BlockState blockState, PancheonBlockEntity beeBoxBlockEntity) {
-
+        // TODO: If contains a valid pancheon.json recipe, process it.
     }
 
     @Nullable
@@ -148,10 +146,6 @@ public class PancheonBlockEntity extends BlockEntity implements BlockEntityTicke
             int outputFluidAmount0 = this.FLUID_TANK_OUTPUT_0.getFluidAmount();
             int outputFluidAmount1 = this.FLUID_TANK_OUTPUT_1.getFluidAmount();
 
-            // If inputTank has fluid or all tanks or empty, return the input tank.
-            if (inputFluidAmount0 > 0 || inputFluidAmount0 + outputFluidAmount0 + outputFluidAmount1 == 0) {
-                return this.lazyInputFluidHandler0.cast();
-            }
             // If input is empty and output0 is not empty, return output0
             if (inputFluidAmount0 == 0 && outputFluidAmount0 > 0) {
                 return lazyOutputFluidHandler0.cast();
@@ -159,6 +153,10 @@ public class PancheonBlockEntity extends BlockEntity implements BlockEntityTicke
             // If input and output0 are empty but output1 is not empty, return Output1
             if (inputFluidAmount0 == 0 && outputFluidAmount0 == 0 && outputFluidAmount1 > 0) {
                 return lazyOutputFluidHandler1.cast();
+            }
+            // If inputTank has fluid or all tanks or empty, return the input tank.
+            if (inputFluidAmount0 > 0 || inputFluidAmount0 + outputFluidAmount0 + outputFluidAmount1 == 0) {
+                return this.lazyInputFluidHandler0.cast();
             }
         }
 

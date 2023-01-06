@@ -57,7 +57,7 @@ public class Reference {
         public static final String MIXING_VAT_ITEM_RECIPE = "mixing_vat_item_recipe";
         public static final String MIXING_VAT_RECIPE = "mixing_vat_recipe";
         public static final String MONTEREY = "monterey";
-        public static final String PANCHEON = "pancheon";
+        public static final String PANCHEON = "pancheon.json";
         public static final String PANCHEON_RECIPE = "pancheon_recipe";
         public static final String PARMESAN = "parmesan";
         public static final String PRESS = "press";

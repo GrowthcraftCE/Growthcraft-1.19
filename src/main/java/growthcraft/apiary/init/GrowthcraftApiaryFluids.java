@@ -39,8 +39,6 @@ public class GrowthcraftApiaryFluids {
                             Reference.FluidColor.HONEY.toFloatValues().get("green"),
                             Reference.FluidColor.HONEY.toFloatValues().get("blue")
                     )
-
-                    ///.fogColor(0.76F, 0.54F, 0.15F)
             ),
             BlockBehaviour.Properties.copy(Blocks.WATER),
             new Item.Properties().tab(CREATIVE_TAB).stacksTo(1)
