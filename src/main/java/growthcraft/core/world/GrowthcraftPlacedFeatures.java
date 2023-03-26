@@ -1,6 +1,7 @@
 package growthcraft.core.world;
 
 import growthcraft.core.Growthcraft;
+import growthcraft.core.init.config.GrowthcraftConfig;
 import growthcraft.core.shared.Reference;
 import net.minecraft.core.Registry;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
@@ -20,10 +21,10 @@ public class GrowthcraftPlacedFeatures {
             Reference.UnlocalizedName.SALT_ORE,
             () -> new PlacedFeature(GrowthcraftConfiguredFeatures.SALT_ORE.getHolder().get(),
                     commonOrePlacement(
-                            7, // VeinsPerChunk
+                            GrowthcraftConfig.getSaltOreGenSpreadAmount(), // VeinsPerChunk
                             HeightRangePlacement.triangle(
-                                    VerticalAnchor.aboveBottom(-80), // minLevel
-                                    VerticalAnchor.aboveBottom(160) // maxLevel
+                                    VerticalAnchor.aboveBottom(GrowthcraftConfig.getSaltOreGenHeightMin()), // minLevel
+                                    VerticalAnchor.aboveBottom(GrowthcraftConfig.getSaltOreGenHeightMax()) // maxLevel
                             )
                     )
             )
