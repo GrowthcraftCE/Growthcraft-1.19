@@ -1,5 +1,6 @@
 {
   "ambientocclusion": false,
+  "render_type": "cutout",
   "textures": {
     "cross": "growthcraft_rice:block/rice_crop_stage0",
     "particle": "#cross"
