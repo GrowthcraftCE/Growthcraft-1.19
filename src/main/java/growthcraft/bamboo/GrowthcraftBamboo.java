@@ -1,6 +1,7 @@
 package growthcraft.bamboo;
 
 import growthcraft.bamboo.init.GrowthcraftBambooBlocks;
+import growthcraft.bamboo.init.GrowthcraftBambooItems;
 import growthcraft.bamboo.init.config.GrowthcraftBambooConfig;
 import growthcraft.bamboo.shared.Reference;
 import net.minecraftforge.common.MinecraftForge;
@@ -30,6 +31,7 @@ public class GrowthcraftBamboo {
 
         // Blocks, Items, Fluids, Block Entities, Containers
         GrowthcraftBambooBlocks.BLOCKS.register(modEventBus);
+        GrowthcraftBambooItems.ITEMS.register(modEventBus);
 
         MinecraftForge.EVENT_BUS.register(this);
     }

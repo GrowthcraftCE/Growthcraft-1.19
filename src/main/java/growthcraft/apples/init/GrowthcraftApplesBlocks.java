@@ -1,6 +1,5 @@
 package growthcraft.apples.init;
 
-import growthcraft.apiary.init.GrowthcraftApiaryItems;
 import growthcraft.apples.block.AppleBeeBoxBlock;
 import growthcraft.apples.block.AppleTreeFruit;
 import growthcraft.apples.block.AppleTreeLeaves;
@@ -85,7 +84,7 @@ public class GrowthcraftApplesBlocks {
     public static final RegistryObject<Block> APPLE_TREE_SAPLING = registerBlock(
             Reference.UnlocalizedName.APPLE_TREE_SAPLING,
             () -> new GrowthcraftSaplingBlock(
-                new AppleTreeGrower()
+                    new AppleTreeGrower()
             )
     );
 
@@ -126,7 +125,7 @@ public class GrowthcraftApplesBlocks {
     }
 
     private static void registerBlockItem(String name, RegistryObject<Block> blockRegistryObject) {
-        GrowthcraftApiaryItems.ITEMS.register(
+        GrowthcraftApplesItems.ITEMS.register(
                 name,
                 () -> new BlockItem(blockRegistryObject.get(), getDefaultItemProperties())
         );

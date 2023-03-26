@@ -24,10 +24,13 @@ import java.util.List;
 
 public class CellarPotionItem extends GrowthcraftItem {
 
+    private static final int DRINK_DURATION = 32;
+
     public CellarPotionItem() {
         super(16);
     }
 
+    // TODO: Review custom potions for 1.19
     @Override
     public @NotNull ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity livingEntity) {
         Player player = livingEntity instanceof Player ? (Player) livingEntity : null;
@@ -64,7 +67,7 @@ public class CellarPotionItem extends GrowthcraftItem {
             }
         }
 
-        level.gameEvent(livingEntity, GameEvent.DRINKING_FINISH, livingEntity.eyeBlockPosition());
+        livingEntity.gameEvent(GameEvent.DRINK);
         return stack;
     }
 

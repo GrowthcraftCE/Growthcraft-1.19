@@ -36,6 +36,7 @@ public class GrowthcraftMilk {
         // Blocks, Items, Fluids, Block Entities, Containers
         GrowthcraftMilkBlocks.BLOCKS.register(modEventBus);
         GrowthcraftMilkItems.ITEMS.register(modEventBus);
+        GrowthcraftMilkFluids.FLUID_TYPES.register(modEventBus);
         GrowthcraftMilkFluids.FLUIDS.register(modEventBus);
 
         MinecraftForge.EVENT_BUS.register(this);

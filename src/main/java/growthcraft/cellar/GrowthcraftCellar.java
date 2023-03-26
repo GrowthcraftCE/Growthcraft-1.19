@@ -36,6 +36,7 @@ public class GrowthcraftCellar {
         // Blocks, Items, Fluids, Block Entities, Containers
         GrowthcraftCellarBlocks.BLOCKS.register(modEventBus);
         GrowthcraftCellarItems.ITEMS.register(modEventBus);
+        GrowthcraftCellarFluids.FLUID_TYPES.register(modEventBus);
         GrowthcraftCellarFluids.FLUIDS.register(modEventBus);
 
         MinecraftForge.EVENT_BUS.register(this);

@@ -1,6 +1,5 @@
 package growthcraft.bamboo.init;
 
-import growthcraft.apiary.init.GrowthcraftApiaryItems;
 import growthcraft.bamboo.block.BambooLogBlock;
 import growthcraft.bamboo.shared.Reference;
 import growthcraft.lib.block.*;
@@ -94,7 +93,7 @@ public class GrowthcraftBambooBlocks {
     }
 
     private static void registerBlockItem(String name, RegistryObject<Block> blockRegistryObject) {
-        GrowthcraftApiaryItems.ITEMS.register(
+        GrowthcraftBambooItems.ITEMS.register(
                 name,
                 () -> new BlockItem(blockRegistryObject.get(), getDefaultItemProperties())
         );

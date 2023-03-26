@@ -14,27 +14,49 @@ import net.minecraftforge.registries.ForgeRegistries;
 import static growthcraft.core.shared.Reference.CREATIVE_TAB;
 
 public class GrowthcraftApiaryFluids {
+
     public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(
             ForgeRegistries.FLUIDS, Reference.MODID
     );
+
     public static final DeferredRegister<FluidType> FLUID_TYPES = DeferredRegister.create(
             ForgeRegistries.Keys.FLUID_TYPES, Reference.MODID
     );
 
-    public static final FluidRegistryContainer HONEY_FLUID = new FluidRegistryContainer(
+    public static final FluidRegistryContainer HONEY = new FluidRegistryContainer(
             FluidUtils.getFluidNames(Reference.UnlocalizedName.HONEY).get(FluidUtils.STILL),
             FluidType.Properties.create().canSwim(true).canDrown(true).canPushEntity(true).supportsBoating(true),
             () -> FluidRegistryContainer.createExtension(
                     new FluidRegistryContainer.ClientExtensions(
                             Reference.MODID,
                             FluidUtils.getFluidNames(Reference.UnlocalizedName.HONEY).get(FluidUtils.STILL)
-                    ).tint(0xFF44AA)
-                            .fogColor(1.0f, 0.2f, 0.5f)
+                    ).tint(Reference.FluidColor.HONEY.toIntValue())
+                            .fogColor(
+                                    Reference.FluidColor.HONEY.getColor().getRed(),
+                                    Reference.FluidColor.HONEY.getColor().getGreen(),
+                                    Reference.FluidColor.HONEY.getColor().getBlue()
+                            )
             ),
             BlockBehaviour.Properties.copy(Blocks.WATER),
-            new Item.Properties()
-                    .tab(CREATIVE_TAB)
-                    .stacksTo(1)
+            new Item.Properties().tab(CREATIVE_TAB).stacksTo(1)
+    );
+
+    public static final FluidRegistryContainer HONEY_MEAD = new FluidRegistryContainer(
+            FluidUtils.getFluidNames(Reference.UnlocalizedName.HONEY_MEAD).get(FluidUtils.STILL),
+            FluidType.Properties.create().canSwim(true).canDrown(true).canPushEntity(true).supportsBoating(true),
+            () -> FluidRegistryContainer.createExtension(
+                    new FluidRegistryContainer.ClientExtensions(
+                            Reference.MODID,
+                            FluidUtils.getFluidNames(Reference.UnlocalizedName.HONEY_MEAD).get(FluidUtils.STILL)
+                    ).tint(Reference.FluidColor.HONEY_MEAD.toIntValue())
+                            .fogColor(
+                                    Reference.FluidColor.HONEY_MEAD.getColor().getRed(),
+                                    Reference.FluidColor.HONEY_MEAD.getColor().getGreen(),
+                                    Reference.FluidColor.HONEY_MEAD.getColor().getBlue()
+                            )
+            ),
+            BlockBehaviour.Properties.copy(Blocks.WATER),
+            new Item.Properties().tab(CREATIVE_TAB).stacksTo(1)
     );
 
     private GrowthcraftApiaryFluids() {

@@ -31,6 +31,7 @@ public class GrowthcraftApiary {
 
         GrowthcraftApiaryBlocks.BLOCKS.register(modEventBus);
         GrowthcraftApiaryItems.ITEMS.register(modEventBus);
+        GrowthcraftApiaryFluids.FLUID_TYPES.register(modEventBus);
         GrowthcraftApiaryFluids.FLUIDS.register(modEventBus);
         GrowthcraftApiaryBlockEntities.BLOCK_ENTITIES.register(modEventBus);
         GrowthcraftApiaryMenus.MENUS.register(modEventBus);

@@ -1,5 +1,6 @@
 package growthcraft.core.world;
 
+import growthcraft.core.Growthcraft;
 import growthcraft.core.shared.Reference;
 import net.minecraft.core.Registry;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
@@ -16,28 +17,25 @@ public class GrowthcraftPlacedFeatures {
     );
 
     public static final RegistryObject<PlacedFeature> SALT_ORE_PLACED = PLACED_FEATURES.register(
-            Reference.UnlocalizedName.SALT_ORE_PLACED,
+            Reference.UnlocalizedName.SALT_ORE,
             () -> new PlacedFeature(GrowthcraftConfiguredFeatures.SALT_ORE.getHolder().get(),
                     commonOrePlacement(
                             7, // VeinsPerChunk
                             HeightRangePlacement.triangle(
                                     VerticalAnchor.aboveBottom(-80), // minLevel
-                                    VerticalAnchor.aboveBottom(80) // maxLevel
+                                    VerticalAnchor.aboveBottom(160) // maxLevel
                             )
                     )
             )
     );
 
-    public static List<PlacementModifier> orePlacement(PlacementModifier p_195347_, PlacementModifier p_195348_) {
-        return List.of(p_195347_, InSquarePlacement.spread(), p_195348_, BiomeFilter.biome());
+    public static List<PlacementModifier> orePlacement(PlacementModifier countPerChunk, PlacementModifier height) {
+        Growthcraft.LOGGER.error("orePlacemnet called");
+        return List.of(countPerChunk, InSquarePlacement.spread(), height, BiomeFilter.biome());
     }
 
-    public static List<PlacementModifier> commonOrePlacement(int p_195344_, PlacementModifier p_195345_) {
-        return orePlacement(CountPlacement.of(p_195344_), p_195345_);
-    }
-
-    public static List<PlacementModifier> rareOrePlacement(int p_195350_, PlacementModifier p_195351_) {
-        return orePlacement(RarityFilter.onAverageOnceEvery(p_195350_), p_195351_);
+    public static List<PlacementModifier> commonOrePlacement(int countPerChunk, PlacementModifier height) {
+        return orePlacement(CountPlacement.of(countPerChunk), height);
     }
 
 }

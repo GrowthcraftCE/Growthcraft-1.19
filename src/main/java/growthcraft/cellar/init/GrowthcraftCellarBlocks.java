@@ -1,12 +1,10 @@
 package growthcraft.cellar.init;
 
-import growthcraft.apiary.init.GrowthcraftApiaryItems;
 import growthcraft.cellar.block.GrapeVineCropBlock;
 import growthcraft.cellar.block.GrapeVineFruitBlock;
 import growthcraft.cellar.block.GrapeVineLeavesCropBlock;
 import growthcraft.cellar.block.HopsCropBlock;
 import growthcraft.cellar.shared.Reference;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -14,7 +12,6 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
-import java.util.ArrayList;
 import java.util.function.Supplier;
 
 import static growthcraft.core.shared.Reference.CREATIVE_TAB;
@@ -79,7 +76,7 @@ public class GrowthcraftCellarBlocks {
 
     // TODO: ROASTER
 
-    private static RegistryObject<Block>  registerBlock(String name, Supplier<Block> block) {
+    private static RegistryObject<Block> registerBlock(String name, Supplier<Block> block) {
         return registerBlock(name, block, false);
     }
 
@@ -92,7 +89,7 @@ public class GrowthcraftCellarBlocks {
     }
 
     private static void registerBlockItem(String name, RegistryObject<Block> blockRegistryObject) {
-        GrowthcraftApiaryItems.ITEMS.register(
+        GrowthcraftCellarItems.ITEMS.register(
                 name,
                 () -> new BlockItem(blockRegistryObject.get(), getDefaultItemProperties())
         );
@@ -102,27 +99,6 @@ public class GrowthcraftCellarBlocks {
         Item.Properties properties = new Item.Properties();
         properties.tab(CREATIVE_TAB);
         return properties;
-    }
-
-
-    private static boolean excludeBlockItemRegistryOld(ResourceLocation registryName) {
-        ArrayList<String> excludeBlocks = new ArrayList<>();
-        // Exclude any blocks that do not need to be accessible via the Creative tab
-        //excludeBlocks.add(Reference.MODID + ":" + Reference.UnlocalizedName.APPLE_TREE_FRUIT);
-
-        // Exclude Crop Blocks
-        excludeBlocks.add(Reference.MODID + ":" + Reference.UnlocalizedName.HOPS_VINE);
-        excludeBlocks.add(Reference.MODID + ":" + Reference.UnlocalizedName.RED_GRAPE_VINE);
-        excludeBlocks.add(Reference.MODID + ":" + Reference.UnlocalizedName.RED_GRAPE_VINE_FRUIT);
-        excludeBlocks.add(Reference.MODID + ":" + Reference.UnlocalizedName.RED_GRAPE_VINE_LEAVES);
-        excludeBlocks.add(Reference.MODID + ":" + Reference.UnlocalizedName.PURPLE_GRAPE_VINE);
-        excludeBlocks.add(Reference.MODID + ":" + Reference.UnlocalizedName.PURPLE_GRAPE_VINE_FRUIT);
-        excludeBlocks.add(Reference.MODID + ":" + Reference.UnlocalizedName.PURPLE_GRAPE_VINE_LEAVES);
-        excludeBlocks.add(Reference.MODID + ":" + Reference.UnlocalizedName.WHITE_GRAPE_VINE);
-        excludeBlocks.add(Reference.MODID + ":" + Reference.UnlocalizedName.WHITE_GRAPE_VINE_FRUIT);
-        excludeBlocks.add(Reference.MODID + ":" + Reference.UnlocalizedName.WHITE_GRAPE_VINE_LEAVES);
-
-        return excludeBlocks.contains(registryName.toString());
     }
 
     private GrowthcraftCellarBlocks() {
