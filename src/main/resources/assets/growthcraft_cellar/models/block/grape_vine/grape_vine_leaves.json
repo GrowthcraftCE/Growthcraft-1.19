@@ -1,5 +1,6 @@
 {
   "ambientocclusion": false,
+  "render_type": "cutout",
   "textures": {
     "0": "growthcraft_cellar:block/grape_vine/grape_vine_leaves",
     "particle": "growthcraft_cellar:block/grape_vine/grape_vine_leaves",

@@ -1,54 +1,43 @@
-# Growthcraft 7 for Minecraft 1.18.2 (Forge)
+# Growthcraft 8 for Minecraft 1.19.2 (Forge)
 
-[![Growthcraft Version](https://img.shields.io/badge/Growthcraft-8.0.0-orange.svg)](https://github.com/GrowthcraftCE/Growthcraft-1.18)
+[![Growthcraft Version](https://img.shields.io/badge/Growthcraft-8.0.0-orange.svg)](https://github.com/GrowthcraftCE/Growthcraft-1.19)
 [![](http://cf.way2muchnoise.eu/versions/growthcraft-community-edition_latest.svg)](https://minecraft.curseforge.com/projects/growthcraft-community-edition/)
 [![](http://cf.way2muchnoise.eu/short_growthcraft-community-edition.svg)](https://minecraft.curseforge.com/projects/growthcraft-community-edition/)
-[![Forge Version](https://img.shields.io/badge/Minecraft%20Forge-40.1.0-yellow.svg)](http://files.minecraftforge.net/maven/net/minecraftforge/forge/index_1.18.2.html)
+[![Forge Version](https://img.shields.io/badge/Minecraft%20Forge-43.1.7-yellow.svg)](http://files.minecraftforge.net/maven/net/minecraftforge/forge/index_1.19.2.html)
 
-[![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2FGrowthcraftCE%2FGrowthcraft-1.18%2Fbadge%3Fref%3Ddevelopment&style=flat)](https://actions-badge.atrox.dev/GrowthcraftCE/Growthcraft-1.18/goto?ref=development)
-[![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/GrowthcraftCE/Growthcraft-1.18)
+[![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2FGrowthcraftCE%2FGrowthcraft-1.19%2Fbadge%3Fref%3Ddevelopment&style=flat)](https://actions-badge.atrox.dev/GrowthcraftCE/Growthcraft-1.19/goto?ref=development)
+[![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/GrowthcraftCE/Growthcraft-1.19)
 [![Discord Channel](https://img.shields.io/discord/333690296334548994.svg?color=green)](https://discord.gg/Quh76Jn)
 
 Welcome to Growthcraft. Growthcraft is a collection of Minecraft mods that adds an extra layer of immersion into the
-world of Minecraft. Growthcraft adds the ability to grow Apple tress, collect honey from bees, grow hops and grapes on
-vines that will crawl along rope. You can make cheese, yogurt, ice cream, butter, rice for a flavorfull meal.
-Additionally, you can make Ale, Wine, Juice, Ciders, kumis, and sake and make it extra potent for a stronger affect.
+world of Minecraft. Growthcraft adds the ability to grow Apple tress, collect honey from bees, grow hops and grapes on vines that will crawl along rope. You can make cheese, yogurt, ice cream, butter, rice for a flavorfull meal.  Additionally, you can make Ale, Wine, Juice, Ciders, kumis, and sake and make it extra potent for a stronger affect.
 
 ## Getting Started
 
-There are multiple starting points to Growthcraft. As we continue to re-invent Growthcraft, we will be adding to our
-GitHub wiki documentation.
+There are multiple starting points to Growthcraft. As we continue to develop and expand Growthcraft, we will be adding to our GitHub wiki documentation.
 
 ## History
 
+### Growthcraft 8 (Minecraft 1.19)
+
+End of Support: TBD  
+Latest Version: 8.0.0  
+Stable Version: TBD
+
+### Growthcraft 7 (Minecraft 1.18)
+
+End of Support: TBD  
+Latest Version: 7.0.0  
+Stable Version: TBD
+
 ### Growthcraft 6 (Minecraft 1.16)
 
-End of Support: TBD Latest Version: 6.1.4 Stable Version: TBD
-
 Going from Minecraft Forge 1.12 to 1.16 made a lot of changes to the MCP mappings to the point that it prompted a
-complete rewrite from the ground. We are expecting to have a stable release in a few days.
-
-### Growthcraft 5 (Minecraft 1.15.2)
-
-End of Support: NEVER RELEASED  
-Latest Version: 5.0.0  
-Stable Version: NEVER RELEASED
+complete rewrite from the ground.
 
 ### Growthcraft 4 (Minecraft 1.12.2)
 
-End of Support: 01 JUL 2021  
-Latest Version: 4.1.3.200  
-Stable Version: 4.1.3.200
 
-### Growthcraft 3 (Minecraft 1.11)
-
-End of Support: 25 MAR 2018  
-Latest Version: 3.0.0  
-Stable Version: NEVER RELEASED
-
-Mojang rapidly released Mincraft 1.8, 1.9, 1.10, and then everyone thought that 1.11 was going to become the long term
-support version. Before we were able to release it, Minecraft 1.12.2 was released as long term support and made
-Growthcraft 3 obsolete. A stable version of Growthcraft 3 was never released.
 
 ### Growthcraft 2 (Minecraft 1.7.10)
 

@@ -7,6 +7,10 @@ import net.minecraft.client.renderer.RenderType;
 public class GrowthcraftApiaryBlockRenders {
 
     public static void setRenderLayers() {
+        setFluidRenderLayers();
+    }
+
+    private static void setFluidRenderLayers() {
         ItemBlockRenderTypes.setRenderLayer(GrowthcraftApiaryFluids.HONEY.source.get(), RenderType.translucent());
         ItemBlockRenderTypes.setRenderLayer(GrowthcraftApiaryFluids.HONEY.flowing.get(), RenderType.translucent());
     }

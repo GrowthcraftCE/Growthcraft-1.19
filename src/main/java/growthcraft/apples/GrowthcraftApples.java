@@ -5,7 +5,6 @@ import growthcraft.apples.init.GrowthcraftApplesBlockEntities;
 import growthcraft.apples.init.GrowthcraftApplesBlocks;
 import growthcraft.apples.init.GrowthcraftApplesFluids;
 import growthcraft.apples.init.GrowthcraftApplesItems;
-import growthcraft.apples.init.client.GrowthcraftApplesBlockRenderers;
 import growthcraft.apples.init.config.GrowthcraftApplesConfig;
 import growthcraft.apples.shared.Reference;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
@@ -44,7 +43,7 @@ public class GrowthcraftApples {
     }
 
     private void clientSetupEvent(final FMLClientSetupEvent event) {
-        GrowthcraftApplesBlockRenderers.setRenderLayers();
+        //GrowthcraftApplesBlockRenderers.setRenderLayers();
     }
 
     private void setup(final FMLCommonSetupEvent event) {

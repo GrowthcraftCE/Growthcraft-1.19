@@ -3,6 +3,8 @@ package growthcraft.lib.utils;
 import net.minecraft.client.color.item.ItemColor;
 
 import java.awt.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ColorUtils {
     public static class GrowthcraftColor {
@@ -17,6 +19,14 @@ public class ColorUtils {
 
         public int toIntValue() {
             return colorIntValue;
+        }
+
+        public Map<String, Float> toFloatValues() {
+            Map<String, Float> floatMap = new HashMap<String, Float>();
+            floatMap.put("red", this.color.getRed() / 255.0F);
+            floatMap.put("green", this.color.getGreen() / 255.0F);
+            floatMap.put("blue", this.color.getBlue() / 255.0F);
+            return floatMap;
         }
 
         public Color getColor() {
