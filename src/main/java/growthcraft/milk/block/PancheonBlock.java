@@ -1,8 +1,12 @@
 package growthcraft.milk.block;
 
+import growthcraft.milk.block.entity.PancheonBlockEntity;
 import growthcraft.milk.init.GrowthcraftMilkBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -23,6 +27,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
 public class PancheonBlock extends BaseEntityBlock {
@@ -100,8 +105,24 @@ public class PancheonBlock extends BaseEntityBlock {
     }
 
     @Override
-    public InteractionResult use(BlockState p_60503_, Level p_60504_, BlockPos p_60505_, Player p_60506_, InteractionHand p_60507_, BlockHitResult p_60508_) {
-        // TODO: Implement PancheonBlock menu.
-        return super.use(p_60503_, p_60504_, p_60505_, p_60506_, p_60507_, p_60508_);
+    public InteractionResult use(BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand interactionHand, BlockHitResult blockHitResult) {
+        if (!level.isClientSide) {
+            // Play sound
+            level.playSound(player, blockPos, SoundEvents.BARREL_OPEN, SoundSource.BLOCKS, 1.0F, 1.0F);
+            // Open the menu container
+            try {
+                PancheonBlockEntity blockEntity = (PancheonBlockEntity) level.getBlockEntity(blockPos);
+                NetworkHooks.openScreen(((ServerPlayer) player), blockEntity, blockPos);
+            } catch (Exception ex) {
+                //GrowthcraftTrapper.LOGGER.error(String.format("%s unable to open FishtrapBlockEntity GUI at %s.", player.getDisplayName().getString(), blockPos));
+                //GrowthcraftTrapper.LOGGER.error(ex.getMessage());
+
+            }
+
+        } else {
+
+        }
+
+        return InteractionResult.SUCCESS;
     }
 }
