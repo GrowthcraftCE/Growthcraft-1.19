@@ -1,7 +1,7 @@
 package growthcraft.rice.init;
 
 import growthcraft.lib.utils.FluidUtils;
-import growthcraft.milk.lib.turtywurty.registry.FluidRegistryContainer;
+import growthcraft.rice.lib.turtywurty.registry.FluidRegistryContainer;
 import growthcraft.rice.shared.Reference;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Blocks;
@@ -31,9 +31,9 @@ public class GrowthcraftRiceFluids {
                             FluidUtils.getFluidNames(Reference.UnlocalizedName.RICE_WATER).get(FluidUtils.STILL)
                     ).tint(Reference.FluidColor.RICE_WATER.toIntValue())
                             .fogColor(
-                                    Reference.FluidColor.RICE_WATER.getColor().getRed(),
-                                    Reference.FluidColor.RICE_WATER.getColor().getGreen(),
-                                    Reference.FluidColor.RICE_WATER.getColor().getBlue()
+                                    Reference.FluidColor.RICE_WATER.toFloatValues().get("red"),
+                                    Reference.FluidColor.RICE_WATER.toFloatValues().get("green"),
+                                    Reference.FluidColor.RICE_WATER.toFloatValues().get("blue")
                             )
             ),
             BlockBehaviour.Properties.copy(Blocks.WATER),
@@ -49,9 +49,9 @@ public class GrowthcraftRiceFluids {
                             FluidUtils.getFluidNames(Reference.UnlocalizedName.RICE_WINE).get(FluidUtils.STILL)
                     ).tint(Reference.FluidColor.RICE_WINE.toIntValue())
                             .fogColor(
-                                    Reference.FluidColor.RICE_WINE.getColor().getRed(),
-                                    Reference.FluidColor.RICE_WINE.getColor().getGreen(),
-                                    Reference.FluidColor.RICE_WINE.getColor().getBlue()
+                                    Reference.FluidColor.RICE_WINE.toFloatValues().get("red"),
+                                    Reference.FluidColor.RICE_WINE.toFloatValues().get("green"),
+                                    Reference.FluidColor.RICE_WINE.toFloatValues().get("blue")
                             )
             ),
             BlockBehaviour.Properties.copy(Blocks.WATER),
@@ -67,9 +67,9 @@ public class GrowthcraftRiceFluids {
                             FluidUtils.getFluidNames(Reference.UnlocalizedName.SAKE).get(FluidUtils.STILL)
                     ).tint(Reference.FluidColor.SAKE.toIntValue())
                             .fogColor(
-                                    Reference.FluidColor.SAKE.getColor().getRed(),
-                                    Reference.FluidColor.SAKE.getColor().getGreen(),
-                                    Reference.FluidColor.SAKE.getColor().getBlue()
+                                    Reference.FluidColor.SAKE.toFloatValues().get("red"),
+                                    Reference.FluidColor.SAKE.toFloatValues().get("green"),
+                                    Reference.FluidColor.SAKE.toFloatValues().get("blue")
                             )
             ),
             BlockBehaviour.Properties.copy(Blocks.WATER),

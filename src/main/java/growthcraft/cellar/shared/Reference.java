@@ -76,12 +76,12 @@ public class Reference {
         public static final String PURPLE_GRAPE_VINE = "purple_grape_vine";
         public static final String PURPLE_GRAPE_VINE_FRUIT = "purple_grape_vine_crop";
         public static final String PURPLE_GRAPE_VINE_LEAVES = "purple_grape_vine_leaves";
-        public static final String PURPLE_GRAPE_WINE = "purple_wine";
+        public static final String PURPLE_GRAPE_WINE = "purple_grape_wine";
         public static final String RED_GRAPE_JUICE = "red_grape_juice";
         public static final String RED_GRAPE_VINE = "red_grape_vine";
         public static final String RED_GRAPE_VINE_FRUIT = "red_grape_vine_crop";
         public static final String RED_GRAPE_VINE_LEAVES = "red_grape_vine_leaves";
-        public static final String RED_GRAPE_WINE = "red_wine";
+        public static final String RED_GRAPE_WINE = "red_grape_wine";
         public static final String ROASTER = "roaster";
         public static final String ROASTER_RECIPE = "roaster_recipe";
         public static final String STOUT_ALE = "stout_ale";
@@ -90,7 +90,7 @@ public class Reference {
         public static final String WHITE_GRAPE_VINE = "white_grape_vine";
         public static final String WHITE_GRAPE_VINE_FRUIT = "white_grape_vine_crop";
         public static final String WHITE_GRAPE_VINE_LEAVES = "white_grape_vine_leaves";
-        public static final String WHITE_GRAPE_WINE = "white_wine";
+        public static final String WHITE_GRAPE_WINE = "white_grape_wine";
         public static final String WORT = "wort";
         public static final String YEAST_BAYANUS = "yeast_bayanus";
         public static final String YEAST_BAYANUS_ETHEREAL = "yeast_bayanus_ethereal";

@@ -53,9 +53,9 @@ public class GrowthcraftApiaryFluids {
                             FluidUtils.getFluidNames(Reference.UnlocalizedName.HONEY_MEAD).get(FluidUtils.STILL)
                     ).tint(Reference.FluidColor.HONEY_MEAD.toIntValue())
                             .fogColor(
-                                    Reference.FluidColor.HONEY_MEAD.getColor().getRed(),
-                                    Reference.FluidColor.HONEY_MEAD.getColor().getGreen(),
-                                    Reference.FluidColor.HONEY_MEAD.getColor().getBlue()
+                                    Reference.FluidColor.HONEY_MEAD.toFloatValues().get("red"),
+                                    Reference.FluidColor.HONEY_MEAD.toFloatValues().get("green"),
+                                    Reference.FluidColor.HONEY_MEAD.toFloatValues().get("blue")
                             )
             ),
             BlockBehaviour.Properties.copy(Blocks.WATER),

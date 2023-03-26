@@ -13,6 +13,8 @@ public class GrowthcraftMilkBlockRenderers {
     private static void setFluidRenderLayers() {
         ItemBlockRenderTypes.setRenderLayer(GrowthcraftMilkFluids.BUTTER_MILK.source.get(), RenderType.translucent());
         ItemBlockRenderTypes.setRenderLayer(GrowthcraftMilkFluids.BUTTER_MILK.flowing.get(), RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(GrowthcraftMilkFluids.CHEESE_BASE.source.get(), RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(GrowthcraftMilkFluids.CHEESE_BASE.flowing.get(), RenderType.translucent());
         ItemBlockRenderTypes.setRenderLayer(GrowthcraftMilkFluids.CONDENSED_MILK.source.get(), RenderType.translucent());
         ItemBlockRenderTypes.setRenderLayer(GrowthcraftMilkFluids.CONDENSED_MILK.flowing.get(), RenderType.translucent());
         ItemBlockRenderTypes.setRenderLayer(GrowthcraftMilkFluids.CREAM.source.get(), RenderType.translucent());

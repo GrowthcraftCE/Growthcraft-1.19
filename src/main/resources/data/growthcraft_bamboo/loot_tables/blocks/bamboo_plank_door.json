@@ -2,18 +2,28 @@
   "type": "minecraft:block",
   "pools": [
     {
-      "rolls": 1,
-      "entries": [
-        {
-          "type": "minecraft:item",
-          "name": "growthcraft_bamboo:bamboo_plank_door"
-        }
-      ],
+      "bonus_rolls": 0.0,
       "conditions": [
         {
           "condition": "minecraft:survives_explosion"
         }
-      ]
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "conditions": [
+            {
+              "block": "growthcraft_bamboo:bamboo_plank_door",
+              "condition": "minecraft:block_state_property",
+              "properties": {
+                "half": "lower"
+              }
+            }
+          ],
+          "name": "growthcraft_bamboo:bamboo_plank_door"
+        }
+      ],
+      "rolls": 1.0
     }
   ]
 }
