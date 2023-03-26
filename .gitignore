@@ -27,3 +27,4 @@ forge*changelog.txt
 # Locally stored files
 .local
 .java-version
+/src/generated/resources/.cache/
