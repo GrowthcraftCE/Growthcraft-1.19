@@ -30,12 +30,9 @@ public class GrowthcraftApiaryFluids {
                     new FluidRegistryContainer.ClientExtensions(
                             Reference.MODID,
                             FluidUtils.getFluidNames(Reference.UnlocalizedName.HONEY).get(FluidUtils.STILL)
-                    ).tint(Reference.FluidColor.HONEY.toIntValue())
-                            .fogColor(
-                                    Reference.FluidColor.HONEY.getColor().getRed(),
-                                    Reference.FluidColor.HONEY.getColor().getGreen(),
-                                    Reference.FluidColor.HONEY.getColor().getBlue()
-                            )
+                    )
+                    .tint(Reference.FluidColor.HONEY.toIntValue())
+                    .fogColor(0.76F, 0.54F, 0.15F)
             ),
             BlockBehaviour.Properties.copy(Blocks.WATER),
             new Item.Properties().tab(CREATIVE_TAB).stacksTo(1)
