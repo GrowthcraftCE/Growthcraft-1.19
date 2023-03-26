@@ -29,6 +29,10 @@ import org.jetbrains.annotations.Nullable;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
+/* Modifications from TurtyWurty's Original Code
+ * - Added "fluid/" to png folder path so the textures/blocks directory does get to busy.
+ * - Changes folder "blocks" to "block" to meet Minecraft standard.
+ */
 public class FluidRegistryContainer {
     public final RegistryObject<FluidType> type;
     public final FluidType.Properties typeProperties;
@@ -117,7 +121,7 @@ public class FluidRegistryContainer {
             @Override
             public void modifyFogRender(Camera camera, FogRenderer.FogMode mode, float renderDistance, float partialTick,
                                         float nearDistance, float farDistance, FogShape shape) {
-                RenderSystem.setShaderFogStart(1f);
+                RenderSystem.setShaderFogStart(3f);
                 RenderSystem.setShaderFogEnd(6f);
             }
         };
@@ -168,11 +172,11 @@ public class FluidRegistryContainer {
         }
 
         public ClientExtensions flowing(String name) {
-            return flowing(name, "blocks");
+            return flowing(name, "block");
         }
 
         public ClientExtensions flowing(String name, String folder) {
-            this.flowing = new ResourceLocation(this.modid, folder + "/" + name + "_flowing");
+            this.flowing = new ResourceLocation(this.modid, folder + "/fluid/" + name + "_flowing");
             return this;
         }
 
@@ -182,12 +186,12 @@ public class FluidRegistryContainer {
         }
 
         public ClientExtensions overlay(String name) {
-            return overlay(name, "blocks");
+            return overlay(name, "block");
         }
 
         public ClientExtensions overlay(String name, String folder) {
-            this.overlay = new ResourceLocation(this.modid, folder + "/" + name + "_overlay");
-            return renderOverlay(new ResourceLocation(this.modid, "textures/" + folder + "/" + name + "_overlay.png"));
+            this.overlay = new ResourceLocation(this.modid, folder + "/fluid/" + name + "_overlay");
+            return renderOverlay(new ResourceLocation(this.modid, "textures/" + folder + "/fluid/" + name + "_overlay.png"));
         }
 
         public ClientExtensions renderOverlay(ResourceLocation path) {
@@ -196,11 +200,11 @@ public class FluidRegistryContainer {
         }
 
         public ClientExtensions still(String name) {
-            return still(name, "blocks");
+            return still(name, "block");
         }
 
         public ClientExtensions still(String name, String folder) {
-            this.still = new ResourceLocation(this.modid, folder + "/" + name + "_still");
+            this.still = new ResourceLocation(this.modid, folder + "/fluid/" + name + "_still");
             return this;
         }
 

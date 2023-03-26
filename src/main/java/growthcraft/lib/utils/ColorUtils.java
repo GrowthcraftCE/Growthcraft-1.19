@@ -1,5 +1,7 @@
 package growthcraft.lib.utils;
 
+import net.minecraft.client.color.item.ItemColor;
+
 import java.awt.*;
 
 public class ColorUtils {
@@ -19,6 +21,10 @@ public class ColorUtils {
 
         public Color getColor() {
             return color;
+        }
+
+        public ItemColor toItemColor() {
+            return (itemStack, layer) -> layer == 0 ? colorIntValue : 0xFFFFFFFF;
         }
 
     }
