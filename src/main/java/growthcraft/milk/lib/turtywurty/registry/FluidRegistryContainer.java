@@ -117,7 +117,7 @@ public class FluidRegistryContainer {
             @Override
             public void modifyFogRender(Camera camera, FogRenderer.FogMode mode, float renderDistance, float partialTick,
                                         float nearDistance, float farDistance, FogShape shape) {
-                RenderSystem.setShaderFogStart(1f);
+                RenderSystem.setShaderFogStart(3f);
                 RenderSystem.setShaderFogEnd(6f);
             }
         };
@@ -168,7 +168,7 @@ public class FluidRegistryContainer {
         }
 
         public ClientExtensions flowing(String name) {
-            return flowing(name, "blocks");
+            return flowing(name, "block/fluid");
         }
 
         public ClientExtensions flowing(String name, String folder) {
@@ -182,7 +182,7 @@ public class FluidRegistryContainer {
         }
 
         public ClientExtensions overlay(String name) {
-            return overlay(name, "blocks");
+            return overlay(name, "block/fluid");
         }
 
         public ClientExtensions overlay(String name, String folder) {
@@ -196,7 +196,7 @@ public class FluidRegistryContainer {
         }
 
         public ClientExtensions still(String name) {
-            return still(name, "blocks");
+            return still(name, "block/fluid");
         }
 
         public ClientExtensions still(String name, String folder) {

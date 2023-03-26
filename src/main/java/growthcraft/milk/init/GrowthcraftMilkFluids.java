@@ -29,12 +29,14 @@ public class GrowthcraftMilkFluids {
                     new FluidRegistryContainer.ClientExtensions(
                             Reference.MODID,
                             FluidUtils.getFluidNames(Reference.UnlocalizedName.BUTTER_MILK).get(FluidUtils.STILL)
-                    ).tint(Reference.FluidColor.BUTTER_MILK.toIntValue())
-                            .fogColor(
-                                    Reference.FluidColor.BUTTER_MILK.getColor().getRed(),
-                                    Reference.FluidColor.BUTTER_MILK.getColor().getGreen(),
-                                    Reference.FluidColor.BUTTER_MILK.getColor().getBlue()
-                            )
+                    ).tint(
+                            Reference.FluidColor.BUTTER_MILK.toIntValue()
+                    )
+                    .fogColor(
+                            Reference.FluidColor.BUTTER_MILK.toFloatValues().get("red"),
+                            Reference.FluidColor.BUTTER_MILK.toFloatValues().get("green"),
+                            Reference.FluidColor.BUTTER_MILK.toFloatValues().get("blue")
+                    )
             ),
             BlockBehaviour.Properties.copy(Blocks.WATER),
             new Item.Properties().tab(CREATIVE_TAB).stacksTo(1)
@@ -49,9 +51,9 @@ public class GrowthcraftMilkFluids {
                             FluidUtils.getFluidNames(Reference.UnlocalizedName.CHEESE_BASE).get(FluidUtils.STILL)
                     ).tint(Reference.FluidColor.CHEESE_BASE.toIntValue())
                             .fogColor(
-                                    Reference.FluidColor.CHEESE_BASE.getColor().getRed(),
-                                    Reference.FluidColor.CHEESE_BASE.getColor().getGreen(),
-                                    Reference.FluidColor.CHEESE_BASE.getColor().getBlue()
+                                    Reference.FluidColor.CHEESE_BASE.toFloatValues().get("red"),
+                                    Reference.FluidColor.CHEESE_BASE.toFloatValues().get("green"),
+                                    Reference.FluidColor.CHEESE_BASE.toFloatValues().get("blue")
                             )
             ),
             BlockBehaviour.Properties.copy(Blocks.WATER),
@@ -67,9 +69,9 @@ public class GrowthcraftMilkFluids {
                             FluidUtils.getFluidNames(Reference.UnlocalizedName.CONDENSED_MILK).get(FluidUtils.STILL)
                     ).tint(Reference.FluidColor.CONDENSED_MILK.toIntValue())
                             .fogColor(
-                                    Reference.FluidColor.CONDENSED_MILK.getColor().getRed(),
-                                    Reference.FluidColor.CONDENSED_MILK.getColor().getGreen(),
-                                    Reference.FluidColor.CONDENSED_MILK.getColor().getBlue()
+                                    Reference.FluidColor.CONDENSED_MILK.toFloatValues().get("red"),
+                                    Reference.FluidColor.CONDENSED_MILK.toFloatValues().get("green"),
+                                    Reference.FluidColor.CONDENSED_MILK.toFloatValues().get("blue")
                             )
             ),
             BlockBehaviour.Properties.copy(Blocks.WATER),
@@ -85,9 +87,9 @@ public class GrowthcraftMilkFluids {
                             FluidUtils.getFluidNames(Reference.UnlocalizedName.CREAM).get(FluidUtils.STILL)
                     ).tint(Reference.FluidColor.CREAM.toIntValue())
                             .fogColor(
-                                    Reference.FluidColor.CREAM.getColor().getRed(),
-                                    Reference.FluidColor.CREAM.getColor().getGreen(),
-                                    Reference.FluidColor.CREAM.getColor().getBlue()
+                                    Reference.FluidColor.CREAM.toFloatValues().get("red"),
+                                    Reference.FluidColor.CREAM.toFloatValues().get("green"),
+                                    Reference.FluidColor.CREAM.toFloatValues().get("blue")
                             )
             ),
             BlockBehaviour.Properties.copy(Blocks.WATER),
@@ -103,9 +105,9 @@ public class GrowthcraftMilkFluids {
                             FluidUtils.getFluidNames(Reference.UnlocalizedName.CULTURED_MILK).get(FluidUtils.STILL)
                     ).tint(Reference.FluidColor.CULTURED_MILK.toIntValue())
                             .fogColor(
-                                    Reference.FluidColor.CULTURED_MILK.getColor().getRed(),
-                                    Reference.FluidColor.CULTURED_MILK.getColor().getGreen(),
-                                    Reference.FluidColor.CULTURED_MILK.getColor().getBlue()
+                                    Reference.FluidColor.CULTURED_MILK.toFloatValues().get("red"),
+                                    Reference.FluidColor.CULTURED_MILK.toFloatValues().get("green"),
+                                    Reference.FluidColor.CULTURED_MILK.toFloatValues().get("blue")
                             )
             ),
             BlockBehaviour.Properties.copy(Blocks.WATER),
@@ -121,9 +123,9 @@ public class GrowthcraftMilkFluids {
                             FluidUtils.getFluidNames(Reference.UnlocalizedName.KUMIS).get(FluidUtils.STILL)
                     ).tint(Reference.FluidColor.KUMIS.toIntValue())
                             .fogColor(
-                                    Reference.FluidColor.KUMIS.getColor().getRed(),
-                                    Reference.FluidColor.KUMIS.getColor().getGreen(),
-                                    Reference.FluidColor.KUMIS.getColor().getBlue()
+                                    Reference.FluidColor.KUMIS.toFloatValues().get("red"),
+                                    Reference.FluidColor.KUMIS.toFloatValues().get("green"),
+                                    Reference.FluidColor.KUMIS.toFloatValues().get("blue")
                             )
             ),
             BlockBehaviour.Properties.copy(Blocks.WATER),
@@ -139,9 +141,9 @@ public class GrowthcraftMilkFluids {
                             FluidUtils.getFluidNames(Reference.UnlocalizedName.MILK).get(FluidUtils.STILL)
                     ).tint(Reference.FluidColor.MILK.toIntValue())
                             .fogColor(
-                                    Reference.FluidColor.MILK.getColor().getRed(),
-                                    Reference.FluidColor.MILK.getColor().getGreen(),
-                                    Reference.FluidColor.MILK.getColor().getBlue()
+                                    Reference.FluidColor.MILK.toFloatValues().get("red"),
+                                    Reference.FluidColor.MILK.toFloatValues().get("green"),
+                                    Reference.FluidColor.MILK.toFloatValues().get("blue")
                             )
             ),
             BlockBehaviour.Properties.copy(Blocks.WATER),
@@ -157,9 +159,9 @@ public class GrowthcraftMilkFluids {
                             FluidUtils.getFluidNames(Reference.UnlocalizedName.RENNET).get(FluidUtils.STILL)
                     ).tint(Reference.FluidColor.RENNET.toIntValue())
                             .fogColor(
-                                    Reference.FluidColor.RENNET.getColor().getRed(),
-                                    Reference.FluidColor.RENNET.getColor().getGreen(),
-                                    Reference.FluidColor.RENNET.getColor().getBlue()
+                                    Reference.FluidColor.RENNET.toFloatValues().get("red"),
+                                    Reference.FluidColor.RENNET.toFloatValues().get("green"),
+                                    Reference.FluidColor.RENNET.toFloatValues().get("blue")
                             )
             ),
             BlockBehaviour.Properties.copy(Blocks.WATER),
@@ -175,9 +177,9 @@ public class GrowthcraftMilkFluids {
                             FluidUtils.getFluidNames(Reference.UnlocalizedName.SKIM_MILK).get(FluidUtils.STILL)
                     ).tint(Reference.FluidColor.SKIM_MILK.toIntValue())
                             .fogColor(
-                                    Reference.FluidColor.SKIM_MILK.getColor().getRed(),
-                                    Reference.FluidColor.SKIM_MILK.getColor().getGreen(),
-                                    Reference.FluidColor.SKIM_MILK.getColor().getBlue()
+                                    Reference.FluidColor.SKIM_MILK.toFloatValues().get("red"),
+                                    Reference.FluidColor.SKIM_MILK.toFloatValues().get("green"),
+                                    Reference.FluidColor.SKIM_MILK.toFloatValues().get("blue")
                             )
             ),
             BlockBehaviour.Properties.copy(Blocks.WATER),
@@ -193,9 +195,9 @@ public class GrowthcraftMilkFluids {
                             FluidUtils.getFluidNames(Reference.UnlocalizedName.WHEY).get(FluidUtils.STILL)
                     ).tint(Reference.FluidColor.WHEY.toIntValue())
                             .fogColor(
-                                    Reference.FluidColor.WHEY.getColor().getRed(),
-                                    Reference.FluidColor.WHEY.getColor().getGreen(),
-                                    Reference.FluidColor.WHEY.getColor().getBlue()
+                                    Reference.FluidColor.WHEY.toFloatValues().get("red"),
+                                    Reference.FluidColor.WHEY.toFloatValues().get("green"),
+                                    Reference.FluidColor.WHEY.toFloatValues().get("blue")
                             )
             ),
             BlockBehaviour.Properties.copy(Blocks.WATER),
