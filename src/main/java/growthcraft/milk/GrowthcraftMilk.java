@@ -1,13 +1,13 @@
 package growthcraft.milk;
 
-import growthcraft.milk.init.GrowthcraftMilkBlockEntities;
-import growthcraft.milk.init.GrowthcraftMilkBlocks;
-import growthcraft.milk.init.GrowthcraftMilkFluids;
-import growthcraft.milk.init.GrowthcraftMilkItems;
+import growthcraft.milk.init.*;
 import growthcraft.milk.init.client.GrowthcraftMilkBlockRenderers;
 import growthcraft.milk.init.client.GrowthcraftMilkItemRenderers;
 import growthcraft.milk.init.config.GrowthcraftMilkConfig;
+import growthcraft.milk.lib.networking.GrowthcraftMilkMessages;
+import growthcraft.milk.screen.PancheonScreen;
 import growthcraft.milk.shared.Reference;
+import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.server.ServerStartingEvent;
@@ -40,16 +40,19 @@ public class GrowthcraftMilk {
         GrowthcraftMilkBlockEntities.BLOCK_ENTITIES.register(modEventBus);
         GrowthcraftMilkFluids.FLUID_TYPES.register(modEventBus);
         GrowthcraftMilkFluids.FLUIDS.register(modEventBus);
+        GrowthcraftMilkMenus.MENUS.register(modEventBus);
 
         MinecraftForge.EVENT_BUS.register(this);
     }
 
     private void clientSetupEvent(final FMLClientSetupEvent event) {
         GrowthcraftMilkBlockRenderers.setRenderLayers();
+
+        MenuScreens.register(GrowthcraftMilkMenus.PANCHEON_MENU.get(), PancheonScreen::new);
     }
 
     private void setup(final FMLCommonSetupEvent event) {
-        // Do Nothing for now ...
+        GrowthcraftMilkMessages.register();
     }
 
     @SubscribeEvent

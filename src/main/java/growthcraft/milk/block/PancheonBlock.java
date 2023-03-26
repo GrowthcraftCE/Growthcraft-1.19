@@ -1,5 +1,6 @@
 package growthcraft.milk.block;
 
+import growthcraft.milk.GrowthcraftMilk;
 import growthcraft.milk.block.entity.PancheonBlockEntity;
 import growthcraft.milk.init.GrowthcraftMilkBlockEntities;
 import net.minecraft.core.BlockPos;
@@ -27,6 +28,8 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
@@ -106,23 +109,41 @@ public class PancheonBlock extends BaseEntityBlock {
 
     @Override
     public InteractionResult use(BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand interactionHand, BlockHitResult blockHitResult) {
-        if (!level.isClientSide) {
-            // Play sound
-            level.playSound(player, blockPos, SoundEvents.BARREL_OPEN, SoundSource.BLOCKS, 1.0F, 1.0F);
-            // Open the menu container
+        /**
+         * ServerSide and Player is Crouching, show the GUI
+         */
+        if (!level.isClientSide && player.isCrouching()) {
             try {
+                // Play sound
+                level.playSound(player, blockPos, SoundEvents.BARREL_OPEN, SoundSource.BLOCKS, 1.0F, 1.0F);
+                // Open the GUI
                 PancheonBlockEntity blockEntity = (PancheonBlockEntity) level.getBlockEntity(blockPos);
                 NetworkHooks.openScreen(((ServerPlayer) player), blockEntity, blockPos);
             } catch (Exception ex) {
-                //GrowthcraftTrapper.LOGGER.error(String.format("%s unable to open FishtrapBlockEntity GUI at %s.", player.getDisplayName().getString(), blockPos));
-                //GrowthcraftTrapper.LOGGER.error(ex.getMessage());
-
+                GrowthcraftMilk.LOGGER.error(String.format("%s unable to open PancheonBlockEntity GUI at %s.", player.getDisplayName().getString(), blockPos));
+                GrowthcraftMilk.LOGGER.error(ex.getMessage());
+                GrowthcraftMilk.LOGGER.error(ex.fillInStackTrace());
             }
-
-        } else {
-
+            return InteractionResult.SUCCESS;
         }
 
+        /**
+         * TODO: If fluid capability item is in hand
+         */
+
+        if(FluidUtil.interactWithFluidHandler(player, interactionHand, level, blockPos, blockHitResult.getDirection())
+            || player.getItemInHand(interactionHand).getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).isPresent()
+        ) {
+            GrowthcraftMilk.LOGGER.debug("Fluid handling should have happened.");
+            return InteractionResult.SUCCESS;
+        }
+
+        /**
+         * TODO: If vanilla milk bucket is in hand, as it does not have a fluid handler
+         */
+
+
+        // Otherwise always return success
         return InteractionResult.SUCCESS;
     }
 }

@@ -6,31 +6,37 @@ import growthcraft.milk.init.GrowthcraftMilkMenus;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.ContainerLevelAccess;
-import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraftforge.fluids.FluidStack;
 
 public class PancheonMenu extends AbstractContainerMenu {
     private final PancheonBlockEntity blockEntity;
     private final PancheonBlock block;
     private final Level level;
+    private final ContainerData data;
 
-    //public FunctionalIntReferenceHolder currentProcessingTime;
-    //private final IWorldPosCallable canInteractWithCallable;
+    private FluidStack fluidStack0;
+    private FluidStack fluidStack1;
+    private FluidStack fluidStack2;
 
     public PancheonMenu(int containerId, Inventory inventory, FriendlyByteBuf extraData) {
-        this(containerId, inventory, inventory.player.level.getBlockEntity(extraData.readBlockPos()));
+        this(containerId, inventory, inventory.player.level.getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(2));
     }
 
-    public PancheonMenu(int containerId, Inventory inventory, BlockEntity blockEntity) {
+    public PancheonMenu(int containerId, Inventory inventory, BlockEntity blockEntity , ContainerData data) {
         super(GrowthcraftMilkMenus.PANCHEON_MENU.get(), containerId);
 
         this.blockEntity = (PancheonBlockEntity) blockEntity;
         this.block = (PancheonBlock) inventory.player.level.getBlockEntity(this.blockEntity.getBlockPos()).getBlockState().getBlock();
         this.level = inventory.player.level;
+        this.data = data;
+
+        this.fluidStack0 = this.blockEntity.getFluidStackInTank(0);
+        this.fluidStack1 = this.blockEntity.getFluidStackInTank(1);
+        this.fluidStack2 = this.blockEntity.getFluidStackInTank(2);
 
         addPlayerInventory(inventory);
         addPlayerHotbar(inventory);
@@ -38,6 +44,11 @@ public class PancheonMenu extends AbstractContainerMenu {
         // Add our block's inventory slots.
 
         // Add our block fluid tanks.
+        addDataSlots(data);
+    }
+
+    public PancheonBlockEntity getBlockEntity() {
+        return this.blockEntity;
     }
 
     // CREDIT GOES TO: diesieben07 | https://github.com/diesieben07/SevenCommons
@@ -105,15 +116,36 @@ public class PancheonMenu extends AbstractContainerMenu {
     private void addPlayerInventory(Inventory playerInventory) {
         for (int i = 0; i < 3; ++i) {
             for (int l = 0; l < 9; ++l) {
-                this.addSlot(new Slot(playerInventory, l + i * 9 + 9, 8 + l * 18, 51 + i * 18));
+                this.addSlot(new Slot(playerInventory, l + i * 9 + 9, 8 + l * 18, 84 + i * 18));
             }
         }
     }
 
     private void addPlayerHotbar(Inventory playerInventory) {
         for (int i = 0; i < 9; ++i) {
-            this.addSlot(new Slot(playerInventory, i, 8 + i * 18, 109));
+            this.addSlot(new Slot(playerInventory, i, 8 + i * 18, 142));
         }
     }
+
+    public void setFluid(int tankID, FluidStack fluidStack) throws NullPointerException {
+        switch (tankID) {
+            case 0 -> this.fluidStack0 = fluidStack;
+            case 1 -> this.fluidStack1 = fluidStack;
+            case 2 -> this.fluidStack2 = fluidStack;
+            default ->
+                    throw new NullPointerException(String.format("PancheonMenu setFluidStack at <%s> does not have a fluid tank with the ID of %d!", blockEntity.getBlockPos().toString(), tankID));
+        }
+    }
+    
+    public FluidStack getFluidStack(int tankID) {
+        return switch (tankID) {
+            case 0 -> this.fluidStack0;
+            case 1 -> this.fluidStack1;
+            case 2 -> this.fluidStack2;
+            default ->
+                    throw new NullPointerException(String.format("PancheonMenu getFluidStack at <%s> does not have a fluid tank with the ID of %d!", blockEntity.getBlockPos().toString(), tankID));
+        };
+    }
+
 
 }

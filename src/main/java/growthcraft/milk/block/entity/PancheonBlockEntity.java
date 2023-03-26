@@ -3,6 +3,8 @@ package growthcraft.milk.block.entity;
 import growthcraft.lib.block.entity.GrowthcraftFluidTank;
 import growthcraft.lib.utils.TickUtils;
 import growthcraft.milk.init.GrowthcraftMilkBlockEntities;
+import growthcraft.milk.lib.networking.GrowthcraftMilkMessages;
+import growthcraft.milk.lib.networking.packet.PancheonFluidSyncPacket;
 import growthcraft.milk.screen.PancheonMenu;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -16,6 +18,7 @@ import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
@@ -34,13 +37,41 @@ import java.util.Objects;
 public class PancheonBlockEntity extends BlockEntity implements BlockEntityTicker<PancheonBlockEntity>, MenuProvider {
 
     private int tickClock = 0;
-    private final int tickMax = TickUtils.toTicks(15, "seconds");
+    private int tickMax = TickUtils.toTicks(15, "seconds");
+
+    protected final ContainerData data;
 
     private Component customName;
 
-    private final GrowthcraftFluidTank FLUID_TANK_INPUT_0 = new GrowthcraftFluidTank(2000);
-    private final GrowthcraftFluidTank FLUID_TANK_OUTPUT_0 = new GrowthcraftFluidTank(1000, true);
-    private final GrowthcraftFluidTank FLUID_TANK_OUTPUT_1 = new GrowthcraftFluidTank(1000, true);
+    private final GrowthcraftFluidTank FLUID_TANK_INPUT_0 = new GrowthcraftFluidTank(2000) {
+        @Override
+        protected void onContentsChanged() {
+            setChanged();
+            if(!level.isClientSide) {
+                GrowthcraftMilkMessages.sendToClients(new PancheonFluidSyncPacket(0, this.fluid, worldPosition));
+            }
+        }
+    };
+
+    private final GrowthcraftFluidTank FLUID_TANK_OUTPUT_0 = new GrowthcraftFluidTank(1000, true) {
+        @Override
+        protected void onContentsChanged() {
+            setChanged();
+            if(!level.isClientSide) {
+                GrowthcraftMilkMessages.sendToClients(new PancheonFluidSyncPacket(1, this.fluid, worldPosition));
+            }
+        }
+    };
+
+    private final GrowthcraftFluidTank FLUID_TANK_OUTPUT_1 = new GrowthcraftFluidTank(1000, true) {
+        @Override
+        protected void onContentsChanged() {
+            setChanged();
+            if(!level.isClientSide) {
+                GrowthcraftMilkMessages.sendToClients(new PancheonFluidSyncPacket(2, this.fluid, worldPosition));
+            }
+        }
+    };
 
     private LazyOptional<IFluidHandler> lazyInputFluidHandler0 = LazyOptional.empty();
     private LazyOptional<IFluidHandler> lazyOutputFluidHandler0 = LazyOptional.empty();
@@ -48,6 +79,33 @@ public class PancheonBlockEntity extends BlockEntity implements BlockEntityTicke
 
     public PancheonBlockEntity(BlockPos blockPos, BlockState state) {
         super(GrowthcraftMilkBlockEntities.PANCHEON_BLOCK_ENTITY.get(), blockPos, state);
+
+        this.FLUID_TANK_INPUT_0.allowAnyFluid(true);
+
+        this.data = new ContainerData() {
+            @Override
+            public int get(int index) {
+                return switch (index) {
+                    case 0 -> PancheonBlockEntity.this.tickClock;
+                    case 1 -> PancheonBlockEntity.this.tickMax;
+                    default -> 0;
+                };
+            }
+
+            @Override
+            public void set(int index, int value) {
+                switch (index) {
+                    case 0 -> PancheonBlockEntity.this.tickClock = value;
+                    case 1 -> PancheonBlockEntity.this.tickMax = value;
+                }
+            }
+
+            @Override
+            public int getCount() {
+                return 2;
+            }
+        };
+
     }
 
     @Override
@@ -58,7 +116,7 @@ public class PancheonBlockEntity extends BlockEntity implements BlockEntityTicke
     @Nullable
     @Override
     public AbstractContainerMenu createMenu(int containerId, @NotNull Inventory inventory, @NotNull Player player) {
-        return new PancheonMenu(containerId, inventory, this);
+        return new PancheonMenu(containerId, inventory, this, this.data);
     }
 
     public void tick() {
@@ -70,6 +128,9 @@ public class PancheonBlockEntity extends BlockEntity implements BlockEntityTicke
     @Override
     public void tick(Level level, BlockPos pos, BlockState blockState, PancheonBlockEntity beeBoxBlockEntity) {
         // TODO: If contains a valid pancheon.json recipe, process it.
+
+
+
     }
 
     @Nullable
@@ -104,7 +165,6 @@ public class PancheonBlockEntity extends BlockEntity implements BlockEntityTicke
     @Override
     @ParametersAreNonnullByDefault
     protected void saveAdditional(CompoundTag nbt) {
-        super.saveAdditional(nbt);
         nbt.putInt("CurrentProcessTicks", this.tickClock);
 
         nbt = FLUID_TANK_INPUT_0.writeToNBT(nbt);
@@ -115,6 +175,7 @@ public class PancheonBlockEntity extends BlockEntity implements BlockEntityTicke
             nbt.putString("CustomName", Component.Serializer.toJson(this.customName));
         }
 
+        super.saveAdditional(nbt);
     }
 
     @Override

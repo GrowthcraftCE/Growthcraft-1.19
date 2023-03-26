@@ -92,6 +92,7 @@ public class RopeBlockEntity extends BlockEntity {
     @NotNull
     @Override
     public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
+        // TODO: Update with new item handler.
         if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
             return itemHandlerLazyOptional.cast();
         }
