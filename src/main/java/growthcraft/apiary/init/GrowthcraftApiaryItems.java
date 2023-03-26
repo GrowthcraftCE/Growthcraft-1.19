@@ -2,10 +2,13 @@ package growthcraft.apiary.init;
 
 import growthcraft.apiary.shared.Reference;
 import growthcraft.lib.item.GrowthcraftItem;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+
+import java.util.ArrayList;
 
 public class GrowthcraftApiaryItems {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(
@@ -95,5 +98,11 @@ public class GrowthcraftApiaryItems {
 
     private GrowthcraftApiaryItems() {
         /* Prevent default public constructor */
+    }
+
+    public static boolean excludeItemRegistry(ResourceLocation registryName) {
+        ArrayList<String> excludeItems = new ArrayList<>();
+        //excludeItems.add(Reference.MODID + ":" + Reference.UnlocalizedName.APPLE_TREE_FRUIT);
+        return excludeItems.contains(registryName.toString());
     }
 }

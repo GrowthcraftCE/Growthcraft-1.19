@@ -1,24 +1,22 @@
-package growthcraft.milk.init;
+package growthcraft.cellar.init;
 
-import growthcraft.milk.shared.Reference;
-import net.minecraft.core.registries.Registries;
+import growthcraft.cellar.shared.Reference;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
 
-public class GrowthcraftMilkTags {
+public class GrowthcraftCellarTags {
 
     public static void init() {
-        Blocks.init();
-        Items.init();
-        Fluids.init();
-        EntityTypes.init();
+        GrowthcraftCellarTags.Blocks.init();
+        GrowthcraftCellarTags.Items.init();
+        GrowthcraftCellarTags.Fluids.init();
+        GrowthcraftCellarTags.EntityTypes.init();
     }
 
     public static class Blocks {
@@ -36,11 +34,11 @@ public class GrowthcraftMilkTags {
 
     public static class Items {
 
+        public static final TagKey<Item> GRAIN = tag(Reference.UnlocalizedName.GRAIN);
+
         private static void init() {
             // Do nothing, simply instantiate static variables
         }
-
-        //public static final TagKey<Item> SALT = tag(Reference.UnlocalizedName.TAG_SALT);
 
         private static TagKey<Item> tag(String name) {
             return ItemTags.create(new ResourceLocation(Reference.MODID, name));
@@ -64,10 +62,11 @@ public class GrowthcraftMilkTags {
             // Do nothing, simply instantiate static variables
         }
 
-        public static final TagKey<EntityType<?>> MILKABLE = tag("milkable");
+        //public static final TagKey<EntityType<?>> MILKABLE = tag("milkable");
 
-        private static TagKey<EntityType<?>> tag(String name) {
-            return TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation(Reference.MODID, name));
-        }
+        //private static TagKey<EntityType<?>> tag(String name) {
+        //    return TagKey.create(Registry.ENTITY_TYPE_REGISTRY, new ResourceLocation(Reference.MODID, name));
+        //}
     }
+
 }

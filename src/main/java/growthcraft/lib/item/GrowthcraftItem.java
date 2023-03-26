@@ -1,6 +1,5 @@
 package growthcraft.lib.item;
 
-import growthcraft.core.shared.Reference;
 import net.minecraft.client.color.item.ItemColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -28,7 +27,6 @@ public class GrowthcraftItem extends Item implements ItemColor {
 
     private static Properties getInitProperties(int maxStackSize) {
         Properties properties = new Properties();
-        properties.tab(Reference.CREATIVE_TAB);
         properties.stacksTo(maxStackSize);
         return properties;
     }

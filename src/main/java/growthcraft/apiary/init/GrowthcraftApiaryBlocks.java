@@ -13,8 +13,6 @@ import net.minecraftforge.registries.RegistryObject;
 import java.util.ArrayList;
 import java.util.function.Supplier;
 
-import static growthcraft.core.shared.Reference.CREATIVE_TAB;
-
 public class GrowthcraftApiaryBlocks {
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(
             ForgeRegistries.BLOCKS, Reference.MODID
@@ -67,11 +65,11 @@ public class GrowthcraftApiaryBlocks {
 
     private static Item.Properties getDefaultItemProperties() {
         Item.Properties properties = new Item.Properties();
-        properties.tab(CREATIVE_TAB);
+        //properties;
         return properties;
     }
 
-    private static boolean excludeBlockItemRegistry(ResourceLocation registryName) {
+    public static boolean excludeBlockItemRegistry(ResourceLocation registryName) {
         ArrayList<String> excludeBlocks = new ArrayList<>();
         //excludeBlocks.add(Reference.MODID + ":" + Reference.UnlocalizedName.APPLE_TREE_FRUIT);
         return excludeBlocks.contains(registryName.toString());

@@ -1,6 +1,5 @@
 package growthcraft.lib.item;
 
-import growthcraft.core.shared.Reference;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 
@@ -20,7 +19,6 @@ public class GrowthcraftFoodItem extends Item {
 
     private static Properties getInitProperties(int hunger, float saturation, int maxStackSize) {
         Properties properties = new Properties();
-        properties.tab(Reference.CREATIVE_TAB);
         properties.stacksTo(maxStackSize);
         properties.food(new FoodProperties.Builder().nutrition(hunger).saturationMod(saturation).build());
         return properties;

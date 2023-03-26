@@ -1,6 +1,5 @@
 package growthcraft.milk.item;
 
-import growthcraft.core.shared.Reference;
 import growthcraft.milk.init.GrowthcraftMilkFluids;
 import growthcraft.milk.init.GrowthcraftMilkTags;
 import net.minecraft.advancements.CriteriaTriggers;
@@ -62,7 +61,6 @@ public class MilkingBucketItem extends Item implements DispensibleContainerItem 
 
     private static Properties getInitProperties() {
         Properties properties = new Properties();
-        properties.tab(Reference.CREATIVE_TAB);
         properties.stacksTo(16);
         return properties;
     }

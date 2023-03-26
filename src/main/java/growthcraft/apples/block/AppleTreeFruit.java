@@ -183,6 +183,11 @@ public class AppleTreeFruit extends BushBlock implements BonemealableBlock {
     }
 
     @Override
+    public boolean isValidBonemealTarget(LevelReader level, BlockPos blockPos, BlockState state, boolean p_50900_) {
+        return this.getAge(state) < this.getMaxAge();
+    }
+
+    @Override
     public boolean isBonemealSuccess(Level level, RandomSource random, BlockPos blockPos, BlockState state) {
         return true;
     }

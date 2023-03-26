@@ -11,8 +11,6 @@ import net.minecraftforge.registries.RegistryObject;
 
 import java.util.function.Supplier;
 
-import static growthcraft.core.shared.Reference.CREATIVE_TAB;
-
 public class GrowthcraftMilkBlocks {
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(
             ForgeRegistries.BLOCKS, Reference.MODID
@@ -56,7 +54,6 @@ public class GrowthcraftMilkBlocks {
 
     private static Item.Properties getDefaultItemProperties() {
         Item.Properties properties = new Item.Properties();
-        properties.tab(CREATIVE_TAB);
         return properties;
     }
 

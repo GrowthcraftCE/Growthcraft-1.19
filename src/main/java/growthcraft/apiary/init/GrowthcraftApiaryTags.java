@@ -1,13 +1,11 @@
 package growthcraft.apiary.init;
 
 import growthcraft.apiary.shared.Reference;
-import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
@@ -23,7 +21,7 @@ public class GrowthcraftApiaryTags {
 
     public static class Blocks {
 
-        private static void init() {
+        public static void init() {
             // Do nothing, simply instantiate static variables
         }
 
@@ -36,7 +34,7 @@ public class GrowthcraftApiaryTags {
 
     public static class Items {
 
-        private static void init() {
+        public static void init() {
             // Do nothing, simply instantiate static variables
         }
 
@@ -68,8 +66,8 @@ public class GrowthcraftApiaryTags {
 
         //public static final TagKey<EntityType<?>> MILKABLE = tag("milkable");
 
-        private static TagKey<EntityType<?>> tag(String name) {
-            return TagKey.create(Registry.ENTITY_TYPE_REGISTRY, new ResourceLocation(Reference.MODID, name));
-        }
+        //private static TagKey<EntityType<?>> tag(String name) {
+        //    return TagKey.create(Registry.ENTITY_TYPE_REGISTRY, new ResourceLocation(Reference.MODID, name));
+        //}
     }
 }

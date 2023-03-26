@@ -1,5 +1,6 @@
 package growthcraft.lib.block;
 
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.level.block.FenceGateBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.material.Material;
@@ -15,7 +16,7 @@ public class GrowthcraftFenceGateBlock extends FenceGateBlock {
     }
 
     public GrowthcraftFenceGateBlock(Properties properties) {
-        super(properties);
+        super(properties, SoundEvents.FENCE_GATE_CLOSE, SoundEvents.FENCE_GATE_OPEN);
     }
 
     private static Properties getInitProperties(Material material) {

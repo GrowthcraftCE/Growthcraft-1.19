@@ -11,8 +11,6 @@ import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
-import static growthcraft.core.shared.Reference.CREATIVE_TAB;
-
 public class GrowthcraftCellarFluids {
     public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(
             ForgeRegistries.FLUIDS, Reference.MODID
@@ -37,7 +35,7 @@ public class GrowthcraftCellarFluids {
                             )
             ),
             BlockBehaviour.Properties.copy(Blocks.WATER),
-            new Item.Properties().tab(CREATIVE_TAB).stacksTo(1)
+            new Item.Properties().stacksTo(1)
     );
 
     public static final FluidRegistryContainer AMBER_LAGER = new FluidRegistryContainer(
@@ -55,7 +53,7 @@ public class GrowthcraftCellarFluids {
                             )
             ),
             BlockBehaviour.Properties.copy(Blocks.WATER),
-            new Item.Properties().tab(CREATIVE_TAB).stacksTo(1)
+            new Item.Properties().stacksTo(1)
     );
 
     public static final FluidRegistryContainer AMBER_WORT = new FluidRegistryContainer(
@@ -73,7 +71,7 @@ public class GrowthcraftCellarFluids {
                             )
             ),
             BlockBehaviour.Properties.copy(Blocks.WATER),
-            new Item.Properties().tab(CREATIVE_TAB).stacksTo(1)
+            new Item.Properties().stacksTo(1)
     );
 
     public static final FluidRegistryContainer BROWN_ALE = new FluidRegistryContainer(
@@ -91,7 +89,7 @@ public class GrowthcraftCellarFluids {
                             )
             ),
             BlockBehaviour.Properties.copy(Blocks.WATER),
-            new Item.Properties().tab(CREATIVE_TAB).stacksTo(1)
+            new Item.Properties().stacksTo(1)
     );
 
     public static final FluidRegistryContainer BROWN_LAGER = new FluidRegistryContainer(
@@ -109,7 +107,7 @@ public class GrowthcraftCellarFluids {
                             )
             ),
             BlockBehaviour.Properties.copy(Blocks.WATER),
-            new Item.Properties().tab(CREATIVE_TAB).stacksTo(1)
+            new Item.Properties().stacksTo(1)
     );
 
     public static final FluidRegistryContainer BROWN_WORT = new FluidRegistryContainer(
@@ -127,7 +125,7 @@ public class GrowthcraftCellarFluids {
                             )
             ),
             BlockBehaviour.Properties.copy(Blocks.WATER),
-            new Item.Properties().tab(CREATIVE_TAB).stacksTo(1)
+            new Item.Properties().stacksTo(1)
     );
 
     public static final FluidRegistryContainer COPPER_ALE = new FluidRegistryContainer(
@@ -145,7 +143,7 @@ public class GrowthcraftCellarFluids {
                             )
             ),
             BlockBehaviour.Properties.copy(Blocks.WATER),
-            new Item.Properties().tab(CREATIVE_TAB).stacksTo(1)
+            new Item.Properties().stacksTo(1)
     );
 
     public static final FluidRegistryContainer COPPER_LAGER = new FluidRegistryContainer(
@@ -163,7 +161,7 @@ public class GrowthcraftCellarFluids {
                             )
             ),
             BlockBehaviour.Properties.copy(Blocks.WATER),
-            new Item.Properties().tab(CREATIVE_TAB).stacksTo(1)
+            new Item.Properties().stacksTo(1)
     );
 
     public static final FluidRegistryContainer COPPER_WORT = new FluidRegistryContainer(
@@ -181,7 +179,7 @@ public class GrowthcraftCellarFluids {
                             )
             ),
             BlockBehaviour.Properties.copy(Blocks.WATER),
-            new Item.Properties().tab(CREATIVE_TAB).stacksTo(1)
+            new Item.Properties().stacksTo(1)
     );
 
     public static final FluidRegistryContainer DARK_LAGER = new FluidRegistryContainer(
@@ -199,7 +197,7 @@ public class GrowthcraftCellarFluids {
                             )
             ),
             BlockBehaviour.Properties.copy(Blocks.WATER),
-            new Item.Properties().tab(CREATIVE_TAB).stacksTo(1)
+            new Item.Properties().stacksTo(1)
     );
 
     public static final FluidRegistryContainer DARK_WORT = new FluidRegistryContainer(
@@ -217,7 +215,7 @@ public class GrowthcraftCellarFluids {
                             )
             ),
             BlockBehaviour.Properties.copy(Blocks.WATER),
-            new Item.Properties().tab(CREATIVE_TAB).stacksTo(1)
+            new Item.Properties().stacksTo(1)
     );
 
     public static final FluidRegistryContainer DEEP_AMBER_WORT = new FluidRegistryContainer(
@@ -235,7 +233,7 @@ public class GrowthcraftCellarFluids {
                             )
             ),
             BlockBehaviour.Properties.copy(Blocks.WATER),
-            new Item.Properties().tab(CREATIVE_TAB).stacksTo(1)
+            new Item.Properties().stacksTo(1)
     );
 
     public static final FluidRegistryContainer GOLDEN_WORT = new FluidRegistryContainer(
@@ -253,7 +251,7 @@ public class GrowthcraftCellarFluids {
                             )
             ),
             BlockBehaviour.Properties.copy(Blocks.WATER),
-            new Item.Properties().tab(CREATIVE_TAB).stacksTo(1)
+            new Item.Properties().stacksTo(1)
     );
 
     public static final FluidRegistryContainer HOPPED_GOLDEN_WORT = new FluidRegistryContainer(
@@ -271,7 +269,7 @@ public class GrowthcraftCellarFluids {
                             )
             ),
             BlockBehaviour.Properties.copy(Blocks.WATER),
-            new Item.Properties().tab(CREATIVE_TAB).stacksTo(1)
+            new Item.Properties().stacksTo(1)
     );
 
     public static final FluidRegistryContainer IPA_ALE = new FluidRegistryContainer(
@@ -289,7 +287,7 @@ public class GrowthcraftCellarFluids {
                             )
             ),
             BlockBehaviour.Properties.copy(Blocks.WATER),
-            new Item.Properties().tab(CREATIVE_TAB).stacksTo(1)
+            new Item.Properties().stacksTo(1)
     );
 
     public static final FluidRegistryContainer OLD_PORT_ALE = new FluidRegistryContainer(
@@ -307,7 +305,7 @@ public class GrowthcraftCellarFluids {
                             )
             ),
             BlockBehaviour.Properties.copy(Blocks.WATER),
-            new Item.Properties().tab(CREATIVE_TAB).stacksTo(1)
+            new Item.Properties().stacksTo(1)
     );
 
     public static final FluidRegistryContainer PALE_ALE = new FluidRegistryContainer(
@@ -325,7 +323,7 @@ public class GrowthcraftCellarFluids {
                             )
             ),
             BlockBehaviour.Properties.copy(Blocks.WATER),
-            new Item.Properties().tab(CREATIVE_TAB).stacksTo(1)
+            new Item.Properties().stacksTo(1)
     );
 
     public static final FluidRegistryContainer PALE_GOLDEN_WORT = new FluidRegistryContainer(
@@ -343,7 +341,7 @@ public class GrowthcraftCellarFluids {
                             )
             ),
             BlockBehaviour.Properties.copy(Blocks.WATER),
-            new Item.Properties().tab(CREATIVE_TAB).stacksTo(1)
+            new Item.Properties().stacksTo(1)
     );
 
     public static final FluidRegistryContainer PALE_LAGER = new FluidRegistryContainer(
@@ -361,7 +359,7 @@ public class GrowthcraftCellarFluids {
                             )
             ),
             BlockBehaviour.Properties.copy(Blocks.WATER),
-            new Item.Properties().tab(CREATIVE_TAB).stacksTo(1)
+            new Item.Properties().stacksTo(1)
     );
 
     public static final FluidRegistryContainer PILSNER_LAGER = new FluidRegistryContainer(
@@ -379,7 +377,7 @@ public class GrowthcraftCellarFluids {
                             )
             ),
             BlockBehaviour.Properties.copy(Blocks.WATER),
-            new Item.Properties().tab(CREATIVE_TAB).stacksTo(1)
+            new Item.Properties().stacksTo(1)
     );
 
     public static final FluidRegistryContainer PURPLE_GRAPE_JUICE = new FluidRegistryContainer(
@@ -397,7 +395,7 @@ public class GrowthcraftCellarFluids {
                             )
             ),
             BlockBehaviour.Properties.copy(Blocks.WATER),
-            new Item.Properties().tab(CREATIVE_TAB).stacksTo(1)
+            new Item.Properties().stacksTo(1)
     );
 
     public static final FluidRegistryContainer PURPLE_GRAPE_WINE = new FluidRegistryContainer(
@@ -415,7 +413,7 @@ public class GrowthcraftCellarFluids {
                             )
             ),
             BlockBehaviour.Properties.copy(Blocks.WATER),
-            new Item.Properties().tab(CREATIVE_TAB).stacksTo(1)
+            new Item.Properties().stacksTo(1)
     );
 
     public static final FluidRegistryContainer RED_GRAPE_JUICE = new FluidRegistryContainer(
@@ -433,7 +431,7 @@ public class GrowthcraftCellarFluids {
                             )
             ),
             BlockBehaviour.Properties.copy(Blocks.WATER),
-            new Item.Properties().tab(CREATIVE_TAB).stacksTo(1)
+            new Item.Properties().stacksTo(1)
     );
 
     public static final FluidRegistryContainer RED_GRAPE_WINE = new FluidRegistryContainer(
@@ -451,7 +449,7 @@ public class GrowthcraftCellarFluids {
                             )
             ),
             BlockBehaviour.Properties.copy(Blocks.WATER),
-            new Item.Properties().tab(CREATIVE_TAB).stacksTo(1)
+            new Item.Properties().stacksTo(1)
     );
 
     public static final FluidRegistryContainer STOUT_ALE = new FluidRegistryContainer(
@@ -469,7 +467,7 @@ public class GrowthcraftCellarFluids {
                             )
             ),
             BlockBehaviour.Properties.copy(Blocks.WATER),
-            new Item.Properties().tab(CREATIVE_TAB).stacksTo(1)
+            new Item.Properties().stacksTo(1)
     );
 
     public static final FluidRegistryContainer VIENNA_LAGER = new FluidRegistryContainer(
@@ -487,7 +485,7 @@ public class GrowthcraftCellarFluids {
                             )
             ),
             BlockBehaviour.Properties.copy(Blocks.WATER),
-            new Item.Properties().tab(CREATIVE_TAB).stacksTo(1)
+            new Item.Properties().stacksTo(1)
     );
 
     public static final FluidRegistryContainer WHITE_GRAPE_JUICE = new FluidRegistryContainer(
@@ -505,7 +503,7 @@ public class GrowthcraftCellarFluids {
                             )
             ),
             BlockBehaviour.Properties.copy(Blocks.WATER),
-            new Item.Properties().tab(CREATIVE_TAB).stacksTo(1)
+            new Item.Properties().stacksTo(1)
     );
 
     public static final FluidRegistryContainer WHITE_GRAPE_WINE = new FluidRegistryContainer(
@@ -523,7 +521,7 @@ public class GrowthcraftCellarFluids {
                             )
             ),
             BlockBehaviour.Properties.copy(Blocks.WATER),
-            new Item.Properties().tab(CREATIVE_TAB).stacksTo(1)
+            new Item.Properties().stacksTo(1)
     );
 
     public static final FluidRegistryContainer WORT = new FluidRegistryContainer(
@@ -541,7 +539,7 @@ public class GrowthcraftCellarFluids {
                             )
             ),
             BlockBehaviour.Properties.copy(Blocks.WATER),
-            new Item.Properties().tab(CREATIVE_TAB).stacksTo(1)
+            new Item.Properties().stacksTo(1)
     );
 
     private GrowthcraftCellarFluids() {

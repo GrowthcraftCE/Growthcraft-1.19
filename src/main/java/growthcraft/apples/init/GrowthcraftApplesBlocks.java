@@ -17,8 +17,6 @@ import net.minecraftforge.registries.RegistryObject;
 import java.util.ArrayList;
 import java.util.function.Supplier;
 
-import static growthcraft.core.shared.Reference.CREATIVE_TAB;
-
 public class GrowthcraftApplesBlocks {
 
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(
@@ -130,10 +128,9 @@ public class GrowthcraftApplesBlocks {
                 () -> new BlockItem(blockRegistryObject.get(), getDefaultItemProperties())
         );
     }
-
+  
     private static Item.Properties getDefaultItemProperties() {
         Item.Properties properties = new Item.Properties();
-        properties.tab(CREATIVE_TAB);
         return properties;
     }
 

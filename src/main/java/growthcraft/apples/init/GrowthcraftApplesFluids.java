@@ -11,8 +11,6 @@ import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
-import static growthcraft.core.shared.Reference.CREATIVE_TAB;
-
 public class GrowthcraftApplesFluids {
 
     public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(
@@ -38,7 +36,7 @@ public class GrowthcraftApplesFluids {
                             )
             ),
             BlockBehaviour.Properties.copy(Blocks.WATER),
-            new Item.Properties().tab(CREATIVE_TAB).stacksTo(1)
+            new Item.Properties().stacksTo(1)
     );
 
     public static final FluidRegistryContainer APPLE_JUICE_FLUID = new FluidRegistryContainer(
@@ -56,9 +54,7 @@ public class GrowthcraftApplesFluids {
                             )
             ),
             BlockBehaviour.Properties.copy(Blocks.WATER),
-            new Item.Properties()
-                    .tab(CREATIVE_TAB)
-                    .stacksTo(1)
+            new Item.Properties().stacksTo(1)
     );
 
     private GrowthcraftApplesFluids() {

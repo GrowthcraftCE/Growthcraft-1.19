@@ -1,23 +1,16 @@
 package growthcraft.core.shared;
 
 import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 
 public class Reference {
     public static final String MODID = "growthcraft";
     public static final String NAME = "Growthcraft";
     public static final String NAME_SHORT = "core";
-    public static final String VERSION = "8.0.0";
+    public static final String VERSION = "8.1.0";
 
     private Reference() { /* Prevent default public constructor */ }
 
-    public static final CreativeModeTab CREATIVE_TAB = new CreativeModeTab(Reference.MODID) {
-        @Override
-        public ItemStack makeIcon() {
-            return new ItemStack(Items.TROPICAL_FISH);
-        }
-    };
+    public static CreativeModeTab CREATIVE_TAB;
 
     public static class UnlocalizedName {
         public static final String CROWBAR_BLACK = "crowbar_black";

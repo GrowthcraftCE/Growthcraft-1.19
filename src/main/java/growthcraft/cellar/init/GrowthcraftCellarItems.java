@@ -19,6 +19,10 @@ public class GrowthcraftCellarItems {
             ForgeRegistries.ITEMS, Reference.MODID
     );
 
+    public static final RegistryObject<GrowthcraftItem> KINDLING = ITEMS.register(
+            Reference.UnlocalizedName.KINDLING, GrowthcraftItem::new
+    );
+
     public static final RegistryObject<GrowthcraftItem> BREW_KETTLE_LID = ITEMS.register(
             Reference.UnlocalizedName.BREW_KETTLE_LID, GrowthcraftItem::new
     );

@@ -11,8 +11,6 @@ import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
-import static growthcraft.core.shared.Reference.CREATIVE_TAB;
-
 public class GrowthcraftRiceFluids {
     public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(
             ForgeRegistries.FLUIDS, Reference.MODID
@@ -37,7 +35,7 @@ public class GrowthcraftRiceFluids {
                             )
             ),
             BlockBehaviour.Properties.copy(Blocks.WATER),
-            new Item.Properties().tab(CREATIVE_TAB).stacksTo(1)
+            new Item.Properties().stacksTo(1)
     );
 
     public static final FluidRegistryContainer RICE_WINE = new FluidRegistryContainer(
@@ -55,7 +53,7 @@ public class GrowthcraftRiceFluids {
                             )
             ),
             BlockBehaviour.Properties.copy(Blocks.WATER),
-            new Item.Properties().tab(CREATIVE_TAB).stacksTo(1)
+            new Item.Properties().stacksTo(1)
     );
 
     public static final FluidRegistryContainer SAKE = new FluidRegistryContainer(
@@ -73,7 +71,7 @@ public class GrowthcraftRiceFluids {
                             )
             ),
             BlockBehaviour.Properties.copy(Blocks.WATER),
-            new Item.Properties().tab(CREATIVE_TAB).stacksTo(1)
+            new Item.Properties().stacksTo(1)
     );
 
     private GrowthcraftRiceFluids() {

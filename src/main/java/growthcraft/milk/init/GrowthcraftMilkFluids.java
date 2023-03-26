@@ -11,8 +11,6 @@ import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
-import static growthcraft.core.shared.Reference.CREATIVE_TAB;
-
 public class GrowthcraftMilkFluids {
     public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(
             ForgeRegistries.FLUIDS, Reference.MODID
@@ -39,7 +37,7 @@ public class GrowthcraftMilkFluids {
                             )
             ),
             BlockBehaviour.Properties.copy(Blocks.WATER),
-            new Item.Properties().tab(CREATIVE_TAB).stacksTo(1)
+            new Item.Properties().stacksTo(1)
     );
 
     public static final FluidRegistryContainer CHEESE_BASE = new FluidRegistryContainer(
@@ -57,7 +55,7 @@ public class GrowthcraftMilkFluids {
                             )
             ),
             BlockBehaviour.Properties.copy(Blocks.WATER),
-            new Item.Properties().tab(CREATIVE_TAB).stacksTo(1)
+            new Item.Properties().stacksTo(1)
     );
 
     public static final FluidRegistryContainer CONDENSED_MILK = new FluidRegistryContainer(
@@ -75,7 +73,7 @@ public class GrowthcraftMilkFluids {
                             )
             ),
             BlockBehaviour.Properties.copy(Blocks.WATER),
-            new Item.Properties().tab(CREATIVE_TAB).stacksTo(1)
+            new Item.Properties().stacksTo(1)
     );
 
     public static final FluidRegistryContainer CREAM = new FluidRegistryContainer(
@@ -93,7 +91,7 @@ public class GrowthcraftMilkFluids {
                             )
             ),
             BlockBehaviour.Properties.copy(Blocks.WATER),
-            new Item.Properties().tab(CREATIVE_TAB).stacksTo(1)
+            new Item.Properties().stacksTo(1)
     );
 
     public static final FluidRegistryContainer CULTURED_MILK = new FluidRegistryContainer(
@@ -111,7 +109,7 @@ public class GrowthcraftMilkFluids {
                             )
             ),
             BlockBehaviour.Properties.copy(Blocks.WATER),
-            new Item.Properties().tab(CREATIVE_TAB).stacksTo(1)
+            new Item.Properties().stacksTo(1)
     );
 
     public static final FluidRegistryContainer KUMIS = new FluidRegistryContainer(
@@ -129,7 +127,7 @@ public class GrowthcraftMilkFluids {
                             )
             ),
             BlockBehaviour.Properties.copy(Blocks.WATER),
-            new Item.Properties().tab(CREATIVE_TAB).stacksTo(1)
+            new Item.Properties().stacksTo(1)
     );
 
     public static final FluidRegistryContainer MILK = new FluidRegistryContainer(
@@ -147,7 +145,7 @@ public class GrowthcraftMilkFluids {
                             )
             ),
             BlockBehaviour.Properties.copy(Blocks.WATER),
-            new Item.Properties().tab(CREATIVE_TAB).stacksTo(1)
+            new Item.Properties().stacksTo(1)
     );
 
     public static final FluidRegistryContainer RENNET = new FluidRegistryContainer(
@@ -166,7 +164,7 @@ public class GrowthcraftMilkFluids {
                     )
             ),
             BlockBehaviour.Properties.copy(Blocks.WATER),
-            new Item.Properties().tab(CREATIVE_TAB).stacksTo(1)
+            new Item.Properties().stacksTo(1)
     );
 
     public static final FluidRegistryContainer SKIM_MILK = new FluidRegistryContainer(
@@ -184,7 +182,7 @@ public class GrowthcraftMilkFluids {
                             )
             ),
             BlockBehaviour.Properties.copy(Blocks.WATER),
-            new Item.Properties().tab(CREATIVE_TAB).stacksTo(1)
+            new Item.Properties().stacksTo(1)
     );
 
     public static final FluidRegistryContainer WHEY = new FluidRegistryContainer(
@@ -202,7 +200,7 @@ public class GrowthcraftMilkFluids {
                             )
             ),
             BlockBehaviour.Properties.copy(Blocks.WATER),
-            new Item.Properties().tab(CREATIVE_TAB).stacksTo(1)
+            new Item.Properties().stacksTo(1)
     );
 
     private GrowthcraftMilkFluids() {

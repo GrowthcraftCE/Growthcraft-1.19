@@ -5,10 +5,13 @@ import growthcraft.core.item.CrowbarItem;
 import growthcraft.core.item.RopeItem;
 import growthcraft.core.shared.Reference;
 import growthcraft.lib.item.GrowthcraftItem;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+
+import java.util.ArrayList;
 
 public class GrowthcraftItems {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Reference.MODID);
@@ -84,4 +87,11 @@ public class GrowthcraftItems {
     public static final RegistryObject<GrowthcraftItem> SALT = ITEMS.register(
             Reference.UnlocalizedName.SALT_ITEM, GrowthcraftItem::new
     );
+
+    public static boolean excludeItemRegistry(ResourceLocation registryName) {
+        ArrayList<String> excludeItems = new ArrayList<>();
+        //excludeBlocks.add(Reference.MODID + ":" + Reference.UnlocalizedName.APPLE_TREE_FRUIT);
+        return excludeItems.contains(registryName.toString());
+    }
+
 }
