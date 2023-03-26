@@ -28,7 +28,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.Random;
 
 public class HopsCropBlock extends GrowthcraftCropsRopeBlock {
 
@@ -93,7 +92,7 @@ public class HopsCropBlock extends GrowthcraftCropsRopeBlock {
     }
 
     @Override
-    public void randomTick(BlockState state, ServerLevel level, BlockPos pos, Random random) {
+    public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         super.randomTick(state, level, pos, random);
         this.tryGrowNewHopsVine(level, pos);
     }

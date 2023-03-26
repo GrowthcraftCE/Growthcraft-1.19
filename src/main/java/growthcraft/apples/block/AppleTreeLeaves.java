@@ -4,6 +4,7 @@ import growthcraft.apples.init.GrowthcraftApplesBlocks;
 import growthcraft.core.utils.BlockPropertiesUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -11,7 +12,6 @@ import net.minecraft.world.level.material.Material;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class AppleTreeLeaves extends LeavesBlock {
 
@@ -33,14 +33,14 @@ public class AppleTreeLeaves extends LeavesBlock {
     }
 
     @Override
-    public void randomTick(BlockState state, ServerLevel level, BlockPos pos, Random random) {
+    public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         super.randomTick(state, level, pos, random);
         if (level.getBlockState(pos.below()).isAir()) {
             this.tryGrowAppleFruit(level, pos, random);
         }
     }
 
-    private void tryGrowAppleFruit(ServerLevel level, BlockPos pos, Random random) {
+    private void tryGrowAppleFruit(ServerLevel level, BlockPos pos, RandomSource random) {
 
         BlockPos posLowerBound = pos.below(1).south(APPLE_CHECK_AREA).west(APPLE_CHECK_AREA);
         BlockPos posUpperBound = pos.below(1).north(APPLE_CHECK_AREA).east(APPLE_CHECK_AREA);
