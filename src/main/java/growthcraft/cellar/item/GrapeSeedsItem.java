@@ -1,8 +1,6 @@
 package growthcraft.cellar.item;
 
 import growthcraft.cellar.block.GrapeVineCropBlock;
-import growthcraft.cellar.block.GrapeVineFruitBlock;
-import growthcraft.cellar.block.GrapeVineLeavesCropBlock;
 import growthcraft.core.block.RopeBlock;
 import growthcraft.lib.item.GrowthcraftItem;
 import growthcraft.lib.utils.BlockStateUtils;
@@ -21,9 +19,9 @@ public class GrapeSeedsItem extends GrowthcraftItem {
 
     private GrapeVineCropBlock grapeVineCropBlock;
 
-    public GrapeSeedsItem(GrapeVineCropBlock grapeVineCropBlock, GrapeVineLeavesCropBlock grapeVineLeavesCropBlock, GrapeVineFruitBlock grapeVineFruitBlock) {
+    public GrapeSeedsItem(Block grapeVineCropBlock, Block grapeVineLeavesCropBlock, Block grapeVineFruitBlock) {
         super();
-        this.grapeVineCropBlock = grapeVineCropBlock;
+        this.grapeVineCropBlock = (GrapeVineCropBlock) grapeVineCropBlock;
     }
 
     @Override

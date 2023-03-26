@@ -10,7 +10,7 @@ import net.minecraftforge.registries.RegistryObject;
 public class GrowthcraftApplesBlockEntities {
 
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(
-            ForgeRegistries.BLOCK_ENTITIES, Reference.MODID
+            ForgeRegistries.BLOCK_ENTITY_TYPES, Reference.MODID
     );
 
     public static final RegistryObject<BlockEntityType<AppleBeeBoxBlockEntity>> BEE_BOX_BLOCK_ENTITY = BLOCK_ENTITIES.register(
