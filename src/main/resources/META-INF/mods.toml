@@ -5,7 +5,7 @@ issueTrackerURL = "https://github.com/GrowthcraftCE/Growthcraft-1.18/issues"
 
 [[mods]]
 modId = "growthcraft"
-version = "8.0.0"
+version = "8.1.0"
 displayName = "Growthcraft"
 updateJSONURL = "https://raw.githubusercontent.com/GrowthcraftCE/Growthcraft-Updates/master/growthcraft-versions.json"
 displayURL = "https://github.com/GrowthcraftCE/Growthcraft-1.18/wiki"
@@ -32,7 +32,7 @@ side = "BOTH"
 
 [[mods]]
 modId = "growthcraft_apiary"
-version = "8.0.0"
+version = "8.1.0"
 displayName = "Growthcraft Apiary"
 logoFile = "growthcraft_bees_logo.png"
 description = '''
@@ -48,7 +48,7 @@ side = "BOTH"
 
 [[mods]]
 modId = "growthcraft_apples"
-version = "8.0.0"
+version = "8.1.0"
 displayName = "Growthcraft Apples"
 logoFile = "growthcraft_apples_logo.png"
 description = '''
@@ -64,7 +64,7 @@ side = "BOTH"
 
 [[mods]]
 modId = "growthcraft_bamboo"
-version = "8.0.0"
+version = "8.1.0"
 displayName = "Growthcraft Bamboo"
 logoFile = "growthcraft_bamboo_logo.png"
 description = '''
@@ -80,7 +80,7 @@ side = "BOTH"
 
 [[mods]]
 modId = "growthcraft_cellar"
-version = "8.0.0"
+version = "8.1.0"
 displayName = "Growthcraft Cellar"
 logoFile = "growthcraft_cellar_logo.png"
 description = '''
@@ -96,7 +96,7 @@ side = "BOTH"
 
 [[mods]]
 modId = "growthcraft_milk"
-version = "8.0.0"
+version = "8.1.0"
 displayName = "Growthcraft Milk"
 logoFile = "growthcraft_milk_logo.png"
 description = '''
@@ -112,7 +112,7 @@ side = "BOTH"
 
 [[mods]]
 modId = "growthcraft_rice"
-version = "8.0.0"
+version = "8.1.0"
 displayName = "Growthcraft Rice"
 logoFile = "growthcraft_rice_logo.png"
 description = '''
