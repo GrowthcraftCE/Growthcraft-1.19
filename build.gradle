@@ -55,9 +55,7 @@ minecraft {
             property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
 
             mods {
-                growthcraft {
-                    source sourceSets.main
-                }
+                growthcraft { source sourceSets.main }
             }
         }
 
@@ -86,9 +84,7 @@ minecraft {
             args '--mod', 'growthcraft', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
 
             mods {
-                growthcraft {
-                    source sourceSets.main
-                }
+                growthcraft { source sourceSets.main }
             }
         }
     }

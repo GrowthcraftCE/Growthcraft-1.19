@@ -1,5 +1,6 @@
 package growthcraft.apples.datagen.providers;
 
+import growthcraft.apples.init.GrowthcraftApplesItems;
 import growthcraft.apples.shared.Reference;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
@@ -22,8 +23,7 @@ public class GrowthcraftApplesItemModelProvider extends ItemModelProvider {
 
     @Override
     protected void registerModels() {
-        //simpleItem(ModItems.BLACK_OPAL);
-        this.glassPanes();
+        simpleItem(GrowthcraftApplesItems.APPLE_SEEDS);
         this.simpleBlockItems();
     }
 

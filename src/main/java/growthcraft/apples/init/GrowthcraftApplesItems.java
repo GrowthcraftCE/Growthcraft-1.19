@@ -14,7 +14,7 @@ public class GrowthcraftApplesItems {
             ForgeRegistries.ITEMS, Reference.MODID
     );
 
-    public static final RegistryObject<AppleSeedsItem> APPLE_SEEDS = ITEMS.register(
+    public static final RegistryObject<Item> APPLE_SEEDS = ITEMS.register(
             Reference.UnlocalizedName.APPLE_SEEDS,
             AppleSeedsItem::new
     );
