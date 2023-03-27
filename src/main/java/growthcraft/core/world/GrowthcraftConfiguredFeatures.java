@@ -23,20 +23,27 @@ public class GrowthcraftConfiguredFeatures {
     private static final int SALT_ORE_GEN_VEIN_SIZE = GrowthcraftConfig.getSaltOreGenVeinSize(); // Iron is 9, Diamond is 0.7
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> OVERWORLD_SALT_ORE_KEY = registerKey(Reference.UnlocalizedName.SALT_ORE);
+    public static final ResourceKey<ConfiguredFeature<?, ?>> NETHER_SALT_ORE_KEY = registerKey(Reference.UnlocalizedName.SALT_ORE + "_nether");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> END_SALT_ORE_KEY = registerKey(Reference.UnlocalizedName.SALT_ORE + "_end");
 
     public static void bootstrap(BootstapContext<ConfiguredFeature<?, ?>> context) {
-        RuleTest stoneReplaceables = new TagMatchTest(BlockTags.STONE_ORE_REPLACEABLES);
-        RuleTest deepslateReplaceables = new TagMatchTest(BlockTags.DEEPSLATE_ORE_REPLACEABLES);
-        RuleTest netherrackReplaceables = new BlockMatchTest(Blocks.NETHERRACK);
-        RuleTest endstoneReplaceables = new BlockMatchTest(Blocks.END_STONE);
+        RuleTest stoneReplaceable = new TagMatchTest(BlockTags.STONE_ORE_REPLACEABLES);
+        RuleTest deepslateReplaceable = new TagMatchTest(BlockTags.DEEPSLATE_ORE_REPLACEABLES);
+        RuleTest netherrackReplaceable = new BlockMatchTest(Blocks.NETHERRACK);
+        RuleTest endstoneReplaceable = new BlockMatchTest(Blocks.END_STONE);
 
         List<OreConfiguration.TargetBlockState> overworldSaltOres = List.of(
-                OreConfiguration.target(stoneReplaceables, GrowthcraftBlocks.SALT_ORE.get().defaultBlockState()),
+                OreConfiguration.target(stoneReplaceable, GrowthcraftBlocks.SALT_ORE.get().defaultBlockState()),
                 // TODO: Create a deepslate version of SALT_ORE
-                OreConfiguration.target(deepslateReplaceables, GrowthcraftBlocks.SALT_ORE.get().defaultBlockState())
+                OreConfiguration.target(deepslateReplaceable, GrowthcraftBlocks.SALT_ORE.get().defaultBlockState())
         );
 
-        register(context, OVERWORLD_SALT_ORE_KEY, Feature.ORE, new OreConfiguration(overworldSaltOres, SALT_ORE_GEN_VEIN_SIZE));
+        register(context, OVERWORLD_SALT_ORE_KEY, Feature.ORE, new OreConfiguration(
+                overworldSaltOres, SALT_ORE_GEN_VEIN_SIZE));
+        register(context, END_SALT_ORE_KEY, Feature.ORE, new OreConfiguration(endstoneReplaceable,
+                GrowthcraftBlocks.SALT_ORE.get().defaultBlockState(), 9));
+        register(context, NETHER_SALT_ORE_KEY, Feature.ORE, new OreConfiguration(netherrackReplaceable,
+                GrowthcraftBlocks.SALT_ORE.get().defaultBlockState(), 9));
     }
 
     private static ResourceKey<ConfiguredFeature<?, ?>> registerKey(String name) {
@@ -50,6 +57,10 @@ public class GrowthcraftConfiguredFeatures {
             FC configuration
     ) {
         context.register(key, new ConfiguredFeature<>(feature, configuration));
+    }
+
+    private GrowthcraftConfiguredFeatures() {
+        /* Prevent generation of default public constructor. */
     }
 
 }

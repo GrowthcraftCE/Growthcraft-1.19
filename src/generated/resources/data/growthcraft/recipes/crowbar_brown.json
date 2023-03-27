@@ -19,5 +19,6 @@
   ],
   "result": {
     "item": "growthcraft:crowbar_brown"
-  }
+  },
+  "show_notification": true
 }

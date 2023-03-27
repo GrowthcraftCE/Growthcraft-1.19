@@ -92,17 +92,14 @@ public class GrowthcraftBlocks {
 
     private static Item.Properties getDefaultItemProperties() {
         Item.Properties properties = new Item.Properties();
-        //properties;
         return properties;
     }
 
-    @Deprecated
     public static boolean excludeBlockItemRegistry(ResourceLocation registryName) {
         ArrayList<String> excludeBlocks = new ArrayList<>();
         //excludeBlocks.add(Reference.MODID + ":" + Reference.UnlocalizedName.APPLE_TREE_FRUIT);
         return excludeBlocks.contains(registryName.toString());
     }
-
 
     private GrowthcraftBlocks() {
         /* Disable automatic default public constructor */

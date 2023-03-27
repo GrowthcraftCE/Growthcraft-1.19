@@ -1,14 +1,14 @@
 package growthcraft.lib.block;
 
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.level.block.ButtonBlock;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.material.Material;
 
 public class GrowthcraftButtonBlock extends ButtonBlock {
 
     public GrowthcraftButtonBlock() {
-        super(getInitProperties(Material.DECORATION), 30, true, SoundEvents.WOODEN_BUTTON_CLICK_OFF, SoundEvents.WOODEN_BUTTON_CLICK_ON);
+        super(getInitProperties(Material.DECORATION), BlockSetType.OAK, 30, true);
     }
 
     private static Properties getInitProperties(Material material) {

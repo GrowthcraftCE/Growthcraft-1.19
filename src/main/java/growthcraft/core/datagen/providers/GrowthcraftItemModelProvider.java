@@ -28,8 +28,24 @@ public class GrowthcraftItemModelProvider extends ItemModelProvider {
     }
 
     private void simpleBlockItems() {
-        simpleItemGenerated(GrowthcraftItems.SALT);
+        simpleItemGenerated(GrowthcraftItems.CROWBAR_BLACK);
+        simpleItemGenerated(GrowthcraftItems.CROWBAR_BLUE);
+        simpleItemGenerated(GrowthcraftItems.CROWBAR_BROWN);
+        simpleItemGenerated(GrowthcraftItems.CROWBAR_CYAN);
+        simpleItemGenerated(GrowthcraftItems.CROWBAR_GRAY);
+        simpleItemGenerated(GrowthcraftItems.CROWBAR_GREEN);
+        simpleItemGenerated(GrowthcraftItems.CROWBAR_LIGHT_BLUE);
+        simpleItemGenerated(GrowthcraftItems.CROWBAR_LIGHT_GRAY);
+        simpleItemGenerated(GrowthcraftItems.CROWBAR_LIME);
+        simpleItemGenerated(GrowthcraftItems.CROWBAR_MAGENTA);
         simpleItemGenerated(GrowthcraftItems.CROWBAR_ORANGE);
+        simpleItemGenerated(GrowthcraftItems.CROWBAR_PINK);
+        simpleItemGenerated(GrowthcraftItems.CROWBAR_PURPLE);
+        simpleItemGenerated(GrowthcraftItems.CROWBAR_RED);
+        simpleItemGenerated(GrowthcraftItems.CROWBAR_WHITE);
+        simpleItemGenerated(GrowthcraftItems.CROWBAR_YELLOW);
+        simpleItemGenerated(GrowthcraftItems.ROPE_LINEN);
+        simpleItemGenerated(GrowthcraftItems.SALT);
     }
 
     private ItemModelBuilder simpleBlockItem(RegistryObject<Block> block, Block mirroredBlock) {

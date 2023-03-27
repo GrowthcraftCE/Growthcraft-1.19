@@ -19,5 +19,6 @@
   ],
   "result": {
     "item": "growthcraft:crowbar_black"
-  }
+  },
+  "show_notification": true
 }

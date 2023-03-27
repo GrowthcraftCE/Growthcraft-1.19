@@ -16,4 +16,8 @@ public class GrowthcraftOrePlacement {
     public static List<PlacementModifier> rareOrePlacement(int count, PlacementModifier placementModifier) {
         return orePlacement(RarityFilter.onAverageOnceEvery(count), placementModifier);
     }
+
+    private GrowthcraftOrePlacement() {
+        /* Prevent generation of default public constructor. */
+    }
 }

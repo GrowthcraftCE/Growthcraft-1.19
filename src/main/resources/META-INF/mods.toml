@@ -1,14 +1,14 @@
 modLoader="javafml" #mandatory
-loaderVersion="[40,)"
+loaderVersion="[45,)"
 license = "GPL-3.0"
-issueTrackerURL = "https://github.com/GrowthcraftCE/Growthcraft-1.18/issues"
+issueTrackerURL = "https://github.com/GrowthcraftCE/Growthcraft-1.19/issues"
 
 [[mods]]
 modId = "growthcraft"
 version = "8.1.0"
 displayName = "Growthcraft"
 updateJSONURL = "https://raw.githubusercontent.com/GrowthcraftCE/Growthcraft-Updates/master/growthcraft-versions.json"
-displayURL = "https://github.com/GrowthcraftCE/Growthcraft-1.18/wiki"
+displayURL = "https://github.com/GrowthcraftCE/Growthcraft-1.19/wiki"
 logoFile = "growthcraft_core_logo.png"
 credits = "Thanks to Gwafu for starting a great mod. And the Growthcraft CE Development for continuing the work."
 authors = "Alatyami"
@@ -19,14 +19,14 @@ Growthcraft is a realistic and immersive Forge mod that adds various new element
 [[dependencies.growthcraft]] #optional
 modId = "forge"
 mandatory = true
-versionRange = "[40,)"
+versionRange = "[45,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.growthcraft]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[1.18,)"
+versionRange = "[1.19.4,1.20)"
 ordering = "NONE"
 side = "BOTH"
 
@@ -42,7 +42,7 @@ description = '''
 [[dependencies.growthcraft_apiary]]
 modId = "growthcraft"
 mandatory = true
-versionRange = "[7,)"
+versionRange = "[8,)"
 ordering = "AFTER"
 side = "BOTH"
 
@@ -58,7 +58,7 @@ description = '''
 [[dependencies.growthcraft_apples]]
 modId = "growthcraft"
 mandatory = true
-versionRange = "[7,)"
+versionRange = "[8,)"
 ordering = "AFTER"
 side = "BOTH"
 
@@ -74,7 +74,7 @@ description = '''
 [[dependencies.growthcraft_apples]]
 modId = "growthcraft"
 mandatory = true
-versionRange = "[7,)"
+versionRange = "[8,)"
 ordering = "AFTER"
 side = "BOTH"
 
@@ -90,7 +90,7 @@ description = '''
 [[dependencies.growthcraft_cellar]]
 modId = "growthcraft"
 mandatory = true
-versionRange = "[7,)"
+versionRange = "[8,)"
 ordering = "AFTER"
 side = "BOTH"
 
@@ -106,7 +106,7 @@ description = '''
 [[dependencies.growthcraft_milk]]
 modId = "growthcraft"
 mandatory = true
-versionRange = "[7,)"
+versionRange = "[8,)"
 ordering = "AFTER"
 side = "BOTH"
 
@@ -122,7 +122,7 @@ description = '''
 [[dependencies.growthcraft_rice]]
 modId = "growthcraft"
 mandatory = true
-versionRange = "[7,)"
+versionRange = "[8,)"
 ordering = "AFTER"
 side = "BOTH"
 

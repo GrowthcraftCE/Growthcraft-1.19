@@ -1,8 +1,8 @@
 package growthcraft.lib.block;
 
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.TrapDoorBlock;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.material.Material;
 
 public class GrowthcraftTrapDoorBlock extends TrapDoorBlock {
@@ -15,7 +15,7 @@ public class GrowthcraftTrapDoorBlock extends TrapDoorBlock {
     }
 
     public GrowthcraftTrapDoorBlock(Properties properties) {
-        super(properties, SoundEvents.WOODEN_TRAPDOOR_CLOSE, SoundEvents.WOODEN_TRAPDOOR_OPEN);
+        super(properties, BlockSetType.OAK);
     }
 
     private static Properties getInitProperties(Material material) {

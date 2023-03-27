@@ -52,7 +52,7 @@ public class GrowthcraftConfig {
                 .defineInRange(String.format("%s.%s", CATEGORY_WORLDGEN, "saltOreGenVeinSize"), 5, 1, 10);
         saltOreGenHeightMin = specBuilder
                 .comment("Set to the minimum Y value height to generate Salt ore.")
-                .defineInRange(String.format("%s.%s", CATEGORY_WORLDGEN, "saltOreGenHeightMin"), 15, -64, 255);
+                .defineInRange(String.format("%s.%s", CATEGORY_WORLDGEN, "saltOreGenHeightMin"), -32, -64, 255);
         saltOreGenHeightMax = specBuilder
                 .comment("Set to the maximum Y value height to generate Salt ore. This value must be higher than saltOreGenHeightMin.")
                 .defineInRange(String.format("%s.%s", CATEGORY_WORLDGEN, "saltOreGenHeightMax"), 64, -64, 255);

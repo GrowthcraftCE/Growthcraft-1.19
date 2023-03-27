@@ -62,7 +62,7 @@ public class GrowthcraftApiary {
                         // Set icon of creative tab
                         .icon(() -> new ItemStack(GrowthcraftApiaryBlocks.BEE_BOX_OAK.get()))
                         // Add default items to tab
-                        .displayItems((enabledFlags, output, hasPermissions) -> {
+                        .displayItems((enabledFlags, output) -> {
                             // Add blocks
                             GrowthcraftApiaryBlocks.BLOCKS.getEntries().forEach(
                                     blockRegistryObject -> {

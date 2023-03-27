@@ -42,7 +42,7 @@ public class GrowthcraftPlacedFeatures {
             Holder<ConfiguredFeature<?, ?>> configuration,
             List<PlacementModifier> modifiers
     ) {
-        context.register(key, new PlacedFeature(configuration, modifiers));
+        context.register(key, new PlacedFeature(configuration, List.copyOf(modifiers)));
     }
 
     private static void register(
@@ -52,6 +52,10 @@ public class GrowthcraftPlacedFeatures {
             PlacementModifier... modifiers
     ) {
         register(context, key, configuration, List.of(modifiers));
+    }
+
+    private GrowthcraftPlacedFeatures() {
+        /* Prevent generation of default public constructor. */
     }
 
 }
