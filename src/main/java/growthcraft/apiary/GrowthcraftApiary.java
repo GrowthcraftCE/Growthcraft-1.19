@@ -5,8 +5,7 @@ import growthcraft.apiary.init.client.GrowthcraftApiaryBlockRenders;
 import growthcraft.apiary.init.client.GrowthcraftApiaryItemRenders;
 import growthcraft.apiary.init.config.GrowthcraftApiaryConfig;
 import growthcraft.apiary.shared.Reference;
-import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import growthcraft.core.init.GrowthcraftCreativeModeTabs;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -31,6 +30,7 @@ public class GrowthcraftApiary {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         modEventBus.addListener(this::setup);
         modEventBus.addListener(this::clientSetupEvent);
+        modEventBus.addListener(this::buildCreativeTabContents);
 
         GrowthcraftApiaryConfig.loadConfig();
 
@@ -55,37 +55,15 @@ public class GrowthcraftApiary {
         //});
     }
 
-    public void registerCreativeModeTab(CreativeModeTabEvent.Register event) {
-        event.registerCreativeModeTab(new ResourceLocation(Reference.MODID, "tab"), builder ->
-                // Set name of tab to display
-                builder.title(Component.translatable("item_group." + Reference.MODID + ".tab"))
-                        // Set icon of creative tab
-                        .icon(() -> new ItemStack(GrowthcraftApiaryBlocks.BEE_BOX_OAK.get()))
-                        // Add default items to tab
-                        .displayItems((enabledFlags, output) -> {
-                            // Add blocks
-                            GrowthcraftApiaryBlocks.BLOCKS.getEntries().forEach(
-                                    blockRegistryObject -> {
-                                        if (!GrowthcraftApiaryBlocks.excludeBlockItemRegistry(blockRegistryObject.getId())) {
-                                            output.accept(new ItemStack(blockRegistryObject.get()));
-                                        }
-                                    }
-                            );
-                            // Add items
-                            GrowthcraftApiaryItems.ITEMS.getEntries().forEach(itemRegistryObject -> {
-                                if (!GrowthcraftApiaryItems.excludeItemRegistry(itemRegistryObject.getId())) {
-                                    output.accept(new ItemStack(itemRegistryObject.get()));
-                                }
-                            });
-                        })
-        );
+    public void buildCreativeTabContents(CreativeModeTabEvent.BuildContents event) {
+        if (event.getTab() == GrowthcraftCreativeModeTabs.GROWTHCRAFT_CREATIVE_TAB) {
+            GrowthcraftApiaryItems.ITEMS.getEntries().forEach(itemRegistryObject -> {
+                if (!GrowthcraftApiaryItems.excludeItemRegistry(itemRegistryObject.getId())) {
+                    event.accept(new ItemStack(itemRegistryObject.get()));
+                }
+            });
+        }
     }
-
-
-
-
-
-
 
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {

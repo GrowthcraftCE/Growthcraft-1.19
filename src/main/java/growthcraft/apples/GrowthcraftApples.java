@@ -1,14 +1,17 @@
 package growthcraft.apples;
 
-import growthcraft.apiary.init.client.GrowthcraftApiaryItemRenders;
 import growthcraft.apples.init.GrowthcraftApplesBlockEntities;
 import growthcraft.apples.init.GrowthcraftApplesBlocks;
 import growthcraft.apples.init.GrowthcraftApplesFluids;
 import growthcraft.apples.init.GrowthcraftApplesItems;
+import growthcraft.apples.init.client.GrowthcraftApplesItemRenders;
 import growthcraft.apples.init.config.GrowthcraftApplesConfig;
 import growthcraft.apples.shared.Reference;
+import growthcraft.core.init.GrowthcraftCreativeModeTabs;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -28,6 +31,7 @@ public class GrowthcraftApples {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         modEventBus.addListener(this::setup);
         modEventBus.addListener(this::clientSetupEvent);
+        modEventBus.addListener(this::buildCreativeTabContents);
 
         // Config
         GrowthcraftApplesConfig.loadConfig();
@@ -40,6 +44,11 @@ public class GrowthcraftApples {
         GrowthcraftApplesBlockEntities.BLOCK_ENTITIES.register(modEventBus);
 
         MinecraftForge.EVENT_BUS.register(this);
+    }
+
+    @SubscribeEvent
+    public static void onColorHandle(RegisterColorHandlersEvent.Item event) {
+        GrowthcraftApplesItemRenders.registerItemRenders(event);
     }
 
     private void clientSetupEvent(final FMLClientSetupEvent event) {
@@ -55,8 +64,13 @@ public class GrowthcraftApples {
         LOGGER.info("Growthcraft Apples starting up ...");
     }
 
-    @SubscribeEvent
-    public static void onColorHandle(RegisterColorHandlersEvent.Item event) {
-        GrowthcraftApiaryItemRenders.registerItemRenders(event);
+    public void buildCreativeTabContents(CreativeModeTabEvent.BuildContents event) {
+        if (event.getTab() == GrowthcraftCreativeModeTabs.GROWTHCRAFT_CREATIVE_TAB) {
+            GrowthcraftApplesItems.ITEMS.getEntries().forEach(itemRegistryObject -> {
+                if (!GrowthcraftApplesItems.excludeItemRegistry(itemRegistryObject.getId())) {
+                    event.accept(new ItemStack(itemRegistryObject.get()));
+                }
+            });
+        }
     }
 }
