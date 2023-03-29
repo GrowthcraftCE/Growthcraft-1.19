@@ -1,5 +1,9 @@
 package growthcraft.rice.init.client;
 
+import growthcraft.rice.init.GrowthcraftRiceFluids;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.RenderType;
+
 public class GrowthcraftRiceBlockRenderers {
 
     public static void setRenderLayers() {
@@ -7,9 +11,12 @@ public class GrowthcraftRiceBlockRenderers {
     }
 
     private static void setFluidRenderLayers() {
-        // TODO: Set GrowthcraftMilk Fluid Renderers
-        //ItemBlockRenderTypes.setRenderLayer(GrowthcraftApiaryFluids.HONEY.source.get(), RenderType.translucent());
-        //ItemBlockRenderTypes.setRenderLayer(GrowthcraftApiaryFluids.HONEY.flowing.get(), RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(GrowthcraftRiceFluids.RICE_WATER.source.get(), RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(GrowthcraftRiceFluids.RICE_WATER.flowing.get(), RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(GrowthcraftRiceFluids.RICE_WINE.source.get(), RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(GrowthcraftRiceFluids.RICE_WINE.flowing.get(), RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(GrowthcraftRiceFluids.SAKE.source.get(), RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(GrowthcraftRiceFluids.SAKE.flowing.get(), RenderType.translucent());
     }
 
     private GrowthcraftRiceBlockRenderers() {

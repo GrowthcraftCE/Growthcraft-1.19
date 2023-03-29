@@ -20,6 +20,6 @@
   "fluid.growthcraft_apples:apple_cider_fluid": "Apple Cider",
   "fluid.growthcraft_apples:apple_juice_fluid": "Apple Juice",
   "item.growthcraft_apples.apple_seeds": "Apple Seeds",
-  "item.growthcraft_apples.apple_cider_bucket": "Apple Cider Bucket",
-  "item.growthcraft_apples.apple_juice_bucket": "Apple Juice Bucket"
+  "item.growthcraft_apples.apple_cider_fluid_bucket": "Apple Cider Bucket",
+  "item.growthcraft_apples.apple_juice_fluid_bucket": "Apple Juice Bucket"
 }

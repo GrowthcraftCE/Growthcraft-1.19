@@ -12,6 +12,7 @@ import java.util.Collection;
 public class GrowthcraftApiaryItemRenders {
     public static void registerItemRenders(RegisterColorHandlersEvent.Item event) {
         registerItem(event, Reference.FluidColor.HONEY.toItemColor(), GrowthcraftApiaryFluids.HONEY.bucket.get());
+        registerItem(event, Reference.FluidColor.HONEY_MEAD.toItemColor(), GrowthcraftApiaryFluids.HONEY_MEAD.bucket.get());
     }
 
     private static void registerItems(RegisterColorHandlersEvent.Item handler, ItemColor itemColor, Collection<RegistryObject<Item>> items) {

@@ -38,7 +38,7 @@
   "item.growthcraft.crowbar_yellow": "Crowbar (Yellow)",
   "item.growthcraft.manual_name": "Growthcraft",
   "item.growthcraft.salt": "Salt",
-  "itemGroup.growthcraft": "Growthcraft",
+  "item_group.growthcraft.tab": "Growthcraft",
   "manual.growthcraft.apiary.description": "Welcome to apiary ....",
   "manual.growthcraft.apiary.name": "Growthcraft Apiary",
   "manual.growthcraft.apples.description": "Apple trees produce an edible fruit called, an apple.$(br2)They are cultivated world wide. They have been grown for thousands of years.",

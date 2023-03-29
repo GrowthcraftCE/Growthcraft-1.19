@@ -130,12 +130,13 @@ public class GrowthcraftCellarFluids {
 
     public static final FluidRegistryContainer COPPER_ALE = new FluidRegistryContainer(
             FluidUtils.getFluidNames(Reference.UnlocalizedName.COPPER_ALE).get(FluidUtils.STILL),
-            FluidType.Properties.create().canSwim(true).canDrown(true).canPushEntity(true).supportsBoating(true),
+            FluidType.Properties.create().canSwim(true).canDrown(true).canPushEntity(true).supportsBoating(true)
+                    .canConvertToSource(false).density(4300).viscosity(4600).temperature(285),
             () -> FluidRegistryContainer.createExtension(
                     new FluidRegistryContainer.ClientExtensions(
                             Reference.MODID,
-                            FluidUtils.getFluidNames(Reference.UnlocalizedName.COPPER_ALE).get(FluidUtils.STILL)
-                    ).tint(Reference.FluidColor.COPPER_ALE.toIntValue())
+                            FluidUtils.getFluidNames(Reference.UnlocalizedName.COPPER_ALE).get(FluidUtils.STILL))
+                            .tint(Reference.FluidColor.COPPER_ALE.toIntValue())
                             .fogColor(
                                     Reference.FluidColor.COPPER_ALE.toFloatValues().get("red"),
                                     Reference.FluidColor.COPPER_ALE.toFloatValues().get("green"),

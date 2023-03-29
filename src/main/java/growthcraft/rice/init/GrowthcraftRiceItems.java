@@ -5,11 +5,14 @@ import growthcraft.lib.item.GrowthcraftItem;
 import growthcraft.rice.item.CultivatorItem;
 import growthcraft.rice.item.RiceSeedItem;
 import growthcraft.rice.shared.Reference;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.ComposterBlock;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+
+import java.util.ArrayList;
 
 public class GrowthcraftRiceItems {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(
@@ -59,6 +62,12 @@ public class GrowthcraftRiceItems {
         ComposterBlock.COMPOSTABLES.put(GrowthcraftRiceItems.RICE_STALK.get(), f1);
         ComposterBlock.COMPOSTABLES.put(GrowthcraftRiceItems.SUSHI_ROLL.get(), f4);
 
+    }
+
+    public static boolean excludeItemRegistry(ResourceLocation registryName) {
+        ArrayList<String> excludeItems = new ArrayList<>();
+        //excludeItems.add(Reference.MODID + ":" + Reference.UnlocalizedName.APPLE_TREE_FRUIT);
+        return excludeItems.contains(registryName.toString());
     }
 
     private GrowthcraftRiceItems() {
