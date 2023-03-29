@@ -17,7 +17,7 @@ public class GrowthcraftCellarFluids {
     );
 
     public static final DeferredRegister<FluidType> FLUID_TYPES = DeferredRegister.create(
-            ForgeRegistries.Keys.FLUID_TYPES, growthcraft.apples.shared.Reference.MODID
+            ForgeRegistries.Keys.FLUID_TYPES, Reference.MODID
     );
 
     public static final FluidRegistryContainer AMBER_ALE = new FluidRegistryContainer(

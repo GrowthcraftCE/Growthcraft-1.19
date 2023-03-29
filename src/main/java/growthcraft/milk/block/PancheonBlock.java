@@ -130,14 +130,14 @@ public class PancheonBlock extends BaseEntityBlock {
         /**
          * TODO: If fluid capability item is in hand
          */
-
-        if(FluidUtil.interactWithFluidHandler(player, interactionHand, level, blockPos, blockHitResult.getDirection())
-            || player.getItemInHand(interactionHand).getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).isPresent()
-        ) {
-            GrowthcraftMilk.LOGGER.debug("Fluid handling should have happened.");
-            return InteractionResult.SUCCESS;
+        if (!level.isClientSide) {
+            if (FluidUtil.interactWithFluidHandler(player, interactionHand, level, blockPos, blockHitResult.getDirection())
+                    || player.getItemInHand(interactionHand).getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).isPresent()
+            ) {
+                GrowthcraftMilk.LOGGER.debug("Fluid handling should have happened.");
+                return InteractionResult.SUCCESS;
+            }
         }
-
         /**
          * TODO: If vanilla milk bucket is in hand, as it does not have a fluid handler
          */

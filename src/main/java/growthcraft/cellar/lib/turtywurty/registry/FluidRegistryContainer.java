@@ -11,6 +11,7 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.FogRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.BlockAndTintGetter;
@@ -18,6 +19,7 @@ import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
+import net.minecraftforge.common.SoundActions;
 import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
 import net.minecraftforge.registries.RegistryObject;
@@ -34,14 +36,14 @@ public class FluidRegistryContainer {
     public final FluidType.Properties typeProperties;
     public final RegistryObject<LiquidBlock> block;
     public final RegistryObject<BucketItem> bucket;
-    private ForgeFlowingFluid.Properties properties;
     public final RegistryObject<ForgeFlowingFluid.Source> source;
     public final RegistryObject<ForgeFlowingFluid.Flowing> flowing;
+    private ForgeFlowingFluid.Properties properties;
 
     public FluidRegistryContainer(String name, FluidType.Properties typeProperties,
                                   Supplier<IClientFluidTypeExtensions> clientExtensions, @Nullable AdditionalProperties additionalProperties,
                                   BlockBehaviour.Properties blockProperties, Item.Properties itemProperties) {
-        this.typeProperties = typeProperties;
+        this.typeProperties = typeProperties.sound(SoundActions.BUCKET_FILL, SoundEvents.BUCKET_FILL).sound(SoundActions.BUCKET_EMPTY, SoundEvents.BUCKET_EMPTY);
         this.type = GrowthcraftCellarFluids.FLUID_TYPES.register(name, () -> new FluidType(this.typeProperties) {
             @Override
             public void initializeClient(Consumer<IClientFluidTypeExtensions> consumer) {
@@ -71,10 +73,6 @@ public class FluidRegistryContainer {
                                   Supplier<IClientFluidTypeExtensions> clientExtensions, BlockBehaviour.Properties blockProperties,
                                   Item.Properties itemProperties) {
         this(name, typeProperties, clientExtensions, null, blockProperties, itemProperties);
-    }
-
-    public ForgeFlowingFluid.Properties getProperties() {
-        return this.properties;
     }
 
     public static IClientFluidTypeExtensions createExtension(ClientExtensions extensions) {
@@ -123,6 +121,10 @@ public class FluidRegistryContainer {
         };
     }
 
+    public ForgeFlowingFluid.Properties getProperties() {
+        return this.properties;
+    }
+
     public static class AdditionalProperties {
         private int levelDecreasePerBlock = 1;
         private float explosionResistance = 1;
@@ -151,14 +153,13 @@ public class FluidRegistryContainer {
     }
 
     public static class ClientExtensions {
+        private final String modid;
         private ResourceLocation still;
         private ResourceLocation flowing;
         private ResourceLocation overlay;
         private ResourceLocation renderOverlay;
         private Vector3f fogColor;
         private TriFunction<FluidState, BlockAndTintGetter, BlockPos, Integer> tintFunction;
-
-        private final String modid;
 
         public ClientExtensions(String modid, String fluidName) {
             this.modid = modid;

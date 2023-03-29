@@ -28,10 +28,8 @@ import java.util.List;
 
 // CREDIT: https://github.com/mezz/JustEnoughItems by mezz
 // Under MIT-License: https://github.com/mezz/JustEnoughItems/blob/1.19/LICENSE.txt
-// Includes major rewrites by Kaupenjoe and methods from:
+// Includes major rewrites and methods from:
 // https://github.com/mezz/JustEnoughItems/blob/1.19/Forge/src/main/java/mezz/jei/forge/platform/FluidHelper.java
-// Kaupenjoe:
-// https://github.com/Tutorials-By-Kaupenjoe/Forge-Tutorial-1.19/blob/main/src/main/java/net/kaupenjoe/tutorialmod/screen/renderer/FluidTankRenderer.java
 public class FluidTankRenderer {
     private static final Logger LOGGER = LogManager.getLogger();
 
@@ -43,12 +41,6 @@ public class FluidTankRenderer {
     private final TooltipMode tooltipMode;
     private final int width;
     private final int height;
-
-    enum TooltipMode {
-        SHOW_AMOUNT,
-        SHOW_AMOUNT_AND_CAPACITY,
-        ITEM_LIST
-    }
 
     public FluidTankRenderer(long capacity, boolean showCapacity, int width, int height) {
         this(capacity, showCapacity ? TooltipMode.SHOW_AMOUNT_AND_CAPACITY : TooltipMode.SHOW_AMOUNT, width, height);
@@ -63,55 +55,6 @@ public class FluidTankRenderer {
         this.tooltipMode = tooltipMode;
         this.width = width;
         this.height = height;
-    }
-
-    public void render(PoseStack poseStack, int x, int y, FluidStack fluidStack) {
-        RenderSystem.enableBlend();
-        poseStack.pushPose();
-        {
-            poseStack.translate(x, y, 0);
-            drawFluid(poseStack, width, height, fluidStack);
-        }
-        poseStack.popPose();
-        RenderSystem.setShaderColor(1, 1, 1, 1);
-        RenderSystem.disableBlend();
-    }
-
-    private void drawFluid(PoseStack poseStack, final int width, final int height, FluidStack fluidStack) {
-        Fluid fluid = fluidStack.getFluid();
-        if (fluid.isSame(Fluids.EMPTY)) {
-            return;
-        }
-
-        TextureAtlasSprite fluidStillSprite = getStillFluidSprite(fluidStack);
-        int fluidColor = getColorTint(fluidStack);
-
-        long amount = fluidStack.getAmount();
-        long scaledAmount = (amount * height) / capacity;
-
-        if (amount > 0 && scaledAmount < MIN_FLUID_HEIGHT) {
-            scaledAmount = MIN_FLUID_HEIGHT;
-        }
-        if (scaledAmount > height) {
-            scaledAmount = height;
-        }
-
-        drawTiledSprite(poseStack, width, height, fluidColor, scaledAmount, fluidStillSprite);
-    }
-
-    private TextureAtlasSprite getStillFluidSprite(FluidStack fluidStack) {
-        Fluid fluid = fluidStack.getFluid();
-        IClientFluidTypeExtensions renderProperties = IClientFluidTypeExtensions.of(fluid);
-        ResourceLocation fluidStill = renderProperties.getStillTexture(fluidStack);
-
-        Minecraft minecraft = Minecraft.getInstance();
-        return minecraft.getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(fluidStill);
-    }
-
-    private int getColorTint(FluidStack ingredient) {
-        Fluid fluid = ingredient.getFluid();
-        IClientFluidTypeExtensions renderProperties = IClientFluidTypeExtensions.of(fluid);
-        return renderProperties.getTintColor(ingredient);
     }
 
     private static void drawTiledSprite(PoseStack poseStack, final int tiledWidth, final int tiledHeight, int color, long scaledAmount, TextureAtlasSprite sprite) {
@@ -171,6 +114,55 @@ public class FluidTankRenderer {
         tessellator.end();
     }
 
+    public void render(PoseStack poseStack, int x, int y, FluidStack fluidStack) {
+        RenderSystem.enableBlend();
+        poseStack.pushPose();
+        {
+            poseStack.translate(x, y, 0);
+            drawFluid(poseStack, width, height, fluidStack);
+        }
+        poseStack.popPose();
+        RenderSystem.setShaderColor(1, 1, 1, 1);
+        RenderSystem.disableBlend();
+    }
+
+    private void drawFluid(PoseStack poseStack, final int width, final int height, FluidStack fluidStack) {
+        Fluid fluid = fluidStack.getFluid();
+        if (fluid.isSame(Fluids.EMPTY)) {
+            return;
+        }
+
+        TextureAtlasSprite fluidStillSprite = getStillFluidSprite(fluidStack);
+        int fluidColor = getColorTint(fluidStack);
+
+        long amount = fluidStack.getAmount();
+        long scaledAmount = (amount * height) / capacity;
+
+        if (amount > 0 && scaledAmount < MIN_FLUID_HEIGHT) {
+            scaledAmount = MIN_FLUID_HEIGHT;
+        }
+        if (scaledAmount > height) {
+            scaledAmount = height;
+        }
+
+        drawTiledSprite(poseStack, width, height, fluidColor, scaledAmount, fluidStillSprite);
+    }
+
+    private TextureAtlasSprite getStillFluidSprite(FluidStack fluidStack) {
+        Fluid fluid = fluidStack.getFluid();
+        IClientFluidTypeExtensions renderProperties = IClientFluidTypeExtensions.of(fluid);
+        ResourceLocation fluidStill = renderProperties.getStillTexture(fluidStack);
+
+        Minecraft minecraft = Minecraft.getInstance();
+        return minecraft.getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(fluidStill);
+    }
+
+    private int getColorTint(FluidStack ingredient) {
+        Fluid fluid = ingredient.getFluid();
+        IClientFluidTypeExtensions renderProperties = IClientFluidTypeExtensions.of(fluid);
+        return renderProperties.getTintColor(ingredient);
+    }
+
     public List<Component> getTooltip(FluidStack fluidStack, TooltipFlag tooltipFlag) {
         List<Component> tooltip = new ArrayList<>();
 
@@ -208,5 +200,11 @@ public class FluidTankRenderer {
 
     public int getHeight() {
         return height;
+    }
+
+    enum TooltipMode {
+        SHOW_AMOUNT,
+        SHOW_AMOUNT_AND_CAPACITY,
+        ITEM_LIST
     }
 }
