@@ -17,8 +17,8 @@
   "block.growthcraft_apples.apple_wood_stripped": "Stripped Apple Wood",
   "block.growthcraft_apples.apple_wood_log": "Apple Log",
   "block.growthcraft_apples.apple_wood_log_stripped": "Stripped Apple Log",
-  "fluid.growthcraft_apples:apple_cider_fluid": "Apple Cider",
-  "fluid.growthcraft_apples:apple_juice_fluid": "Apple Juice",
+  "fluid_type.growthcraft_apples:apple_cider_fluid": "Apple Cider",
+  "fluid_type.growthcraft_apples:apple_juice_fluid": "Apple Juice",
   "item.growthcraft_apples.apple_seeds": "Apple Seeds",
   "item.growthcraft_apples.apple_cider_fluid_bucket": "Apple Cider Bucket",
   "item.growthcraft_apples.apple_juice_fluid_bucket": "Apple Juice Bucket"

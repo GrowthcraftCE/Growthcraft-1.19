@@ -1,27 +1,32 @@
-package growthcraft.rice.lib.turtywurty.registry;
+package growthcraft.lib.client;
 
 import com.mojang.blaze3d.shaders.FogShape;
 import com.mojang.blaze3d.systems.RenderSystem;
-import growthcraft.rice.init.GrowthcraftRiceBlocks;
-import growthcraft.rice.init.GrowthcraftRiceFluids;
-import growthcraft.rice.init.GrowthcraftRiceItems;
+import growthcraft.cellar.init.GrowthcraftCellarBlocks;
+import growthcraft.cellar.init.GrowthcraftCellarFluids;
+import growthcraft.cellar.init.GrowthcraftCellarItems;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.FogRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.BlockAndTintGetter;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
+import net.minecraftforge.common.SoundActions;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
+import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
-import org.apache.commons.lang3.function.TriFunction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
@@ -34,23 +39,33 @@ public class FluidRegistryContainer {
     public final FluidType.Properties typeProperties;
     public final RegistryObject<LiquidBlock> block;
     public final RegistryObject<BucketItem> bucket;
-    private ForgeFlowingFluid.Properties properties;
     public final RegistryObject<ForgeFlowingFluid.Source> source;
     public final RegistryObject<ForgeFlowingFluid.Flowing> flowing;
+    private ForgeFlowingFluid.Properties properties;
 
-    public FluidRegistryContainer(String name, FluidType.Properties typeProperties,
-                                  Supplier<IClientFluidTypeExtensions> clientExtensions, @Nullable AdditionalProperties additionalProperties,
-                                  BlockBehaviour.Properties blockProperties, Item.Properties itemProperties) {
-        this.typeProperties = typeProperties;
-        this.type = GrowthcraftRiceFluids.FLUID_TYPES.register(name, () -> new FluidType(this.typeProperties) {
+    public DeferredRegister<Fluid> FLUID_REGISTRY = GrowthcraftCellarFluids.FLUIDS;
+    public DeferredRegister<Block> BLOCK_REGISTRY = GrowthcraftCellarBlocks.BLOCKS;
+    public DeferredRegister<Item> ITEM_REGISTRY = GrowthcraftCellarItems.ITEMS;
+
+
+    public FluidRegistryContainer(String name,
+                                  FluidType.Properties typeProperties,
+                                  Supplier<IClientFluidTypeExtensions> clientExtensions,
+                                  @Nullable AdditionalProperties additionalProperties,
+                                  BlockBehaviour.Properties blockProperties,
+                                  Item.Properties itemProperties) {
+
+        this.typeProperties = typeProperties.sound(SoundActions.BUCKET_FILL, SoundEvents.BUCKET_FILL).sound(SoundActions.BUCKET_EMPTY, SoundEvents.BUCKET_EMPTY);
+
+        this.type = GrowthcraftCellarFluids.FLUID_TYPES.register(name, () -> new FluidType(this.typeProperties) {
             @Override
             public void initializeClient(Consumer<IClientFluidTypeExtensions> consumer) {
                 consumer.accept(clientExtensions.get());
             }
         });
 
-        this.source = GrowthcraftRiceFluids.FLUIDS.register(name + "_source", () -> new ForgeFlowingFluid.Source(this.properties));
-        this.flowing = GrowthcraftRiceFluids.FLUIDS.register(name + "_flowing",
+        this.source = FLUID_REGISTRY.register(name + "_source", () -> new ForgeFlowingFluid.Source(this.properties));
+        this.flowing = FLUID_REGISTRY.register(name + "_flowing",
                 () -> new ForgeFlowingFluid.Flowing(this.properties));
 
         this.properties = new ForgeFlowingFluid.Properties(this.type, this.source, this.flowing);
@@ -60,10 +75,10 @@ public class FluidRegistryContainer {
                     .slopeFindDistance(additionalProperties.slopeFindDistance).tickRate(additionalProperties.tickRate);
         }
 
-        this.block = GrowthcraftRiceBlocks.BLOCKS.register(name, () -> new LiquidBlock(this.source, blockProperties));
+        this.block = BLOCK_REGISTRY.register(name, () -> new LiquidBlock(this.source, blockProperties));
         this.properties.block(this.block);
 
-        this.bucket = GrowthcraftRiceItems.ITEMS.register(name + "_bucket", () -> new BucketItem(this.source, itemProperties));
+        this.bucket = ITEM_REGISTRY.register(name + "_bucket", () -> new BucketItem(this.source, itemProperties));
         this.properties.bucket(this.bucket);
     }
 
@@ -73,36 +88,47 @@ public class FluidRegistryContainer {
         this(name, typeProperties, clientExtensions, null, blockProperties, itemProperties);
     }
 
-    public ForgeFlowingFluid.Properties getProperties() {
-        return this.properties;
-    }
-
-    public static IClientFluidTypeExtensions createExtension(ClientExtensions extensions) {
+    public static IClientFluidTypeExtensions createExtension(ClientFluidTypeExtensions extensions) {
         return new IClientFluidTypeExtensions() {
+            private static final ResourceLocation UNDERWATER_LOCATION = new ResourceLocation("textures/misc/underwater.png");
+            private static final ResourceLocation WATER_STILL = new ResourceLocation("block/water_still");
+            private static final ResourceLocation WATER_FLOW = new ResourceLocation("block/water_flow");
+            private static final ResourceLocation WATER_OVERLAY = new ResourceLocation("block/water_overlay");
+
             @Override
             public ResourceLocation getFlowingTexture() {
-                return extensions.flowing;
+                return WATER_FLOW;
             }
 
             @Nullable
             @Override
             public ResourceLocation getOverlayTexture() {
-                return extensions.overlay;
+                return WATER_OVERLAY;
             }
 
             @Override
-            public ResourceLocation getRenderOverlayTexture(Minecraft minecraft) {
-                return extensions.renderOverlay;
+            public ResourceLocation getRenderOverlayTexture(Minecraft mc) {
+                return UNDERWATER_LOCATION;
             }
 
             @Override
             public ResourceLocation getStillTexture() {
-                return extensions.still;
+                return WATER_STILL;
             }
 
             @Override
             public int getTintColor(FluidState state, BlockAndTintGetter getter, BlockPos pos) {
-                return extensions.tintFunction == null ? 0xFFFFFFFF : extensions.tintFunction.apply(state, getter, pos);
+                return this.getTintColor();
+            }
+
+            @Override
+            public int getTintColor(FluidStack stack) {
+                return this.getTintColor();
+            }
+
+            @Override
+            public int getTintColor() {
+                return extensions.tintColor;
             }
 
             @Override
@@ -121,6 +147,10 @@ public class FluidRegistryContainer {
                 RenderSystem.setShaderFogEnd(6f);
             }
         };
+    }
+
+    public ForgeFlowingFluid.Properties getProperties() {
+        return this.properties;
     }
 
     public static class AdditionalProperties {
@@ -150,68 +180,4 @@ public class FluidRegistryContainer {
         }
     }
 
-    public static class ClientExtensions {
-        private ResourceLocation still;
-        private ResourceLocation flowing;
-        private ResourceLocation overlay;
-        private ResourceLocation renderOverlay;
-        private Vector3f fogColor;
-        private TriFunction<FluidState, BlockAndTintGetter, BlockPos, Integer> tintFunction;
-
-        private final String modid;
-
-        public ClientExtensions(String modid, String fluidName) {
-            this.modid = modid;
-            still(fluidName);
-            flowing(fluidName);
-            overlay(fluidName);
-        }
-
-        public ClientExtensions flowing(String name) {
-            return flowing(name, "block/fluid");
-        }
-
-        public ClientExtensions flowing(String name, String folder) {
-            this.flowing = new ResourceLocation(this.modid, folder + "/" + name + "_flowing");
-            return this;
-        }
-
-        public ClientExtensions fogColor(float red, float green, float blue) {
-            this.fogColor = new Vector3f(red, green, blue);
-            return this;
-        }
-
-        public ClientExtensions overlay(String name) {
-            return overlay(name, "block/fluid");
-        }
-
-        public ClientExtensions overlay(String name, String folder) {
-            this.overlay = new ResourceLocation(this.modid, folder + "/" + name + "_overlay");
-            return renderOverlay(new ResourceLocation(this.modid, "textures/" + folder + "/" + name + "_overlay.png"));
-        }
-
-        public ClientExtensions renderOverlay(ResourceLocation path) {
-            this.renderOverlay = path;
-            return this;
-        }
-
-        public ClientExtensions still(String name) {
-            return still(name, "block/fluid");
-        }
-
-        public ClientExtensions still(String name, String folder) {
-            this.still = new ResourceLocation(this.modid, folder + "/" + name + "_still");
-            return this;
-        }
-
-        public ClientExtensions tint(int tint) {
-            this.tintFunction = ($0, $1, $2) -> tint;
-            return this;
-        }
-
-        public ClientExtensions tint(TriFunction<FluidState, BlockAndTintGetter, BlockPos, Integer> tinter) {
-            this.tintFunction = tinter;
-            return this;
-        }
-    }
 }

@@ -1,7 +1,8 @@
 package growthcraft.apiary.init;
 
-import growthcraft.apiary.lib.turtywurty.registry.FluidRegistryContainer;
+import growthcraft.apiary.lib.fluid.GrowthcraftApiaryFluidRegistryContainer;
 import growthcraft.apiary.shared.Reference;
+import growthcraft.lib.client.ClientFluidTypeExtensions;
 import growthcraft.lib.utils.FluidUtils;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Blocks;
@@ -21,11 +22,11 @@ public class GrowthcraftApiaryFluids {
             ForgeRegistries.Keys.FLUID_TYPES, Reference.MODID
     );
 
-    public static final FluidRegistryContainer HONEY = new FluidRegistryContainer(
+    public static final GrowthcraftApiaryFluidRegistryContainer HONEY = new GrowthcraftApiaryFluidRegistryContainer(
             FluidUtils.getFluidNames(Reference.UnlocalizedName.HONEY).get(FluidUtils.STILL),
             FluidType.Properties.create().canSwim(true).canDrown(true).canPushEntity(true).supportsBoating(true),
-            () -> FluidRegistryContainer.createExtension(
-                    new FluidRegistryContainer.ClientExtensions(
+            () -> GrowthcraftApiaryFluidRegistryContainer.createExtension(
+                    new ClientFluidTypeExtensions(
                             Reference.MODID,
                             FluidUtils.getFluidNames(Reference.UnlocalizedName.HONEY).get(FluidUtils.STILL)
                     )
@@ -42,11 +43,11 @@ public class GrowthcraftApiaryFluids {
             new Item.Properties().stacksTo(1)
     );
 
-    public static final FluidRegistryContainer HONEY_MEAD = new FluidRegistryContainer(
+    public static final GrowthcraftApiaryFluidRegistryContainer HONEY_MEAD = new GrowthcraftApiaryFluidRegistryContainer(
             FluidUtils.getFluidNames(Reference.UnlocalizedName.HONEY_MEAD).get(FluidUtils.STILL),
             FluidType.Properties.create().canSwim(true).canDrown(true).canPushEntity(true).supportsBoating(true),
-            () -> FluidRegistryContainer.createExtension(
-                    new FluidRegistryContainer.ClientExtensions(
+            () -> GrowthcraftApiaryFluidRegistryContainer.createExtension(
+                    new ClientFluidTypeExtensions(
                             Reference.MODID,
                             FluidUtils.getFluidNames(Reference.UnlocalizedName.HONEY_MEAD).get(FluidUtils.STILL)
                     ).tint(Reference.FluidColor.HONEY_MEAD.toIntValue())

@@ -1,7 +1,8 @@
 package growthcraft.milk.init;
 
+import growthcraft.lib.client.ClientFluidTypeExtensions;
 import growthcraft.lib.utils.FluidUtils;
-import growthcraft.milk.lib.turtywurty.registry.FluidRegistryContainer;
+import growthcraft.milk.lib.fluid.GrowthcraftMilkFluidRegistryContainer;
 import growthcraft.milk.shared.Reference;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Blocks;
@@ -20,11 +21,11 @@ public class GrowthcraftMilkFluids {
             ForgeRegistries.Keys.FLUID_TYPES, Reference.MODID
     );
 
-    public static final FluidRegistryContainer BUTTER_MILK = new FluidRegistryContainer(
+    public static final GrowthcraftMilkFluidRegistryContainer BUTTER_MILK = new GrowthcraftMilkFluidRegistryContainer(
             FluidUtils.getFluidNames(Reference.UnlocalizedName.BUTTER_MILK).get(FluidUtils.STILL),
             FluidType.Properties.create().canSwim(true).canDrown(true).canPushEntity(true).supportsBoating(true),
-            () -> FluidRegistryContainer.createExtension(
-                    new FluidRegistryContainer.ClientExtensions(
+            () -> GrowthcraftMilkFluidRegistryContainer.createExtension(
+                    new ClientFluidTypeExtensions(
                             Reference.MODID,
                             FluidUtils.getFluidNames(Reference.UnlocalizedName.BUTTER_MILK).get(FluidUtils.STILL)
                     ).tint(
@@ -40,11 +41,11 @@ public class GrowthcraftMilkFluids {
             new Item.Properties().stacksTo(1)
     );
 
-    public static final FluidRegistryContainer CHEESE_BASE = new FluidRegistryContainer(
+    public static final GrowthcraftMilkFluidRegistryContainer CHEESE_BASE = new GrowthcraftMilkFluidRegistryContainer(
             FluidUtils.getFluidNames(Reference.UnlocalizedName.CHEESE_BASE).get(FluidUtils.STILL),
             FluidType.Properties.create().canSwim(true).canDrown(true).canPushEntity(true).supportsBoating(true),
-            () -> FluidRegistryContainer.createExtension(
-                    new FluidRegistryContainer.ClientExtensions(
+            () -> GrowthcraftMilkFluidRegistryContainer.createExtension(
+                    new ClientFluidTypeExtensions(
                             Reference.MODID,
                             FluidUtils.getFluidNames(Reference.UnlocalizedName.CHEESE_BASE).get(FluidUtils.STILL)
                     ).tint(Reference.FluidColor.CHEESE_BASE.toIntValue())
@@ -58,11 +59,11 @@ public class GrowthcraftMilkFluids {
             new Item.Properties().stacksTo(1)
     );
 
-    public static final FluidRegistryContainer CONDENSED_MILK = new FluidRegistryContainer(
+    public static final GrowthcraftMilkFluidRegistryContainer CONDENSED_MILK = new GrowthcraftMilkFluidRegistryContainer(
             FluidUtils.getFluidNames(Reference.UnlocalizedName.CONDENSED_MILK).get(FluidUtils.STILL),
             FluidType.Properties.create().canSwim(true).canDrown(true).canPushEntity(true).supportsBoating(true),
-            () -> FluidRegistryContainer.createExtension(
-                    new FluidRegistryContainer.ClientExtensions(
+            () -> GrowthcraftMilkFluidRegistryContainer.createExtension(
+                    new ClientFluidTypeExtensions(
                             Reference.MODID,
                             FluidUtils.getFluidNames(Reference.UnlocalizedName.CONDENSED_MILK).get(FluidUtils.STILL)
                     ).tint(Reference.FluidColor.CONDENSED_MILK.toIntValue())
@@ -76,11 +77,11 @@ public class GrowthcraftMilkFluids {
             new Item.Properties().stacksTo(1)
     );
 
-    public static final FluidRegistryContainer CREAM = new FluidRegistryContainer(
+    public static final GrowthcraftMilkFluidRegistryContainer CREAM = new GrowthcraftMilkFluidRegistryContainer(
             FluidUtils.getFluidNames(Reference.UnlocalizedName.CREAM).get(FluidUtils.STILL),
             FluidType.Properties.create().canSwim(true).canDrown(true).canPushEntity(true).supportsBoating(true),
-            () -> FluidRegistryContainer.createExtension(
-                    new FluidRegistryContainer.ClientExtensions(
+            () -> GrowthcraftMilkFluidRegistryContainer.createExtension(
+                    new ClientFluidTypeExtensions(
                             Reference.MODID,
                             FluidUtils.getFluidNames(Reference.UnlocalizedName.CREAM).get(FluidUtils.STILL)
                     ).tint(Reference.FluidColor.CREAM.toIntValue())
@@ -94,11 +95,11 @@ public class GrowthcraftMilkFluids {
             new Item.Properties().stacksTo(1)
     );
 
-    public static final FluidRegistryContainer CULTURED_MILK = new FluidRegistryContainer(
+    public static final GrowthcraftMilkFluidRegistryContainer CULTURED_MILK = new GrowthcraftMilkFluidRegistryContainer(
             FluidUtils.getFluidNames(Reference.UnlocalizedName.CULTURED_MILK).get(FluidUtils.STILL),
             FluidType.Properties.create().canSwim(true).canDrown(true).canPushEntity(true).supportsBoating(true),
-            () -> FluidRegistryContainer.createExtension(
-                    new FluidRegistryContainer.ClientExtensions(
+            () -> GrowthcraftMilkFluidRegistryContainer.createExtension(
+                    new ClientFluidTypeExtensions(
                             Reference.MODID,
                             FluidUtils.getFluidNames(Reference.UnlocalizedName.CULTURED_MILK).get(FluidUtils.STILL)
                     ).tint(Reference.FluidColor.CULTURED_MILK.toIntValue())
@@ -112,11 +113,11 @@ public class GrowthcraftMilkFluids {
             new Item.Properties().stacksTo(1)
     );
 
-    public static final FluidRegistryContainer KUMIS = new FluidRegistryContainer(
+    public static final GrowthcraftMilkFluidRegistryContainer KUMIS = new GrowthcraftMilkFluidRegistryContainer(
             FluidUtils.getFluidNames(Reference.UnlocalizedName.KUMIS).get(FluidUtils.STILL),
             FluidType.Properties.create().canSwim(true).canDrown(true).canPushEntity(true).supportsBoating(true),
-            () -> FluidRegistryContainer.createExtension(
-                    new FluidRegistryContainer.ClientExtensions(
+            () -> GrowthcraftMilkFluidRegistryContainer.createExtension(
+                    new ClientFluidTypeExtensions(
                             Reference.MODID,
                             FluidUtils.getFluidNames(Reference.UnlocalizedName.KUMIS).get(FluidUtils.STILL)
                     ).tint(Reference.FluidColor.KUMIS.toIntValue())
@@ -130,11 +131,11 @@ public class GrowthcraftMilkFluids {
             new Item.Properties().stacksTo(1)
     );
 
-    public static final FluidRegistryContainer MILK = new FluidRegistryContainer(
+    public static final GrowthcraftMilkFluidRegistryContainer MILK = new GrowthcraftMilkFluidRegistryContainer(
             FluidUtils.getFluidNames(Reference.UnlocalizedName.MILK).get(FluidUtils.STILL),
             FluidType.Properties.create().canSwim(true).canDrown(true).canPushEntity(true).supportsBoating(true),
-            () -> FluidRegistryContainer.createExtension(
-                    new FluidRegistryContainer.ClientExtensions(
+            () -> GrowthcraftMilkFluidRegistryContainer.createExtension(
+                    new ClientFluidTypeExtensions(
                             Reference.MODID,
                             FluidUtils.getFluidNames(Reference.UnlocalizedName.MILK).get(FluidUtils.STILL)
                     ).tint(Reference.FluidColor.MILK.toIntValue())
@@ -148,11 +149,11 @@ public class GrowthcraftMilkFluids {
             new Item.Properties().stacksTo(1)
     );
 
-    public static final FluidRegistryContainer RENNET = new FluidRegistryContainer(
+    public static final GrowthcraftMilkFluidRegistryContainer RENNET = new GrowthcraftMilkFluidRegistryContainer(
             FluidUtils.getFluidNames(Reference.UnlocalizedName.RENNET).get(FluidUtils.STILL),
             FluidType.Properties.create().canSwim(true).canDrown(true).canPushEntity(true).supportsBoating(true),
-            () -> FluidRegistryContainer.createExtension(
-                    new FluidRegistryContainer.ClientExtensions(
+            () -> GrowthcraftMilkFluidRegistryContainer.createExtension(
+                    new ClientFluidTypeExtensions(
                             Reference.MODID,
                             FluidUtils.getFluidNames(Reference.UnlocalizedName.RENNET).get(FluidUtils.STILL)
                     ).tint(
@@ -167,11 +168,11 @@ public class GrowthcraftMilkFluids {
             new Item.Properties().stacksTo(1)
     );
 
-    public static final FluidRegistryContainer SKIM_MILK = new FluidRegistryContainer(
+    public static final GrowthcraftMilkFluidRegistryContainer SKIM_MILK = new GrowthcraftMilkFluidRegistryContainer(
             FluidUtils.getFluidNames(Reference.UnlocalizedName.SKIM_MILK).get(FluidUtils.STILL),
             FluidType.Properties.create().canSwim(true).canDrown(true).canPushEntity(true).supportsBoating(true),
-            () -> FluidRegistryContainer.createExtension(
-                    new FluidRegistryContainer.ClientExtensions(
+            () -> GrowthcraftMilkFluidRegistryContainer.createExtension(
+                    new ClientFluidTypeExtensions(
                             Reference.MODID,
                             FluidUtils.getFluidNames(Reference.UnlocalizedName.SKIM_MILK).get(FluidUtils.STILL)
                     ).tint(Reference.FluidColor.SKIM_MILK.toIntValue())
@@ -185,11 +186,11 @@ public class GrowthcraftMilkFluids {
             new Item.Properties().stacksTo(1)
     );
 
-    public static final FluidRegistryContainer WHEY = new FluidRegistryContainer(
+    public static final GrowthcraftMilkFluidRegistryContainer WHEY = new GrowthcraftMilkFluidRegistryContainer(
             FluidUtils.getFluidNames(Reference.UnlocalizedName.WHEY).get(FluidUtils.STILL),
             FluidType.Properties.create().canSwim(true).canDrown(true).canPushEntity(true).supportsBoating(true),
-            () -> FluidRegistryContainer.createExtension(
-                    new FluidRegistryContainer.ClientExtensions(
+            () -> GrowthcraftMilkFluidRegistryContainer.createExtension(
+                    new ClientFluidTypeExtensions(
                             Reference.MODID,
                             FluidUtils.getFluidNames(Reference.UnlocalizedName.WHEY).get(FluidUtils.STILL)
                     ).tint(Reference.FluidColor.WHEY.toIntValue())

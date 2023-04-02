@@ -150,17 +150,32 @@ public class FluidTankRenderer {
 
     private TextureAtlasSprite getStillFluidSprite(FluidStack fluidStack) {
         Fluid fluid = fluidStack.getFluid();
-        IClientFluidTypeExtensions renderProperties = IClientFluidTypeExtensions.of(fluid);
+
+        IClientFluidTypeExtensions renderProperties;
+
+        if(fluid.getFluidType().getRenderPropertiesInternal() instanceof IClientFluidTypeExtensions internalProperties) {
+            renderProperties = internalProperties;
+        } else {
+            renderProperties = IClientFluidTypeExtensions.of(fluid);
+        }
+
         ResourceLocation fluidStill = renderProperties.getStillTexture(fluidStack);
 
         Minecraft minecraft = Minecraft.getInstance();
         return minecraft.getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(fluidStill);
     }
 
-    private int getColorTint(FluidStack ingredient) {
-        Fluid fluid = ingredient.getFluid();
-        IClientFluidTypeExtensions renderProperties = IClientFluidTypeExtensions.of(fluid);
-        return renderProperties.getTintColor(ingredient);
+    private int getColorTint(FluidStack fluidStack) {
+        Fluid fluid = fluidStack.getFluid();
+        IClientFluidTypeExtensions renderProperties;
+
+        if(fluid.getFluidType().getRenderPropertiesInternal() instanceof IClientFluidTypeExtensions internalProperties) {
+            renderProperties = internalProperties;
+        } else {
+            renderProperties = IClientFluidTypeExtensions.of(fluid);
+        }
+
+        return renderProperties.getTintColor(fluidStack);
     }
 
     public List<Component> getTooltip(FluidStack fluidStack, TooltipFlag tooltipFlag) {
@@ -188,7 +203,7 @@ public class FluidTankRenderer {
                 tooltip.add(amountString.withStyle(ChatFormatting.GRAY));
             }
         } catch (RuntimeException e) {
-            LOGGER.error("Failed to get tooltip for fluid: " + e);
+            LOGGER.error(String.format("Failed to get tooltip for fluid: %s", e));
         }
 
         return tooltip;

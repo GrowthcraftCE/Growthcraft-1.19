@@ -1,7 +1,8 @@
 package growthcraft.apples.init;
 
-import growthcraft.apples.lib.turtywurty.registry.FluidRegistryContainer;
+import growthcraft.apples.lib.fluid.GrowthcraftApplesFluidRegistryContainer;
 import growthcraft.apples.shared.Reference;
+import growthcraft.lib.client.ClientFluidTypeExtensions;
 import growthcraft.lib.utils.FluidUtils;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Blocks;
@@ -21,11 +22,11 @@ public class GrowthcraftApplesFluids {
             ForgeRegistries.Keys.FLUID_TYPES, Reference.MODID
     );
 
-    public static final FluidRegistryContainer APPLE_CIDER_FLUID = new FluidRegistryContainer(
+    public static final GrowthcraftApplesFluidRegistryContainer APPLE_CIDER_FLUID = new GrowthcraftApplesFluidRegistryContainer(
             FluidUtils.getFluidNames(Reference.UnlocalizedName.APPLE_CIDER).get(FluidUtils.STILL),
             FluidType.Properties.create().canSwim(true).canDrown(true).canPushEntity(true).supportsBoating(true),
-            () -> FluidRegistryContainer.createExtension(
-                    new FluidRegistryContainer.ClientExtensions(
+            () -> GrowthcraftApplesFluidRegistryContainer.createExtension(
+                    new ClientFluidTypeExtensions(
                             Reference.MODID,
                             FluidUtils.getFluidNames(Reference.UnlocalizedName.APPLE_CIDER).get(FluidUtils.STILL)
                     ).tint(Reference.FluidColor.APPLE_CIDER_FLUID_COLOR.toIntValue())
@@ -39,11 +40,11 @@ public class GrowthcraftApplesFluids {
             new Item.Properties().stacksTo(1)
     );
 
-    public static final FluidRegistryContainer APPLE_JUICE_FLUID = new FluidRegistryContainer(
+    public static final GrowthcraftApplesFluidRegistryContainer APPLE_JUICE_FLUID = new GrowthcraftApplesFluidRegistryContainer(
             FluidUtils.getFluidNames(Reference.UnlocalizedName.APPLE_JUICE).get(FluidUtils.STILL),
             FluidType.Properties.create().canSwim(true).canDrown(true).canPushEntity(true).supportsBoating(true),
-            () -> FluidRegistryContainer.createExtension(
-                    new FluidRegistryContainer.ClientExtensions(
+            () -> GrowthcraftApplesFluidRegistryContainer.createExtension(
+                    new ClientFluidTypeExtensions(
                             Reference.MODID,
                             FluidUtils.getFluidNames(Reference.UnlocalizedName.APPLE_JUICE).get(FluidUtils.STILL)
                     ).tint(Reference.FluidColor.APPLE_JUICE_FLUID_COLOR.toIntValue())

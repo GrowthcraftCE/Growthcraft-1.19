@@ -1,7 +1,8 @@
 package growthcraft.rice.init;
 
+import growthcraft.lib.client.ClientFluidTypeExtensions;
 import growthcraft.lib.utils.FluidUtils;
-import growthcraft.rice.lib.turtywurty.registry.FluidRegistryContainer;
+import growthcraft.rice.lib.fluid.GrowthcraftRiceFluidRegistryContainer;
 import growthcraft.rice.shared.Reference;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Blocks;
@@ -20,11 +21,11 @@ public class GrowthcraftRiceFluids {
             ForgeRegistries.Keys.FLUID_TYPES, Reference.MODID
     );
 
-    public static final FluidRegistryContainer RICE_WATER = new FluidRegistryContainer(
+    public static final GrowthcraftRiceFluidRegistryContainer RICE_WATER = new GrowthcraftRiceFluidRegistryContainer(
             FluidUtils.getFluidNames(Reference.UnlocalizedName.RICE_WATER).get(FluidUtils.STILL),
             FluidType.Properties.create().canSwim(true).canDrown(true).canPushEntity(true).supportsBoating(true),
-            () -> FluidRegistryContainer.createExtension(
-                    new FluidRegistryContainer.ClientExtensions(
+            () -> GrowthcraftRiceFluidRegistryContainer.createExtension(
+                    new ClientFluidTypeExtensions(
                             Reference.MODID,
                             FluidUtils.getFluidNames(Reference.UnlocalizedName.RICE_WATER).get(FluidUtils.STILL)
                     ).tint(Reference.FluidColor.RICE_WATER.toIntValue())
@@ -38,11 +39,11 @@ public class GrowthcraftRiceFluids {
             new Item.Properties().stacksTo(1)
     );
 
-    public static final FluidRegistryContainer RICE_WINE = new FluidRegistryContainer(
+    public static final GrowthcraftRiceFluidRegistryContainer RICE_WINE = new GrowthcraftRiceFluidRegistryContainer(
             FluidUtils.getFluidNames(Reference.UnlocalizedName.RICE_WINE).get(FluidUtils.STILL),
             FluidType.Properties.create().canSwim(true).canDrown(true).canPushEntity(true).supportsBoating(true),
-            () -> FluidRegistryContainer.createExtension(
-                    new FluidRegistryContainer.ClientExtensions(
+            () -> GrowthcraftRiceFluidRegistryContainer.createExtension(
+                    new ClientFluidTypeExtensions(
                             Reference.MODID,
                             FluidUtils.getFluidNames(Reference.UnlocalizedName.RICE_WINE).get(FluidUtils.STILL)
                     ).tint(Reference.FluidColor.RICE_WINE.toIntValue())
@@ -56,11 +57,11 @@ public class GrowthcraftRiceFluids {
             new Item.Properties().stacksTo(1)
     );
 
-    public static final FluidRegistryContainer SAKE = new FluidRegistryContainer(
+    public static final GrowthcraftRiceFluidRegistryContainer SAKE = new GrowthcraftRiceFluidRegistryContainer(
             FluidUtils.getFluidNames(Reference.UnlocalizedName.SAKE).get(FluidUtils.STILL),
             FluidType.Properties.create().canSwim(true).canDrown(true).canPushEntity(true).supportsBoating(true),
-            () -> FluidRegistryContainer.createExtension(
-                    new FluidRegistryContainer.ClientExtensions(
+            () -> GrowthcraftRiceFluidRegistryContainer.createExtension(
+                    new ClientFluidTypeExtensions(
                             Reference.MODID,
                             FluidUtils.getFluidNames(Reference.UnlocalizedName.SAKE).get(FluidUtils.STILL)
                     ).tint(Reference.FluidColor.SAKE.toIntValue())

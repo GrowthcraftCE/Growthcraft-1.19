@@ -142,7 +142,6 @@ public class PancheonBlock extends BaseEntityBlock {
          * TODO: If vanilla milk bucket is in hand, as it does not have a fluid handler
          */
 
-
         // Otherwise always return success
         return InteractionResult.SUCCESS;
     }
