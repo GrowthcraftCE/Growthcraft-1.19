@@ -2,6 +2,7 @@ package growthcraft.milk;
 
 import growthcraft.core.init.GrowthcraftCreativeModeTabs;
 import growthcraft.milk.init.*;
+import growthcraft.milk.init.client.GrowthcraftMilkBlockEntityRenderers;
 import growthcraft.milk.init.client.GrowthcraftMilkBlockRenderers;
 import growthcraft.milk.init.client.GrowthcraftMilkItemRenderers;
 import growthcraft.milk.init.config.GrowthcraftMilkConfig;
@@ -34,6 +35,7 @@ public class GrowthcraftMilk {
         modEventBus.addListener(this::setup);
         modEventBus.addListener(this::clientSetupEvent);
         modEventBus.addListener(this::buildCreativeTabContents);
+        modEventBus.addListener(GrowthcraftMilkBlockEntityRenderers::register);
 
         // Config
         GrowthcraftMilkConfig.loadConfig();

@@ -239,4 +239,16 @@ public class PancheonBlockEntity extends BlockEntity implements BlockEntityTicke
             default -> this.FLUID_TANK_INPUT_0.getFluid();
         };
     }
+
+    public GrowthcraftFluidTank getFluidTank(int tankID) {
+        return switch (tankID) {
+            case 1 -> this.FLUID_TANK_OUTPUT_0;
+            case 2 -> this.FLUID_TANK_OUTPUT_1;
+            default -> this.FLUID_TANK_INPUT_0;
+        };
+    }
+
+    public boolean isFluidEmpty() {
+        return getFluidStackInTank(0).isEmpty() && getFluidStackInTank(1).isEmpty() && getFluidStackInTank(2).isEmpty();
+    }
 }
