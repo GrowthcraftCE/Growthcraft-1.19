@@ -5,12 +5,10 @@ import growthcraft.apples.init.GrowthcraftApplesBlocks;
 import growthcraft.apples.init.GrowthcraftApplesFluids;
 import growthcraft.apples.init.GrowthcraftApplesItems;
 import growthcraft.apples.init.client.GrowthcraftApplesBlockRenderers;
-import growthcraft.apples.init.client.GrowthcraftApplesItemRenders;
 import growthcraft.apples.init.config.GrowthcraftApplesConfig;
 import growthcraft.apples.shared.Reference;
 import growthcraft.core.init.GrowthcraftCreativeModeTabs;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
@@ -45,11 +43,6 @@ public class GrowthcraftApples {
         GrowthcraftApplesBlockEntities.BLOCK_ENTITIES.register(modEventBus);
 
         MinecraftForge.EVENT_BUS.register(this);
-    }
-
-    @SubscribeEvent
-    public static void onColorHandle(RegisterColorHandlersEvent.Item event) {
-        GrowthcraftApplesItemRenders.registerItemRenders(event);
     }
 
     private void clientSetupEvent(final FMLClientSetupEvent event) {

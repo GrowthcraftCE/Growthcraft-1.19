@@ -2,12 +2,10 @@ package growthcraft.apiary;
 
 import growthcraft.apiary.init.*;
 import growthcraft.apiary.init.client.GrowthcraftApiaryBlockRenders;
-import growthcraft.apiary.init.client.GrowthcraftApiaryItemRenders;
 import growthcraft.apiary.init.config.GrowthcraftApiaryConfig;
 import growthcraft.apiary.shared.Reference;
 import growthcraft.core.init.GrowthcraftCreativeModeTabs;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
@@ -70,8 +68,4 @@ public class GrowthcraftApiary {
         LOGGER.info("Growthcraft Apiary starting up server-side ...");
     }
 
-    @SubscribeEvent
-    public static void onColorHandle(RegisterColorHandlersEvent.Item event) {
-        GrowthcraftApiaryItemRenders.registerItemRenders(event);
-    }
 }

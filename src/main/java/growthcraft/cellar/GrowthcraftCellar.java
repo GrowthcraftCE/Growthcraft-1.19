@@ -4,12 +4,10 @@ import growthcraft.cellar.init.GrowthcraftCellarBlocks;
 import growthcraft.cellar.init.GrowthcraftCellarFluids;
 import growthcraft.cellar.init.GrowthcraftCellarItems;
 import growthcraft.cellar.init.client.GrowthcraftCellarBlockRenderers;
-import growthcraft.cellar.init.client.GrowthcraftCellarItemRenderers;
 import growthcraft.cellar.init.config.GrowthcraftCellarConfig;
 import growthcraft.cellar.shared.Reference;
 import growthcraft.core.init.GrowthcraftCreativeModeTabs;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
@@ -70,8 +68,4 @@ public class GrowthcraftCellar {
         LOGGER.info("Growthcraft Cellar starting up ...");
     }
 
-    @SubscribeEvent
-    public static void onColorHandle(RegisterColorHandlersEvent.Item event) {
-        GrowthcraftCellarItemRenderers.registerItemRenders(event);
-    }
 }

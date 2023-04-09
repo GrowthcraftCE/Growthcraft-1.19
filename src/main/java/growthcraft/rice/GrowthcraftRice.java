@@ -5,11 +5,9 @@ import growthcraft.rice.init.GrowthcraftRiceBlocks;
 import growthcraft.rice.init.GrowthcraftRiceFluids;
 import growthcraft.rice.init.GrowthcraftRiceItems;
 import growthcraft.rice.init.client.GrowthcraftRiceBlockRenderers;
-import growthcraft.rice.init.client.GrowthcraftRiceItemRenderers;
 import growthcraft.rice.init.config.GrowthcraftRiceConfig;
 import growthcraft.rice.shared.Reference;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
@@ -68,8 +66,4 @@ public class GrowthcraftRice {
         LOGGER.info("Growthcraft Rice starting up ...");
     }
 
-    @SubscribeEvent
-    public static void onColorHandle(RegisterColorHandlersEvent.Item event) {
-        GrowthcraftRiceItemRenderers.registerItemRenders(event);
-    }
 }

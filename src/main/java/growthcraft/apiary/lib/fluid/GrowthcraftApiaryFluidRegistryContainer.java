@@ -22,7 +22,8 @@ public class GrowthcraftApiaryFluidRegistryContainer extends FluidRegistryContai
             BlockBehaviour.Properties blockProperties,
             Item.Properties itemProperties) {
         super(name, typeProperties, clientExtensions, additionalProperties, blockProperties, itemProperties,
-                GrowthcraftApiaryFluids.FLUIDS,GrowthcraftApiaryFluids.FLUID_TYPES,GrowthcraftApiaryBlocks.BLOCKS,GrowthcraftApiaryItems.ITEMS);
+                GrowthcraftApiaryFluids.FLUIDS,GrowthcraftApiaryFluids.FLUID_TYPES,
+                GrowthcraftApiaryBlocks.BLOCKS,GrowthcraftApiaryItems.ITEMS);
     }
 
     public GrowthcraftApiaryFluidRegistryContainer(

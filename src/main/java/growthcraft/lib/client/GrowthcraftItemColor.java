@@ -7,15 +7,12 @@ import net.minecraft.world.item.ItemStack;
 
 public class GrowthcraftItemColor implements ItemColor {
 
-    @Override
     public int getColor(ItemStack itemStack, int layer) {
 
-        if(itemStack.getItem() instanceof GrowthcraftItem) {
-            GrowthcraftItem growthcraftItem = (GrowthcraftItem) itemStack.getItem();
+        if (itemStack.getItem() instanceof GrowthcraftItem growthcraftItem) {
             return growthcraftItem.getColor(layer);
         }
-        if(itemStack.getItem() instanceof CellarPotionItem) {
-            CellarPotionItem cellarPotionItem = (CellarPotionItem) itemStack.getItem();
+        if (itemStack.getItem() instanceof CellarPotionItem cellarPotionItem) {
             return cellarPotionItem.getColor(layer);
         }
         return 0;
