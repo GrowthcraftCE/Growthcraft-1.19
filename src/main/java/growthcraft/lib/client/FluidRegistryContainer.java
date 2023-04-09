@@ -2,9 +2,6 @@ package growthcraft.lib.client;
 
 import com.mojang.blaze3d.shaders.FogShape;
 import com.mojang.blaze3d.systems.RenderSystem;
-import growthcraft.cellar.init.GrowthcraftCellarBlocks;
-import growthcraft.cellar.init.GrowthcraftCellarFluids;
-import growthcraft.cellar.init.GrowthcraftCellarItems;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -43,9 +40,11 @@ public class FluidRegistryContainer {
     public final RegistryObject<ForgeFlowingFluid.Flowing> flowing;
     private ForgeFlowingFluid.Properties properties;
 
-    public DeferredRegister<Fluid> FLUID_REGISTRY = GrowthcraftCellarFluids.FLUIDS;
-    public DeferredRegister<Block> BLOCK_REGISTRY = GrowthcraftCellarBlocks.BLOCKS;
-    public DeferredRegister<Item> ITEM_REGISTRY = GrowthcraftCellarItems.ITEMS;
+    public DeferredRegister<Fluid> FLUID_REGISTRY;
+    public DeferredRegister<FluidType> FLUID_TYPE_REGISTRY;
+
+    public DeferredRegister<Block> BLOCK_REGISTRY;
+    public DeferredRegister<Item> ITEM_REGISTRY;
 
 
     public FluidRegistryContainer(String name,
@@ -53,11 +52,20 @@ public class FluidRegistryContainer {
                                   Supplier<IClientFluidTypeExtensions> clientExtensions,
                                   @Nullable AdditionalProperties additionalProperties,
                                   BlockBehaviour.Properties blockProperties,
-                                  Item.Properties itemProperties) {
+                                  Item.Properties itemProperties,
+                                  DeferredRegister<Fluid>  FLUID_REGISTRY,
+                                  DeferredRegister<FluidType> FLUID_TYPE_REGISTRY,
+                                  DeferredRegister<Block> BLOCK_REGISTRY,
+                                  DeferredRegister<Item> ITEM_REGISTRY) {
+
+        this.FLUID_REGISTRY = FLUID_REGISTRY;
+        this.FLUID_TYPE_REGISTRY = FLUID_TYPE_REGISTRY;
+        this.BLOCK_REGISTRY = BLOCK_REGISTRY;
+        this.ITEM_REGISTRY = ITEM_REGISTRY;
 
         this.typeProperties = typeProperties.sound(SoundActions.BUCKET_FILL, SoundEvents.BUCKET_FILL).sound(SoundActions.BUCKET_EMPTY, SoundEvents.BUCKET_EMPTY);
 
-        this.type = GrowthcraftCellarFluids.FLUID_TYPES.register(name, () -> new FluidType(this.typeProperties) {
+        this.type = FLUID_TYPE_REGISTRY.register(name, () -> new FluidType(this.typeProperties) {
             @Override
             public void initializeClient(Consumer<IClientFluidTypeExtensions> consumer) {
                 consumer.accept(clientExtensions.get());
@@ -84,8 +92,13 @@ public class FluidRegistryContainer {
 
     public FluidRegistryContainer(String name, FluidType.Properties typeProperties,
                                   Supplier<IClientFluidTypeExtensions> clientExtensions, BlockBehaviour.Properties blockProperties,
-                                  Item.Properties itemProperties) {
-        this(name, typeProperties, clientExtensions, null, blockProperties, itemProperties);
+                                  Item.Properties itemProperties,
+                                  DeferredRegister<Fluid>  FLUID_REGISTRY,
+                                  DeferredRegister<FluidType> FLUID_TYPE_REGISTRY,
+                                  DeferredRegister<Block> BLOCK_REGISTRY,
+                                  DeferredRegister<Item> ITEM_REGISTRY) {
+        this(name, typeProperties, clientExtensions, null, blockProperties, itemProperties,
+                FLUID_REGISTRY, FLUID_TYPE_REGISTRY, BLOCK_REGISTRY, ITEM_REGISTRY);
     }
 
     public static IClientFluidTypeExtensions createExtension(ClientFluidTypeExtensions extensions) {

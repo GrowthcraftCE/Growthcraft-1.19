@@ -1,12 +1,11 @@
 package growthcraft.lib.item;
 
-import net.minecraft.client.color.item.ItemColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 import java.awt.*;
 
-public class GrowthcraftItem extends Item implements ItemColor {
+public class GrowthcraftItem extends Item {
 
     private int color;
 
@@ -31,7 +30,6 @@ public class GrowthcraftItem extends Item implements ItemColor {
         return properties;
     }
 
-    @Override
     public int getColor(ItemStack stack, int layer) {
         return this.getColor(layer);
     }
