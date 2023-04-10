@@ -1,4 +1,4 @@
-package growthcraft.apiary.loot;
+package growthcraft.core.loot;
 
 import com.google.common.base.Suppliers;
 import com.mojang.serialization.Codec;
@@ -15,14 +15,14 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Supplier;
 
-public class BeesNestLootModifier extends LootModifier {
+public class GlobalLootModifier extends LootModifier {
 
-    public static final Supplier<Codec<BeesNestLootModifier>> CODEC = Suppliers.memoize(()
+    public static final Supplier<Codec<GlobalLootModifier>> CODEC = Suppliers.memoize(()
             -> RecordCodecBuilder.create(inst -> codecStart(inst).and(ForgeRegistries.ITEMS.getCodec()
-            .fieldOf("item").forGetter(m -> m.item)).apply(inst, BeesNestLootModifier::new)));
+            .fieldOf("item").forGetter(m -> m.item)).apply(inst, GlobalLootModifier::new)));
     private final Item item;
 
-    protected BeesNestLootModifier(LootItemCondition[] conditionsIn, Item item) {
+    protected GlobalLootModifier(LootItemCondition[] conditionsIn, Item item) {
         super(conditionsIn);
         this.item = item;
     }

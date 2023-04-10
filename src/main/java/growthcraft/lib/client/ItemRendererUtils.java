@@ -20,7 +20,7 @@ public class ItemRendererUtils {
 
     public static void registerItem(RegisterColorHandlersEvent.Item handler, ItemColor itemColor, Item item) {
         Growthcraft.LOGGER.error("Calling registerItemColor from " + handler.getListenerList().toString());
-       // handler.register(itemColor, item);
+       handler.register(itemColor, item);
     }
 
 }

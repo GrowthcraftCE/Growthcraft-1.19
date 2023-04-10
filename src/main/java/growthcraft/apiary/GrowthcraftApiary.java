@@ -39,8 +39,6 @@ public class GrowthcraftApiary {
         GrowthcraftApiaryBlockEntities.BLOCK_ENTITIES.register(modEventBus);
         GrowthcraftApiaryMenus.MENUS.register(modEventBus);
 
-        GrowthcraftApiaryLootModifiers.register(modEventBus);
-
         MinecraftForge.EVENT_BUS.register(this);
     }
 
