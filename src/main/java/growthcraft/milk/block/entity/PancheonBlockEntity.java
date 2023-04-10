@@ -153,9 +153,9 @@ public class PancheonBlockEntity extends BlockEntity implements BlockEntityTicke
     public void load(@NotNull CompoundTag nbt) {
         super.load(nbt);
         this.tickClock = nbt.getInt("CurrentProcessTicks");
-        this.FLUID_TANK_INPUT_0.readFromNBT(nbt);
-        this.FLUID_TANK_OUTPUT_0.readFromNBT(nbt);
-        this.FLUID_TANK_OUTPUT_1.readFromNBT(nbt);
+        this.FLUID_TANK_INPUT_0.readFromNBT(nbt.getCompound("fluid_tank_input_0"));
+        this.FLUID_TANK_OUTPUT_0.readFromNBT(nbt.getCompound("fluid_tank_output_0"));
+        this.FLUID_TANK_OUTPUT_1.readFromNBT(nbt.getCompound("fluid_tank_output_1"));
 
         if (nbt.contains("CustomName", 8)) {
             this.customName = Component.Serializer.fromJson(nbt.getString("CustomName"));
@@ -166,10 +166,9 @@ public class PancheonBlockEntity extends BlockEntity implements BlockEntityTicke
     @ParametersAreNonnullByDefault
     protected void saveAdditional(CompoundTag nbt) {
         nbt.putInt("CurrentProcessTicks", this.tickClock);
-
-        nbt = FLUID_TANK_INPUT_0.writeToNBT(nbt);
-        nbt = FLUID_TANK_OUTPUT_0.writeToNBT(nbt);
-        nbt = FLUID_TANK_OUTPUT_1.writeToNBT(nbt);
+        nbt.put("fluid_tank_input_0", FLUID_TANK_INPUT_0.writeToNBT(new CompoundTag()));
+        nbt.put("fluid_tank_output_0", FLUID_TANK_OUTPUT_0.writeToNBT(new CompoundTag()));
+        nbt.put("fluid_tank_output_1", FLUID_TANK_OUTPUT_1.writeToNBT(new CompoundTag()));
 
         if (this.customName != null) {
             nbt.putString("CustomName", Component.Serializer.toJson(this.customName));
