@@ -1,6 +1,5 @@
 package growthcraft.apples.world;
 
-import growthcraft.apples.GrowthcraftApples;
 import growthcraft.apples.init.GrowthcraftApplesBlocks;
 import growthcraft.apples.shared.Reference;
 import net.minecraft.core.registries.Registries;
@@ -38,8 +37,6 @@ public class GrowthcraftApplesConfiguredFeatures {
     }
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> registerKey(String name) {
-        GrowthcraftApples.LOGGER.error(("Boostrapping ConfiguredFeature :: " + name));
-
         return ResourceKey.create(Registries.CONFIGURED_FEATURE, new ResourceLocation(Reference.MODID, name));
     }
 
@@ -49,8 +46,6 @@ public class GrowthcraftApplesConfiguredFeatures {
             F feature,
             FC configuration
     ) {
-        GrowthcraftApples.LOGGER.error(("Boostrapping FeatureConfiguration :: " + key.toString()));
-
         context.register(key, new ConfiguredFeature(feature, configuration));
     }
 

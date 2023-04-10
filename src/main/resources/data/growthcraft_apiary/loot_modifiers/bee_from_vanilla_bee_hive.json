@@ -1,0 +1,14 @@
+{
+  "type": "growthcraft_apiary:bee_hive",
+  "conditions": [
+    {
+      "condition": "minecraft:random_chance",
+      "chance": 0.50
+    },
+    {
+      "condition": "block_state_property",
+      "block": "minecraft:bee_nest"
+    }
+  ],
+  "item": "growthcraft_apiary:bee"
+}
