@@ -103,8 +103,11 @@ public class PancheonBlock extends BaseEntityBlock {
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-        // TODO: Return implemented PancheonBlockEntity
-        return super.getTicker(level, state, blockEntityType);
+        return createTickerHelper(
+                blockEntityType,
+                GrowthcraftMilkBlockEntities.PANCHEON_BLOCK_ENTITY.get(),
+                (worldLevel, pos, blockState, blockEntity) -> (blockEntity).tick()
+        );
     }
 
     @Override
@@ -128,7 +131,7 @@ public class PancheonBlock extends BaseEntityBlock {
         }
 
         /**
-         * TODO: If fluid capability item is in hand
+         * If fluid capability item is in hand
          */
         if (!level.isClientSide) {
             if (FluidUtil.interactWithFluidHandler(player, interactionHand, level, blockPos, blockHitResult.getDirection())
