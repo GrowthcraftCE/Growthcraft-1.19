@@ -160,6 +160,8 @@ public class PancheonBlockEntity extends BlockEntity implements BlockEntityTicke
 
             this.level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 3);
 
+        } else if(!level.isClientSide && (this.getFluidStackInTank(1).getAmount() == 1000 || this.getFluidStackInTank(2).getAmount() == 1000)) {
+            this.level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 3);
         }
     }
 
