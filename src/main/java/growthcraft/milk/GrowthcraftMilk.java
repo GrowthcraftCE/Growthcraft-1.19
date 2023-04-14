@@ -47,6 +47,8 @@ public class GrowthcraftMilk {
         GrowthcraftMilkFluids.FLUIDS.register(modEventBus);
         GrowthcraftMilkMenus.MENUS.register(modEventBus);
 
+        GrowthcraftMilkRecipes.register(modEventBus);
+
         MinecraftForge.EVENT_BUS.register(this);
     }
 

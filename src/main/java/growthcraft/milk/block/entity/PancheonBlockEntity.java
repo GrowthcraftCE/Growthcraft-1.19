@@ -1,10 +1,11 @@
 package growthcraft.milk.block.entity;
 
 import growthcraft.lib.block.entity.GrowthcraftFluidTank;
-import growthcraft.lib.utils.TickUtils;
+import growthcraft.milk.GrowthcraftMilk;
 import growthcraft.milk.init.GrowthcraftMilkBlockEntities;
 import growthcraft.milk.lib.networking.GrowthcraftMilkMessages;
 import growthcraft.milk.lib.networking.packet.PancheonFluidSyncPacket;
+import growthcraft.milk.recipe.PancheonRecipe;
 import growthcraft.milk.screen.PancheonMenu;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -32,12 +33,14 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class PancheonBlockEntity extends BlockEntity implements BlockEntityTicker<PancheonBlockEntity>, MenuProvider {
 
     private int tickClock = 0;
-    private int tickMax = TickUtils.toTicks(15, "seconds");
+    private int tickMax = -1;
 
     protected final ContainerData data;
 
@@ -126,11 +129,54 @@ public class PancheonBlockEntity extends BlockEntity implements BlockEntityTicke
     }
 
     @Override
-    public void tick(Level level, BlockPos pos, BlockState blockState, PancheonBlockEntity beeBoxBlockEntity) {
-        // TODO: If contains a valid pancheon.json recipe, process it.
+    public void tick(Level level, BlockPos pos, BlockState blockState, PancheonBlockEntity blockEntity) {
+        if(!level.isClientSide && this.getFluidStackInTank(0).getAmount() == 2000) {
+            List<PancheonRecipe> recipes = this.getMatchingRecipes(this.getFluidStackInTank(0));
+            PancheonRecipe recipe = recipes.isEmpty() ? null : recipes.get(0);
 
+            if (recipe != null && this.tickClock <= this.tickMax ) {
+                // Then increment the clock.
+                if(this.tickClock %100 == 0) GrowthcraftMilk.LOGGER.warn(String.format("[%d/%d] Processing %s ...", this.tickClock, this.tickMax, this.getFluidStackInTank(0).getFluid().toString()));
 
+                this.tickClock++;
+            } else if (recipe != null && this.tickMax > 0 && this.tickClock > this.tickMax) {
+                // Then process the recipe.
+                this.setFluidStackInTank(1, recipe.getFluidStack("output0").copy());
+                this.setFluidStackInTank(2, recipe.getFluidStack("output1").copy());
+                this.setFluidStackInTank(0, FluidStack.EMPTY);
 
+                this.tickMax = -1;
+                this.tickClock = 0;
+
+            } else if(recipe != null && this.tickMax == -1) {
+                // Then we have a new recipe that needs to start processing.
+                GrowthcraftMilk.LOGGER.warn("We found a new recipe!");
+                this.tickMax = recipe.getRecipeProcessingTime();
+            } else {
+                // Else make sure the clock is zero.
+                this.tickMax = -1;
+                this.tickClock = 0;
+            }
+
+            this.level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 3);
+
+        } else if(!level.isClientSide && (this.getFluidStackInTank(1).getAmount() == 1000 || this.getFluidStackInTank(2).getAmount() == 1000)) {
+            this.level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 3);
+        }
+    }
+
+    private List<PancheonRecipe> getMatchingRecipes(FluidStack fluidStack) {
+        List<PancheonRecipe> matchingRecipes = new ArrayList<>();
+
+        List<PancheonRecipe> recipes = level.getRecipeManager()
+                .getAllRecipesFor(PancheonRecipe.Type.INSTANCE);
+
+        for(PancheonRecipe recipe : recipes) {
+            if(recipe.getFluidStack("input0").getFluid() == fluidStack.getFluid()) {
+                matchingRecipes.add(recipe);
+            }
+        }
+        return matchingRecipes;
     }
 
     @Nullable
@@ -152,10 +198,12 @@ public class PancheonBlockEntity extends BlockEntity implements BlockEntityTicke
     @Override
     public void load(@NotNull CompoundTag nbt) {
         super.load(nbt);
+
+        this.FLUID_TANK_INPUT_0.readFromNBT(nbt.getCompound("fluid_tank_input_0"));
+        this.FLUID_TANK_OUTPUT_0.readFromNBT(nbt.getCompound("fluid_tank_output_0"));
+        this.FLUID_TANK_OUTPUT_1.readFromNBT(nbt.getCompound("fluid_tank_output_1"));
         this.tickClock = nbt.getInt("CurrentProcessTicks");
-        this.FLUID_TANK_INPUT_0.readFromNBT(nbt);
-        this.FLUID_TANK_OUTPUT_0.readFromNBT(nbt);
-        this.FLUID_TANK_OUTPUT_1.readFromNBT(nbt);
+        this.tickMax = nbt.getInt("MaxProcessTicks");
 
         if (nbt.contains("CustomName", 8)) {
             this.customName = Component.Serializer.fromJson(nbt.getString("CustomName"));
@@ -165,11 +213,12 @@ public class PancheonBlockEntity extends BlockEntity implements BlockEntityTicke
     @Override
     @ParametersAreNonnullByDefault
     protected void saveAdditional(CompoundTag nbt) {
-        nbt.putInt("CurrentProcessTicks", this.tickClock);
 
-        nbt = FLUID_TANK_INPUT_0.writeToNBT(nbt);
-        nbt = FLUID_TANK_OUTPUT_0.writeToNBT(nbt);
-        nbt = FLUID_TANK_OUTPUT_1.writeToNBT(nbt);
+        nbt.put("fluid_tank_input_0", FLUID_TANK_INPUT_0.writeToNBT(new CompoundTag()));
+        nbt.put("fluid_tank_output_0", FLUID_TANK_OUTPUT_0.writeToNBT(new CompoundTag()));
+        nbt.put("fluid_tank_output_1", FLUID_TANK_OUTPUT_1.writeToNBT(new CompoundTag()));
+        nbt.putInt("CurrentProcessTicks", this.tickClock);
+        nbt.putInt("MaxProcessTicks", this.tickMax);
 
         if (this.customName != null) {
             nbt.putString("CustomName", Component.Serializer.toJson(this.customName));
@@ -250,5 +299,16 @@ public class PancheonBlockEntity extends BlockEntity implements BlockEntityTicke
 
     public boolean isFluidEmpty() {
         return getFluidStackInTank(0).isEmpty() && getFluidStackInTank(1).isEmpty() && getFluidStackInTank(2).isEmpty();
+    }
+
+    public int getTickClock(String type) {
+        switch(type) {
+            case "current":
+                return this.tickClock;
+            case "max":
+                return this.tickMax;
+            default:
+                return 0;
+        }
     }
 }

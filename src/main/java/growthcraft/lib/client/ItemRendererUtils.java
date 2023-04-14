@@ -1,6 +1,5 @@
 package growthcraft.lib.client;
 
-import growthcraft.core.Growthcraft;
 import net.minecraft.client.color.item.ItemColor;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
@@ -19,8 +18,7 @@ public class ItemRendererUtils {
     }
 
     public static void registerItem(RegisterColorHandlersEvent.Item handler, ItemColor itemColor, Item item) {
-        Growthcraft.LOGGER.error("Calling registerItemColor from " + handler.getListenerList().toString());
-       // handler.register(itemColor, item);
+       handler.register(itemColor, item);
     }
 
 }

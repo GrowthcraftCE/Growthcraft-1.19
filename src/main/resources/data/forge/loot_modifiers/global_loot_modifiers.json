@@ -1,0 +1,15 @@
+{
+  "replace": false,
+  "entries": [
+    "growthcraft_apiary:bee_from_vanilla_bee_nest",
+    "growthcraft_cellar:grape_seeds_purple_from_grass",
+    "growthcraft_cellar:grape_seeds_red_from_grass",
+    "growthcraft_cellar:grape_seeds_white_from_grass",
+    "growthcraft_cellar:hops_seeds_from_grass",
+    "growthcraft_cellar:yeast_bayanus_from_grass",
+    "growthcraft_cellar:yeast_brewers_from_grass",
+    "growthcraft_cellar:yeast_ethereal_from_chorus_flower",
+    "growthcraft_cellar:yeast_lager_from_snow",
+    "growthcraft_milk:thistle_seeds_from_grass"
+  ]
+}

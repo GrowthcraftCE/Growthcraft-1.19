@@ -10,6 +10,8 @@ import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fluids.FluidStack;
 
 public class PancheonMenu extends AbstractContainerMenu {
@@ -139,12 +141,19 @@ public class PancheonMenu extends AbstractContainerMenu {
     
     public FluidStack getFluidStack(int tankID) {
         return switch (tankID) {
-            case 0 -> this.fluidStack0;
-            case 1 -> this.fluidStack1;
-            case 2 -> this.fluidStack2;
+            case 0 -> this.blockEntity.getFluidStackInTank(0);
+            case 1 -> this.blockEntity.getFluidStackInTank(1);
+            case 2 -> this.blockEntity.getFluidStackInTank(2);
             default ->
                     throw new NullPointerException(String.format("PancheonMenu getFluidStack at <%s> does not have a fluid tank with the ID of %d!", blockEntity.getBlockPos().toString(), tankID));
         };
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public int getProgressionScaled(int size) {
+        return this.blockEntity.getTickClock("current") != 0 && this.blockEntity.getTickClock("max") != 0
+                ? this.blockEntity.getTickClock("current") * size / this.blockEntity.getTickClock("max")
+                : 0;
     }
 
 

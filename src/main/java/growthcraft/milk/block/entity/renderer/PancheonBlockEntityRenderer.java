@@ -2,6 +2,7 @@ package growthcraft.milk.block.entity.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Axis;
 import growthcraft.milk.block.entity.PancheonBlockEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -12,6 +13,7 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.minecraftforge.fluids.FluidStack;
 import org.joml.Matrix3f;
+import org.joml.Matrix4f;
 
 import java.awt.*;
 
@@ -19,6 +21,7 @@ public class PancheonBlockEntityRenderer implements BlockEntityRenderer<Pancheon
 
     @Override
     public void render(PancheonBlockEntity blockEntity, float partialTick, PoseStack poseStack, MultiBufferSource multiBufferSource, int light, int overlay) {
+
         if (blockEntity.isFluidEmpty()) {
             return;
         }
@@ -50,42 +53,66 @@ public class PancheonBlockEntityRenderer implements BlockEntityRenderer<Pancheon
     }
 
     public void renderFluid(FluidStack fluidStack, float height, MultiBufferSource buffer, PoseStack poseStack, int lightLevel, int overlay) {
-        VertexConsumer vertexBuilder = buffer.getBuffer(RenderType.translucent());
+        poseStack.pushPose();
+        poseStack.translate(0.5F, height, 0.5F);
+
+        float s = 14 / 256F;
+        float v = 1.55F / 8F;
+        float w = -(v) * 2.5F;
+
+        int alpha = 2 * 255;
+
+        poseStack.translate(w, 0.0F, w);
+        poseStack.mulPose(Axis.XP.rotationDegrees(90.0F));
+        poseStack.scale(s, s, s);
+
         IClientFluidTypeExtensions fluidTypeExtensions = IClientFluidTypeExtensions.of(fluidStack.getFluid());
+        Color color = new Color(fluidTypeExtensions.getTintColor());
+
         TextureAtlasSprite sprite = Minecraft.getInstance().getTextureAtlas(TextureAtlas.LOCATION_BLOCKS).apply(fluidTypeExtensions.getStillTexture(fluidStack));
 
-        int tintColor = fluidTypeExtensions.getTintColor();
+        VertexConsumer vertexBuilder = buffer.getBuffer(RenderType.translucent());
 
-        Color color = new Color(tintColor);
-
-        renderIcon(poseStack.last().normal(), vertexBuilder, sprite, color, color.getAlpha(), overlay, lightLevel);
-
+        renderIcon(poseStack, vertexBuilder, sprite, color, alpha, overlay, lightLevel);
+        poseStack.popPose();
     }
 
-    private static void renderIcon(Matrix3f matrixStack, VertexConsumer vertexBuilder, TextureAtlasSprite sprite, Color color, float alpha, float heightPercentage, int light){
+    private static void renderIcon(PoseStack poseStack, VertexConsumer vertexBuilder, TextureAtlasSprite sprite, Color color, int alpha, int overlay, int light) {
+
         int red = color.getRed();
         int green = color.getGreen();
         int blue = color.getBlue();
 
-        vertexBuilder.normal(matrixStack, 0, 17, 0)
-                .color(red, green, blue, (int) (alpha * 255F))
+        Matrix3f matrix3f = poseStack.last().normal();
+        Matrix4f matrix4f = poseStack.last().pose();
+
+        vertexBuilder.vertex(matrix4f, 0, 17, 0)
+                .color(red, green, blue, alpha)
                 .uv(sprite.getU0(), sprite.getV1())
-                .normal(0, 0, 1)
+                .overlayCoords(overlay)
+                .uv2(light)
+                .normal(matrix3f, 0, 0, 1)
                 .endVertex();
-        vertexBuilder.normal(matrixStack, 17, 17, 0)
-                .color(red, green, blue, (int) (alpha * 255F))
+        vertexBuilder.vertex(matrix4f, 17, 17, 0)
+                .color(red, green, blue, alpha)
                 .uv(sprite.getU1(), sprite.getV1())
-                .normal(0, 0, 1)
+                .overlayCoords(overlay)
+                .uv2(light)
+                .normal(matrix3f, 0, 0, 1)
                 .endVertex();
-        vertexBuilder.normal(matrixStack, 17, 0, 0)
-                .color(red, green, blue, (int) (alpha * 255F))
+        vertexBuilder.vertex(matrix4f, 17, 0, 0)
+                .color(red, green, blue, alpha)
                 .uv(sprite.getU1(), sprite.getV0())
-                .normal(0, 0, 1)
+                .overlayCoords(overlay)
+                .uv2(light)
+                .normal(matrix3f, 0, 0, 1)
                 .endVertex();
-        vertexBuilder.normal(matrixStack, 0, 0, 0)
-                .color(red, green, blue, (int) (alpha * 255F))
+        vertexBuilder.vertex(matrix4f, 0, 0, 0)
+                .color(red, green, blue, alpha)
                 .uv(sprite.getU0(), sprite.getV0())
-                .normal(0, 0, 1)
+                .overlayCoords(overlay)
+                .uv2(light)
+                .normal(matrix3f, 0, 0, 1)
                 .endVertex();
 
     }
