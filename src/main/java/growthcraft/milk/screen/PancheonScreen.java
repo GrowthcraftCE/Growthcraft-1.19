@@ -50,6 +50,10 @@ public class PancheonScreen extends AbstractContainerScreen<PancheonMenu> {
 
         this.blit(poseStack, x, y, 0, 0, imageWidth, imageHeight);
 
+        // Progress bar
+        this.blit(poseStack, x + 82, y + 29, 176, 42, 13, menu.getProgressionScaled(29));
+
+
         fluidTankRenderer0.render(poseStack, x + 62, y + 18, menu.getFluidStack(0));
         fluidTankRenderer1.render(poseStack, x + 98, y + 18, menu.getFluidStack(1));
         fluidTankRenderer2.render(poseStack, x + 98, y + 47, menu.getFluidStack(2));
