@@ -309,4 +309,15 @@ public class PancheonBlockEntity extends BlockEntity implements BlockEntityTicke
     public boolean isFluidEmpty() {
         return getFluidStackInTank(0).isEmpty() && getFluidStackInTank(1).isEmpty() && getFluidStackInTank(2).isEmpty();
     }
+
+    public int getTickClock(String type) {
+        switch(type) {
+            case "current":
+                return this.tickClock;
+            case "max":
+                return this.tickMax;
+            default:
+                return 0;
+        }
+    }
 }
