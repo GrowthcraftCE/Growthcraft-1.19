@@ -29,6 +29,11 @@ public class PancheonRecipe implements Recipe<SimpleContainer> {
     private final FluidStack outputFluidStack2;
     private final int processingTime;
 
+    private static final String INPUT_0 = "input0";
+    private static final String OUTPUT_0 = "output0";
+    private static final String OUTPUT_1 = "output1";
+
+
     public PancheonRecipe(ResourceLocation recipeId, FluidStack inputFluidStack, FluidStack outputFluidStack1, FluidStack outputFluidStack2, int processingTime) {
         this.recipeId = recipeId;
         this.inputFluidStack = inputFluidStack;
@@ -58,11 +63,11 @@ public class PancheonRecipe implements Recipe<SimpleContainer> {
 
     @Override
     public ItemStack getResultItem(RegistryAccess registryAccess) {
-        return this.getFluidStack("output0").getFluid().getBucket().getDefaultInstance();
+        return this.getFluidStack(OUTPUT_0).getFluid().getBucket().getDefaultInstance();
     }
 
     public List<FluidStack> getResultFluidStacks() {
-       return Arrays.asList(this.getFluidStack("output0").copy(), this.getFluidStack("output1").copy());
+       return Arrays.asList(this.getFluidStack(OUTPUT_0).copy(), this.getFluidStack(OUTPUT_1).copy());
     }
 
     @Override
@@ -139,9 +144,9 @@ public class PancheonRecipe implements Recipe<SimpleContainer> {
 
         @Override
         public void toNetwork(FriendlyByteBuf buffer, PancheonRecipe recipe) {
-            buffer.writeFluidStack(recipe.getFluidStack("input0"));
-            buffer.writeFluidStack(recipe.getFluidStack("output0"));
-            buffer.writeFluidStack(recipe.getFluidStack("output1"));
+            buffer.writeFluidStack(recipe.getFluidStack(INPUT_0));
+            buffer.writeFluidStack(recipe.getFluidStack(OUTPUT_0));
+            buffer.writeFluidStack(recipe.getFluidStack(OUTPUT_1));
             buffer.writeVarInt(recipe.getRecipeProcessingTime());
         }
 

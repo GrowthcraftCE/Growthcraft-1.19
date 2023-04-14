@@ -14,7 +14,7 @@ public class GrowthcraftLootModifiers {
             DeferredRegister.create(ForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS, Reference.MODID);
 
     public static final RegistryObject<Codec<? extends IGlobalLootModifier>> GLOBAL_BLOCK_LOOT_MODIFIER =
-            LOOT_MODIFIER_SERIALIZERS.register("global_block_loot_modifier", GlobalLootModifier.CODEC);
+            LOOT_MODIFIER_SERIALIZERS.register("global_block_loot_modifier", GlobalLootModifier.LOOT_MODIFIER);
 
     public static void register(IEventBus bus) {
         LOOT_MODIFIER_SERIALIZERS.register(bus);

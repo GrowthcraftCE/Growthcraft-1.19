@@ -17,6 +17,10 @@ public class GrowthcraftTags {
         Fluids.init();
     }
 
+    private GrowthcraftTags() {
+        /* Private constructor to hide the implicit public one. */
+    }
+
     public static class Blocks {
 
         private static void init(){
