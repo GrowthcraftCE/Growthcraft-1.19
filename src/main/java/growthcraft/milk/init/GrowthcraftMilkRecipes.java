@@ -12,6 +12,10 @@ public class GrowthcraftMilkRecipes {
     public static final DeferredRegister<RecipeSerializer<?>> SERIALIZERS =
             DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, Reference.MODID);
 
+    private GrowthcraftMilkRecipes() {
+        /* Private constructor to hide the implicit public one. */
+    }
+
     public static final RegistryObject<RecipeSerializer<PancheonRecipe>> PANCHEON_RECIPE_SERIALIZER =
             SERIALIZERS.register(Reference.UnlocalizedName.PANCHEON_RECIPE, () -> PancheonRecipe.Serializer.INSTANCE);
 

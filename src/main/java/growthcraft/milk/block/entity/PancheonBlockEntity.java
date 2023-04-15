@@ -128,9 +128,18 @@ public class PancheonBlockEntity extends BlockEntity implements BlockEntityTicke
         }
     }
 
+    public boolean isInputTankFull() {
+        return this.getFluidStackInTank(0).getAmount() == 2000;
+    }
+
+    private boolean isOutputTankFull() {
+        return (this.getFluidStackInTank(1).getAmount() == 1000 || this.getFluidStackInTank(2).getAmount() == 1000);
+    }
+
     @Override
     public void tick(Level level, BlockPos pos, BlockState blockState, PancheonBlockEntity blockEntity) {
-        if(!level.isClientSide && this.getFluidStackInTank(0).getAmount() == 2000) {
+
+        if(!level.isClientSide && this.isInputTankFull()) {
             List<PancheonRecipe> recipes = this.getMatchingRecipes(this.getFluidStackInTank(0));
             PancheonRecipe recipe = recipes.isEmpty() ? null : recipes.get(0);
 
@@ -160,7 +169,7 @@ public class PancheonBlockEntity extends BlockEntity implements BlockEntityTicke
 
             this.level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 3);
 
-        } else if(!level.isClientSide && (this.getFluidStackInTank(1).getAmount() == 1000 || this.getFluidStackInTank(2).getAmount() == 1000)) {
+        } else if(!level.isClientSide && this.isOutputTankFull()) {
             this.level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 3);
         }
     }

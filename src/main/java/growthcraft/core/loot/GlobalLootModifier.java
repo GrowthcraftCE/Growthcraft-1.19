@@ -17,7 +17,7 @@ import java.util.function.Supplier;
 
 public class GlobalLootModifier extends LootModifier {
 
-    public static final Supplier<Codec<GlobalLootModifier>> CODEC = Suppliers.memoize(()
+    public static final Supplier<Codec<GlobalLootModifier>> LOOT_MODIFIER = Suppliers.memoize(()
             -> RecordCodecBuilder.create(inst -> codecStart(inst).and(ForgeRegistries.ITEMS.getCodec()
             .fieldOf("item").forGetter(m -> m.item)).apply(inst, GlobalLootModifier::new)));
     private final Item item;
@@ -35,6 +35,6 @@ public class GlobalLootModifier extends LootModifier {
 
     @Override
     public Codec<? extends IGlobalLootModifier> codec() {
-        return CODEC.get();
+        return LOOT_MODIFIER.get();
     }
 }

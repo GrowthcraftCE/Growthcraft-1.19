@@ -34,6 +34,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 
 import javax.annotation.Nullable;
+import java.security.SecureRandom;
 import java.util.function.Supplier;
 
 public class MilkingBucketItem extends Item implements DispensibleContainerItem {
@@ -145,6 +146,8 @@ public class MilkingBucketItem extends Item implements DispensibleContainerItem 
         if (!(this.content instanceof FlowingFluid)) {
             return false;
         } else {
+            SecureRandom random = new SecureRandom();
+
             BlockState blockstate = p_150717_.getBlockState(p_150718_);
             Block block = blockstate.getBlock();
             Material material = blockstate.getMaterial();
@@ -159,7 +162,7 @@ public class MilkingBucketItem extends Item implements DispensibleContainerItem 
                 p_150717_.playSound(p_150716_, p_150718_, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 0.5F, 2.6F + (p_150717_.random.nextFloat() - p_150717_.random.nextFloat()) * 0.8F);
 
                 for(int l = 0; l < 8; ++l) {
-                    p_150717_.addParticle(ParticleTypes.LARGE_SMOKE, (double)i + Math.random(), (double)j + Math.random(), (double)k + Math.random(), 0.0D, 0.0D, 0.0D);
+                    p_150717_.addParticle(ParticleTypes.LARGE_SMOKE, i + random.nextDouble(), j + random.nextDouble(), k + random.nextDouble(), 0.0D, 0.0D, 0.0D);
                 }
 
                 return true;

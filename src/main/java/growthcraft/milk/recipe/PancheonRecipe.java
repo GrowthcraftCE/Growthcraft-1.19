@@ -16,6 +16,7 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.fluids.FluidStack;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
@@ -28,6 +29,11 @@ public class PancheonRecipe implements Recipe<SimpleContainer> {
     private final FluidStack outputFluidStack1;
     private final FluidStack outputFluidStack2;
     private final int processingTime;
+
+    private static final String INPUT_0 = "input0";
+    private static final String OUTPUT_0 = "output0";
+    private static final String OUTPUT_1 = "output1";
+
 
     public PancheonRecipe(ResourceLocation recipeId, FluidStack inputFluidStack, FluidStack outputFluidStack1, FluidStack outputFluidStack2, int processingTime) {
         this.recipeId = recipeId;
@@ -58,27 +64,24 @@ public class PancheonRecipe implements Recipe<SimpleContainer> {
 
     @Override
     public ItemStack getResultItem(RegistryAccess registryAccess) {
-        return this.getFluidStack("output0").getFluid().getBucket().getDefaultInstance();
+        return this.getFluidStack(OUTPUT_0).getFluid().getBucket().getDefaultInstance();
     }
 
     public List<FluidStack> getResultFluidStacks() {
-       return Arrays.asList(this.getFluidStack("output0").copy(), this.getFluidStack("output1").copy());
+       return Arrays.asList(this.getFluidStack(OUTPUT_0).copy(), this.getFluidStack(OUTPUT_1).copy());
     }
 
     @Override
-    public ResourceLocation getId() {
+    public @NotNull ResourceLocation getId() {
         return this.recipeId;
     }
 
     public FluidStack getFluidStack(String tankId) {
-        switch(tankId) {
-            case "output0":
-                return this.outputFluidStack1;
-            case "output1":
-                return this.outputFluidStack2;
-            default:
-                return this.inputFluidStack.copy();
-        }
+        return switch (tankId) {
+            case OUTPUT_0 -> this.outputFluidStack1;
+            case OUTPUT_1 -> this.outputFluidStack2;
+            default -> this.inputFluidStack.copy();
+        };
     }
 
     public int getRecipeProcessingTime() {
@@ -86,12 +89,12 @@ public class PancheonRecipe implements Recipe<SimpleContainer> {
     }
 
     @Override
-    public RecipeSerializer<?> getSerializer() {
+    public @NotNull RecipeSerializer<?> getSerializer() {
         return Serializer.INSTANCE;
     }
 
     @Override
-    public RecipeType<?> getType() {
+    public @NotNull RecipeType<?> getType() {
         return Type.INSTANCE;
     }
 
@@ -109,7 +112,7 @@ public class PancheonRecipe implements Recipe<SimpleContainer> {
                 Reference.UnlocalizedName.PANCHEON_RECIPE);
 
         @Override
-        public PancheonRecipe fromJson(ResourceLocation recipeId, JsonObject json) {
+        public @NotNull PancheonRecipe fromJson(ResourceLocation recipeId, JsonObject json) {
             FluidStack inputFluid = CraftingUtils.getFluidStack(GsonHelper.getAsJsonObject(json, "input_fluid"));
             FluidStack outputFluid1;
             FluidStack outputFluid2;
@@ -139,9 +142,9 @@ public class PancheonRecipe implements Recipe<SimpleContainer> {
 
         @Override
         public void toNetwork(FriendlyByteBuf buffer, PancheonRecipe recipe) {
-            buffer.writeFluidStack(recipe.getFluidStack("input0"));
-            buffer.writeFluidStack(recipe.getFluidStack("output0"));
-            buffer.writeFluidStack(recipe.getFluidStack("output1"));
+            buffer.writeFluidStack(recipe.getFluidStack(INPUT_0));
+            buffer.writeFluidStack(recipe.getFluidStack(OUTPUT_0));
+            buffer.writeFluidStack(recipe.getFluidStack(OUTPUT_1));
             buffer.writeVarInt(recipe.getRecipeProcessingTime());
         }
 
