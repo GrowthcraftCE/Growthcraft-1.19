@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "growthcraft_apiary:bee_box_acacia",
+    "growthcraft_apiary:bee_box_birch",
+    "growthcraft_apiary:bee_box_crimson",
+    "growthcraft_apiary:bee_box_dark_oak",
+    "growthcraft_apiary:bee_box_jungle",
+    "growthcraft_apiary:bee_box_oak",
+    "growthcraft_apiary:bee_box_spruce",
+    "growthcraft_apiary:bee_box_warped"
+  ]
+}
