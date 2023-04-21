@@ -10,7 +10,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.material.Material;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
@@ -63,7 +62,7 @@ public class GrowthcraftBlocks {
 
     public static final RegistryObject<Block> SALT_BLOCK = registerBlock(
             Reference.UnlocalizedName.SALT_BLOCK,
-            () -> new GrowthcraftBlock(Material.STONE, SoundType.STONE)
+            () -> new GrowthcraftBlock(Blocks.GRAVEL, SoundType.GRAVEL)
     );
 
     public static final RegistryObject<Block> SALT_ORE = registerBlock(
