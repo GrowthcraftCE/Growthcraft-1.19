@@ -3,6 +3,7 @@
     "0": "growthcraft_cellar:block/grape_vine/grape_vine_trunk",
     "particle": "growthcraft_cellar:block/grape_vine/grape_vine_trunk"
   },
+  "render_type": "cutout",
   "elements": [
     {
       "name": "trunk",
