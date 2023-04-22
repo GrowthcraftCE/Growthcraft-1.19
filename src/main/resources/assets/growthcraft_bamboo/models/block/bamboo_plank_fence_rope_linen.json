@@ -2,7 +2,7 @@
   "textures": {
     "0": "growthcraft:block/rope_knot",
     "1": "growthcraft_bamboo:block/bamboo_plank",
-    "particle": "growthcraft:block/rope_knot"
+    "particle": "growthcraft_bamboo:block/bamboo_plank"
   },
   "elements": [
     {

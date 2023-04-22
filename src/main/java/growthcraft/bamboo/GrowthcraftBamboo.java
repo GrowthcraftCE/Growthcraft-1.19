@@ -1,5 +1,6 @@
 package growthcraft.bamboo;
 
+import growthcraft.bamboo.init.GrowthcraftBambooBlockEntities;
 import growthcraft.bamboo.init.GrowthcraftBambooBlocks;
 import growthcraft.bamboo.init.GrowthcraftBambooItems;
 import growthcraft.bamboo.init.config.GrowthcraftBambooConfig;
@@ -36,6 +37,7 @@ public class GrowthcraftBamboo {
         // Blocks, Items, Fluids, Block Entities, Containers
         GrowthcraftBambooBlocks.BLOCKS.register(modEventBus);
         GrowthcraftBambooItems.ITEMS.register(modEventBus);
+        GrowthcraftBambooBlockEntities.BLOCK_ENTITIES.register(modEventBus);
 
         MinecraftForge.EVENT_BUS.register(this);
     }

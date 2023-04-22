@@ -1,5 +1,7 @@
 package growthcraft.core.item;
 
+import growthcraft.apples.init.GrowthcraftApplesBlocks;
+import growthcraft.bamboo.init.GrowthcraftBambooBlocks;
 import growthcraft.core.block.RopeBlock;
 import growthcraft.core.block.entity.RopeBlockEntity;
 import growthcraft.core.init.GrowthcraftBlocks;
@@ -52,9 +54,13 @@ public class RopeItem extends GrowthcraftBlockItem {
                 state = GrowthcraftBlocks.ROPE_LINEN_SPRUCE_FENCE.get().defaultBlockState();
             } else if(blockState.getBlock() == Blocks.WARPED_FENCE) {
                 state = GrowthcraftBlocks.ROPE_LINEN_WARPED_FENCE.get().defaultBlockState();
+            } else if (blockState.getBlock() == GrowthcraftApplesBlocks.APPLE_PLANK_FENCE.get()) {
+                state = GrowthcraftApplesBlocks.APPLE_PLANK_FENCE_ROPE_LINEN.get().defaultBlockState();
+            } else if (blockState.getBlock() == GrowthcraftBambooBlocks.BAMBOO_PLANK_FENCE.get()) {
+                state = GrowthcraftBambooBlocks.BAMBOO_PLANK_FENCE_ROPE_LINEN.get().defaultBlockState();
             }
 
-            level.setBlock(blockPos, state.setValue(KNOT, true), Block.UPDATE_ALL);
+            level.setBlock(blockPos, state.setValue(KNOT, true), Block.UPDATE_ALL_IMMEDIATE);
 
             RopeBlockEntity ropeBlockEntity = (RopeBlockEntity) level.getBlockEntity(blockPos);
             if (ropeBlockEntity != null) {
@@ -63,8 +69,7 @@ public class RopeItem extends GrowthcraftBlockItem {
             }
 
         } else {
-            InteractionResult interactionResult = this.place(new BlockPlaceContext(useOnContext));
-            return interactionResult;
+            return this.place(new BlockPlaceContext(useOnContext));
         }
 
         return InteractionResult.PASS;

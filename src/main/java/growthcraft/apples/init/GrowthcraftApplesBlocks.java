@@ -1,6 +1,7 @@
 package growthcraft.apples.init;
 
 import growthcraft.apples.block.AppleBeeBoxBlock;
+import growthcraft.apples.block.AppleRopeBlock;
 import growthcraft.apples.block.AppleTreeFruit;
 import growthcraft.apples.block.AppleTreeLeaves;
 import growthcraft.apples.shared.Reference;
@@ -104,6 +105,12 @@ public class GrowthcraftApplesBlocks {
     public static final RegistryObject<Block> APPLE_WOOD_STRIPPED = registerBlock(
             Reference.UnlocalizedName.APPLE_WOOD_STRIPPED,
             GrowthcraftLogBlock::new
+    );
+
+    public static final RegistryObject<Block> APPLE_PLANK_FENCE_ROPE_LINEN = registerBlock(
+            Reference.UnlocalizedName.APPLE_PLANK_FENCE_ROPE_LINEN,
+            AppleRopeBlock::new,
+            true
     );
 
     public static final RegistryObject<Block> BEE_BOX_APPLE = registerBlock(

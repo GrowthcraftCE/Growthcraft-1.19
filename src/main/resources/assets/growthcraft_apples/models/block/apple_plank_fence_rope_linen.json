@@ -2,7 +2,7 @@
   "textures": {
     "0": "growthcraft:block/rope_knot",
     "1": "growthcraft_apples:block/apple_plank",
-    "particle": "growthcraft:block/rope_knot"
+    "particle": "growthcraft_apples:block/apple_plank"
   },
   "elements": [
     {
