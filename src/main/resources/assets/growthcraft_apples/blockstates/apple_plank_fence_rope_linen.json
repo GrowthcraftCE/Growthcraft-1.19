@@ -2,7 +2,7 @@
   "multipart": [
     {
       "apply": {
-        "model": "growthcraft_apples:block/apple_plank_fence_rope_linen"
+        "model": "growthcraft_apples:block/apple_plank_fence_post"
       }
     },
     {

@@ -2,75 +2,75 @@
   "multipart": [
     {
       "apply": {
-        "model": "growthcraft_bamboo:block/bamboo_plank_fence_rope_linen"
+        "model": "growthcraft_bamboo:block/bamboo_plank_fence_post"
       }
     },
     {
-      "when": {
-        "knot": true
-      },
       "apply": {
         "model": "growthcraft:block/rope_linen_knot",
         "uvlock": false
+      },
+      "when": {
+        "knot": true
       }
     },
     {
+      "apply": {
+        "model": "growthcraft:block/rope_linen_side",
+        "uvlock": false
+      },
       "when": {
         "north": "true"
-      },
-      "apply": {
-        "model": "growthcraft:block/rope_linen_side",
-        "uvlock": false
       }
     },
     {
+      "apply": {
+        "model": "growthcraft:block/rope_linen_side",
+        "uvlock": false,
+        "y": 90
+      },
       "when": {
         "east": "true"
-      },
-      "apply": {
-        "model": "growthcraft:block/rope_linen_side",
-        "y": 90,
-        "uvlock": false
       }
     },
     {
+      "apply": {
+        "model": "growthcraft:block/rope_linen_side",
+        "uvlock": false,
+        "y": 180
+      },
       "when": {
         "south": "true"
-      },
-      "apply": {
-        "model": "growthcraft:block/rope_linen_side",
-        "y": 180,
-        "uvlock": false
       }
     },
     {
+      "apply": {
+        "model": "growthcraft:block/rope_linen_side",
+        "uvlock": false,
+        "y": 270
+      },
       "when": {
         "west": "true"
-      },
-      "apply": {
-        "model": "growthcraft:block/rope_linen_side",
-        "y": 270,
-        "uvlock": false
       }
     },
     {
+      "apply": {
+        "model": "growthcraft:block/rope_linen_side",
+        "uvlock": false,
+        "x": 270
+      },
       "when": {
         "up": "true"
-      },
-      "apply": {
-        "model": "growthcraft:block/rope_linen_side",
-        "x": 270,
-        "uvlock": false
       }
     },
     {
-      "when": {
-        "down": "true"
-      },
       "apply": {
         "model": "growthcraft:block/rope_linen_side",
-        "x": 90,
-        "uvlock": false
+        "uvlock": false,
+        "x": 90
+      },
+      "when": {
+        "down": "true"
       }
     }
   ]

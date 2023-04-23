@@ -5,6 +5,7 @@ import growthcraft.core.block.entity.RopeBlockEntity;
 import growthcraft.core.init.GrowthcraftBlockEntities;
 import growthcraft.core.init.GrowthcraftTags;
 import growthcraft.core.utils.BlockPropertiesUtils;
+import growthcraft.lib.utils.BlockStateUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -25,7 +26,9 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
+import java.util.Map;
 
 public class RopeBlock extends BaseEntityBlock implements SimpleWaterloggedBlock {
 
@@ -50,7 +53,7 @@ public class RopeBlock extends BaseEntityBlock implements SimpleWaterloggedBlock
     public static final VoxelShape FENCE_POST_BOUNDING_BOX = Block.box(6.0D, 0.0D, 6.0D, 10.0D, 16.0D, 10.0D);
 
     public RopeBlock() {
-        this(BlockPropertiesUtils.getInitProperties("rope_block", Blocks.TRIPWIRE));
+        this(BlockPropertiesUtils.getInitProperties("rope_block", Blocks.OAK_FENCE));
         this.registerDefaultState(this.stateDefinition.any()
                 .setValue(NORTH, false)
                 .setValue(EAST, false)
@@ -61,7 +64,6 @@ public class RopeBlock extends BaseEntityBlock implements SimpleWaterloggedBlock
                 .setValue(KNOT, false)
                 .setValue(WATERLOGGED, false)
         );
-
     }
 
     public RopeBlock(Properties properties) {
@@ -75,44 +77,44 @@ public class RopeBlock extends BaseEntityBlock implements SimpleWaterloggedBlock
 
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
-        return getActualBlockState(context.getLevel(), context.getClickedPos());
+        BlockGetter blockGetter = context.getLevel();
+        BlockPos blockPos = context.getClickedPos();
+
+        Map<String, Boolean> surroundingStateMap =
+                BlockStateUtils.getSurroundingRopeConnections(blockGetter, blockPos);
+
+        RopeBlockEntity entity = (RopeBlockEntity) blockGetter.getBlockEntity(blockPos);
+
+        return this.defaultBlockState()
+                .setValue(NORTH, surroundingStateMap.get("north"))
+                .setValue(EAST, surroundingStateMap.get("east"))
+                .setValue(SOUTH, surroundingStateMap.get("south"))
+                .setValue(WEST, surroundingStateMap.get("west"))
+                .setValue(UP, surroundingStateMap.get("above"))
+                .setValue(DOWN, surroundingStateMap.get("below"))
+                .setValue(KNOT, entity != null && entity.hasFenceItemStack());
     }
 
     @Override
-    public BlockState updateShape(BlockState p_60541_, Direction p_60542_, BlockState p_60543_, LevelAccessor levelAccessor, BlockPos p_60545_, BlockPos p_60546_) {
-        return super.updateShape(getActualBlockState(levelAccessor, p_60545_ ), p_60542_, p_60543_, levelAccessor, p_60545_, p_60546_);
+    @ParametersAreNonnullByDefault
+    public BlockState updateShape(BlockState blockState0, Direction direction, BlockState blockState1, LevelAccessor levelAccessor, BlockPos blockPos0, BlockPos blockPos1) {
+        if (blockState0.getValue(WATERLOGGED)) {
+            levelAccessor.scheduleTick(blockPos0, Fluids.WATER, Fluids.WATER.getTickDelay(levelAccessor));
+        }
+
+        Map<String, Boolean> surroundingStateMap =
+                BlockStateUtils.getSurroundingRopeConnections(levelAccessor, blockPos0);
+
+        RopeBlockEntity entity = (RopeBlockEntity) levelAccessor.getBlockEntity(blockPos0);
+
+        return this.defaultBlockState().setValue(NORTH, surroundingStateMap.get("north"))
+                .setValue(EAST, surroundingStateMap.get("east"))
+                .setValue(SOUTH, surroundingStateMap.get("south"))
+                .setValue(WEST, surroundingStateMap.get("west"))
+                .setValue(UP, surroundingStateMap.get("above"))
+                .setValue(DOWN, surroundingStateMap.get("below"))
+                .setValue(KNOT, entity != null && entity.hasFenceItemStack());
     }
-
-    public BlockState getActualBlockState(BlockGetter blockGetter, BlockPos pos) {
-        BlockState blockState = this.defaultBlockState();
-        FluidState fluidState = blockGetter.getFluidState(pos);
-
-        BlockPos northBlockPos = pos.north();
-        BlockPos eastBlockPos = pos.east();
-        BlockPos southBlockPos = pos.south();
-        BlockPos westBlockPos = pos.west();
-        BlockPos upBlockPos = pos.above();
-        BlockPos downBlockPos = pos.below();
-
-        BlockState northBlockState = blockGetter.getBlockState(northBlockPos);
-        BlockState eastBlockState = blockGetter.getBlockState(eastBlockPos);
-        BlockState southBlockState = blockGetter.getBlockState(southBlockPos);
-        BlockState westBlockState = blockGetter.getBlockState(westBlockPos);
-        BlockState upBlockState = blockGetter.getBlockState(upBlockPos);
-        BlockState downBlockState = blockGetter.getBlockState(downBlockPos);
-
-        RopeBlockEntity entity = (RopeBlockEntity) blockGetter.getBlockEntity(pos);
-
-        return blockState.setValue(WATERLOGGED, fluidState.getType() == Fluids.WATER)
-                .setValue(NORTH, northBlockState.is(GrowthcraftTags.Blocks.ROPE))
-                .setValue(EAST, eastBlockState.is(GrowthcraftTags.Blocks.ROPE))
-                .setValue(SOUTH, southBlockState.is(GrowthcraftTags.Blocks.ROPE))
-                .setValue(WEST, westBlockState.is(GrowthcraftTags.Blocks.ROPE))
-                .setValue(UP, upBlockState.is(GrowthcraftTags.Blocks.ROPE))
-                .setValue(DOWN, downBlockState.is(GrowthcraftTags.Blocks.ROPE))
-                .setValue(KNOT, entity != null ? entity.hasFenceItemStack() : false);
-    }
-
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> blockStateBuilder) {
@@ -135,11 +137,6 @@ public class RopeBlock extends BaseEntityBlock implements SimpleWaterloggedBlock
     @Override
     public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
         return GrowthcraftBlockEntities.ROPE_BLOCK_ENTITY.get().create(blockPos, blockState);
-    }
-
-    @Override
-    public void onPlace(BlockState state, Level level, BlockPos pos, BlockState p_60569_, boolean p_60570_) {
-        super.onPlace(state, level, pos, p_60569_, p_60570_);
     }
 
     @Override
