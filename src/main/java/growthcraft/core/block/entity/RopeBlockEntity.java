@@ -12,6 +12,7 @@ import net.minecraft.world.Containers;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
@@ -33,7 +34,11 @@ public class RopeBlockEntity extends BlockEntity {
     private LazyOptional<IItemHandler> itemHandlerLazyOptional = LazyOptional.empty();
 
     public RopeBlockEntity(BlockPos blockPos, BlockState blockState) {
-        super(GrowthcraftBlockEntities.ROPE_BLOCK_ENTITY.get(), blockPos, blockState);
+        this(GrowthcraftBlockEntities.ROPE_BLOCK_ENTITY.get(), blockPos, blockState);
+    }
+
+    public RopeBlockEntity(BlockEntityType<?> blockEntityType, BlockPos blockPos, BlockState blockState) {
+        super(blockEntityType, blockPos, blockState);
     }
 
     public void setFenceItemStack(ItemStack stack) {

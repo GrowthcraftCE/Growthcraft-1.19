@@ -2,85 +2,75 @@
   "multipart": [
     {
       "apply": {
-        "model": "growthcraft_bamboo:block/bamboo_plank_fence_rope_linen"
+        "model": "growthcraft_bamboo:block/bamboo_plank_fence_post"
       }
     },
     {
-      "when": {
-        "north": 1
+      "apply": {
+        "model": "growthcraft:block/rope_linen_knot",
+        "uvlock": false
       },
+      "when": {
+        "knot": true
+      }
+    },
+    {
       "apply": {
         "model": "growthcraft:block/rope_linen_side",
         "uvlock": false
+      },
+      "when": {
+        "north": "true"
       }
     },
     {
-      "when": {
-        "north": 2
-      },
-      "apply": {
-        "model": "growthcraft_bamboo:block/bamboo_plank_fence_side",
-        "uvlock": true
-      }
-    },
-    {
-      "when": {
-        "east": 1
-      },
       "apply": {
         "model": "growthcraft:block/rope_linen_side",
-        "y": 90,
-        "uvlock": false
+        "uvlock": false,
+        "y": 90
+      },
+      "when": {
+        "east": "true"
       }
     },
     {
-      "when": {
-        "east": 2
-      },
-      "apply": {
-        "model": "growthcraft_bamboo:block/bamboo_plank_fence_side",
-        "y": 90,
-        "uvlock": true
-      }
-    },
-    {
-      "when": {
-        "south": 1
-      },
       "apply": {
         "model": "growthcraft:block/rope_linen_side",
-        "y": 180,
-        "uvlock": false
+        "uvlock": false,
+        "y": 180
+      },
+      "when": {
+        "south": "true"
       }
     },
     {
-      "when": {
-        "south": 2
-      },
-      "apply": {
-        "model": "growthcraft_bamboo:block/bamboo_plank_fence_side",
-        "y": 180,
-        "uvlock": true
-      }
-    },
-    {
-      "when": {
-        "west": 1
-      },
       "apply": {
         "model": "growthcraft:block/rope_linen_side",
-        "y": 270,
-        "uvlock": false
+        "uvlock": false,
+        "y": 270
+      },
+      "when": {
+        "west": "true"
       }
     },
     {
-      "when": {
-        "west": 2
-      },
       "apply": {
-        "model": "growthcraft_bamboo:block/bamboo_plank_fence_side",
-        "y": 270,
-        "uvlock": true
+        "model": "growthcraft:block/rope_linen_side",
+        "uvlock": false,
+        "x": 270
+      },
+      "when": {
+        "up": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "growthcraft:block/rope_linen_side",
+        "uvlock": false,
+        "x": 90
+      },
+      "when": {
+        "down": "true"
       }
     }
   ]

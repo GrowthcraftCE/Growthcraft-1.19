@@ -1,7 +1,6 @@
 {
   "advancements.growthcraft.root.description": " ",
   "advancements.growthcraft.root.title": "Growthcraft",
-  "block.growthcraft.rocksalt_ore": "Rock Salt Ore",
   "block.growthcraft.rope_linen": "Rope",
   "block.growthcraft.rope_linen_acacia_fence": "Rope Acacia Fence Post",
   "block.growthcraft.rope_linen_birch_fence": "Rope Birch Fence Post",
@@ -13,6 +12,7 @@
   "block.growthcraft.rope_linen_spruce_fence": "Rope Spruce Fence Post",
   "block.growthcraft.rope_linen_warped_fence": "Rope Warped Fence Post",
   "block.growthcraft.salt_block": "Salt Block",
+  "block.growthcraft.salt_ore": "Rock Salt Ore",
   "growthcraft.apples.entry.apples_growing": "Growing Apples",
   "growthcraft.category.apples": "Growthcraft Apples",
   "growthcraft.entry.apples_crafting": "Apple Wood Products",

@@ -1,6 +1,7 @@
 package growthcraft.milk.item;
 
 import growthcraft.milk.init.GrowthcraftMilkFluids;
+import growthcraft.milk.init.GrowthcraftMilkItems;
 import growthcraft.milk.init.GrowthcraftMilkTags;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
@@ -17,7 +18,10 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.DispensibleContainerItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemUtils;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
@@ -136,7 +140,7 @@ public class MilkingBucketItem extends Item implements DispensibleContainerItem 
     }
 
     public static ItemStack getEmptySuccessItem(ItemStack p_40700_, Player p_40701_) {
-        return !p_40701_.getAbilities().instabuild ? new ItemStack(Items.BUCKET) : p_40700_;
+        return !p_40701_.getAbilities().instabuild ? new ItemStack(GrowthcraftMilkItems.MILKING_BUCKET_IRON.get()) : p_40700_;
     }
 
     public void checkExtraContent(@javax.annotation.Nullable Player p_150711_, Level p_150712_, ItemStack p_150713_, BlockPos p_150714_) {

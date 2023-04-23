@@ -1,6 +1,5 @@
 package growthcraft.lib.block;
 
-import growthcraft.cellar.GrowthcraftCellar;
 import growthcraft.core.block.entity.RopeBlockEntity;
 import growthcraft.core.init.GrowthcraftTags;
 import growthcraft.lib.utils.BlockStateUtils;
@@ -134,7 +133,7 @@ public class GrowthcraftCropsRopeBlock extends BushBlock implements Bonemealable
     }
 
     public BlockState getActualBlockState(BlockGetter level, BlockPos blockPos) {
-        GrowthcraftCellar.LOGGER.warn(String.format("%s [CropsRopeBlock,getActualBlockState]", blockPos.toString()));
+        //GrowthcraftCellar.LOGGER.warn(String.format("%s [CropsRopeBlock,getActualBlockState]", blockPos.toString()));
 
         return getActualBlockStateWithAge(level, blockPos, level.getBlockState(blockPos).getValue(this.getAgeProperty()));
     }

@@ -1,6 +1,7 @@
 package growthcraft.milk.init;
 
 import growthcraft.milk.block.PancheonBlock;
+import growthcraft.milk.block.ThistleCropBlock;
 import growthcraft.milk.shared.Reference;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -27,7 +28,11 @@ public class GrowthcraftMilkBlocks {
             PancheonBlock::new
     );
 
-    // TODO: Thistle Crop
+    public static final RegistryObject<Block> THISTLE_CROP = registerBlock(
+            Reference.UnlocalizedName.THISTLE_CROP,
+            ThistleCropBlock::new,
+            true
+    );
 
     // TODO: CHEESE CURDS
 

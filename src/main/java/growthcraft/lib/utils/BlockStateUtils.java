@@ -58,7 +58,24 @@ public class BlockStateUtils {
         if (BlockStateUtils.isRopeBlock(blockMap.get("east"))) return true;
         if (BlockStateUtils.isRopeBlock(blockMap.get("south"))) return true;
         if (BlockStateUtils.isRopeBlock(blockMap.get("west"))) return true;
-        if (BlockStateUtils.isRopeBlock(blockMap.get("up"))) return true;
-        return BlockStateUtils.isRopeBlock(blockMap.get("down"));
+        if (BlockStateUtils.isRopeBlock(blockMap.get("above"))) return true;
+        return BlockStateUtils.isRopeBlock(blockMap.get("below"));
+    }
+
+    public static Map<String, Boolean> getSurroundingRopeConnections(BlockGetter blockGetter, BlockPos pos) {
+        Map<String, Boolean> blockStateMap = new HashMap<>();
+
+        blockStateMap.put("north", blockGetter.getBlockState(pos.north()).is(GrowthcraftTags.Blocks.ROPE));
+        blockStateMap.put("north-east", blockGetter.getBlockState(pos.north().east()).is(GrowthcraftTags.Blocks.ROPE));
+        blockStateMap.put("east", blockGetter.getBlockState(pos.east()).is(GrowthcraftTags.Blocks.ROPE));
+        blockStateMap.put("south-east", blockGetter.getBlockState(pos.south().east()).is(GrowthcraftTags.Blocks.ROPE));
+        blockStateMap.put("south", blockGetter.getBlockState(pos.south()).is(GrowthcraftTags.Blocks.ROPE));
+        blockStateMap.put("south-west", blockGetter.getBlockState(pos.south().west()).is(GrowthcraftTags.Blocks.ROPE));
+        blockStateMap.put("west", blockGetter.getBlockState(pos.west()).is(GrowthcraftTags.Blocks.ROPE));
+        blockStateMap.put("north-west", blockGetter.getBlockState(pos.north().west()).is(GrowthcraftTags.Blocks.ROPE));
+        blockStateMap.put("above", blockGetter.getBlockState(pos.above()).is(GrowthcraftTags.Blocks.ROPE));
+        blockStateMap.put("below", blockGetter.getBlockState(pos.below()).is(GrowthcraftTags.Blocks.ROPE));
+
+        return blockStateMap;
     }
 }

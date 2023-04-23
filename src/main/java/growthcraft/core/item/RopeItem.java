@@ -1,9 +1,12 @@
 package growthcraft.core.item;
 
+import growthcraft.apples.init.GrowthcraftApplesBlocks;
+import growthcraft.bamboo.init.GrowthcraftBambooBlocks;
 import growthcraft.core.block.RopeBlock;
 import growthcraft.core.block.entity.RopeBlockEntity;
 import growthcraft.core.init.GrowthcraftBlocks;
 import growthcraft.lib.item.GrowthcraftBlockItem;
+import growthcraft.lib.utils.BlockStateUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionResult;
@@ -15,7 +18,9 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 
-import static growthcraft.core.block.RopeBlock.KNOT;
+import java.util.Map;
+
+import static growthcraft.core.block.RopeBlock.*;
 
 public class RopeItem extends GrowthcraftBlockItem {
 
@@ -52,9 +57,23 @@ public class RopeItem extends GrowthcraftBlockItem {
                 state = GrowthcraftBlocks.ROPE_LINEN_SPRUCE_FENCE.get().defaultBlockState();
             } else if(blockState.getBlock() == Blocks.WARPED_FENCE) {
                 state = GrowthcraftBlocks.ROPE_LINEN_WARPED_FENCE.get().defaultBlockState();
+            } else if (blockState.getBlock() == GrowthcraftApplesBlocks.APPLE_PLANK_FENCE.get()) {
+                state = GrowthcraftApplesBlocks.APPLE_PLANK_FENCE_ROPE_LINEN.get().defaultBlockState();
+            } else if (blockState.getBlock() == GrowthcraftBambooBlocks.BAMBOO_PLANK_FENCE.get()) {
+                state = GrowthcraftBambooBlocks.BAMBOO_PLANK_FENCE_ROPE_LINEN.get().defaultBlockState();
             }
 
-            level.setBlock(blockPos, state.setValue(KNOT, true), Block.UPDATE_ALL);
+            Map<String, Boolean> surroundingStateMap =
+                    BlockStateUtils.getSurroundingRopeConnections(level, blockPos);
+
+            level.setBlock(blockPos, state.setValue(KNOT, true)
+                    .setValue(NORTH, surroundingStateMap.get("north"))
+                    .setValue(EAST, surroundingStateMap.get("east"))
+                    .setValue(SOUTH, surroundingStateMap.get("south"))
+                    .setValue(WEST, surroundingStateMap.get("west"))
+                    .setValue(UP, surroundingStateMap.get("above"))
+                    .setValue(DOWN, surroundingStateMap.get("below")),
+                    Block.UPDATE_ALL);
 
             RopeBlockEntity ropeBlockEntity = (RopeBlockEntity) level.getBlockEntity(blockPos);
             if (ropeBlockEntity != null) {
@@ -63,8 +82,7 @@ public class RopeItem extends GrowthcraftBlockItem {
             }
 
         } else {
-            InteractionResult interactionResult = this.place(new BlockPlaceContext(useOnContext));
-            return interactionResult;
+            return this.place(new BlockPlaceContext(useOnContext));
         }
 
         return InteractionResult.PASS;

@@ -1,6 +1,8 @@
 package growthcraft.bamboo.init;
 
+import growthcraft.bamboo.block.BambooBeeBoxBlock;
 import growthcraft.bamboo.block.BambooLogBlock;
+import growthcraft.bamboo.block.BambooRopeBlock;
 import growthcraft.bamboo.shared.Reference;
 import growthcraft.lib.block.*;
 import net.minecraft.resources.ResourceLocation;
@@ -44,6 +46,17 @@ public class GrowthcraftBambooBlocks {
 
     public static final RegistryObject<Block> BAMBOO_PLANK_FENCE = registerBlock(
             Reference.UnlocalizedName.BAMBOO_PLANK_FENCE, GrowthcraftFenceBlock::new
+    );
+
+    public static final RegistryObject<Block> BAMBOO_PLANK_FENCE_ROPE_LINEN = registerBlock(
+            Reference.UnlocalizedName.BAMBOO_PLANK_FENCE_ROPE_LINEN,
+            BambooRopeBlock::new,
+            true
+    );
+
+    public static final RegistryObject<Block> BAMBOO_PLANK_BEE_BOX = registerBlock(
+            Reference.UnlocalizedName.BAMBOO_PLANK_BEE_BOX,
+            BambooBeeBoxBlock::new
     );
 
     public static final RegistryObject<Block> BAMBOO_PLANK_FENCE_GATE = registerBlock(
