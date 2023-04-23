@@ -5,6 +5,7 @@ import growthcraft.lib.item.GrowthcraftFoodItem;
 import growthcraft.lib.item.GrowthcraftItem;
 import growthcraft.lib.utils.CheeseUtils;
 import growthcraft.milk.item.MilkingBucketItem;
+import growthcraft.milk.item.ThistleSeedItem;
 import growthcraft.milk.shared.Reference;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -159,7 +160,10 @@ public class GrowthcraftMilkItems {
             Reference.UnlocalizedName.THISTLE, GrowthcraftItem::new
     );
 
-    // TODO: THISTLE_SEED
+    public static final RegistryObject<GrowthcraftItem> THISTLE_SEED = ITEMS.register(
+            Reference.UnlocalizedName.THISTLE_SEED,
+            ThistleSeedItem::new
+    );
 
     public static final RegistryObject<GrowthcraftBowlFoodItem> YOGURT_APPLE = ITEMS.register(
             Reference.UnlocalizedName.YOGURT_APPLE, () -> new GrowthcraftBowlFoodItem(2, 0.3F, 8)
