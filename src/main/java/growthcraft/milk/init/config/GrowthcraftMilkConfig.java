@@ -17,11 +17,14 @@ public class GrowthcraftMilkConfig {
     private static final String CATEGORY_CHURN = "churn";
     private static final String CATEGORY_MIXING_VAT = "mixing_vat";
     private static final String CATEGORY_PANCHEON = "pancheon";
+    private static final String CATEGORY_LOOT_CHANCES = "loot_modifiers";
 
     private static ForgeConfigSpec.BooleanValue churnGuiEnabled;
     private static ForgeConfigSpec.BooleanValue mixingVatGuiEnabled;
     private static ForgeConfigSpec.BooleanValue mixingVatConsumeActivationItem;
     private static ForgeConfigSpec.BooleanValue pancheonGuiEnabled;
+    private static ForgeConfigSpec.BooleanValue stomachLootEnabled;
+    private static ForgeConfigSpec.IntValue stomachLootChance;
 
     static {
         initServerConfig(SERVER_BUILDER);
@@ -58,6 +61,13 @@ public class GrowthcraftMilkConfig {
         pancheonGuiEnabled = specBuilder
                 .comment("Set to true to allow users to access the Pancheon GUI.")
                 .define(String.format("%s.%s", CATEGORY_PANCHEON, "guiEnabled"), true);
+        stomachLootEnabled = specBuilder
+                .comment("Set to true to enable looting of stomach from cows.")
+                .define(String.format("%s.%s", CATEGORY_LOOT_CHANCES, "stomachLootEnabled"), true);
+
+        stomachLootChance = specBuilder
+                .comment("Chance to loot a stomach from a cow. stomachLootEnabled must be set to true.")
+                .defineInRange(String.format("%s.%s", CATEGORY_LOOT_CHANCES, "stomachLootChance"), 5, 0, 100);
     }
 
     public static boolean isChurnGuiEnabled() {
@@ -75,4 +85,8 @@ public class GrowthcraftMilkConfig {
     public static boolean isConsumeMixingVatActivator() {
         return mixingVatConsumeActivationItem.get();
     }
+
+    public static boolean isStomachLootingEnabled() { return stomachLootEnabled.get(); }
+
+    public static int getStomachLootChance() { return stomachLootChance.get();}
 }
