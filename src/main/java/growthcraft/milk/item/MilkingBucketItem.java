@@ -83,6 +83,7 @@ public class MilkingBucketItem extends Item implements DispensibleContainerItem 
     }
 
 
+    @Override
     public InteractionResultHolder<ItemStack> use(Level p_40703_, Player p_40704_, InteractionHand p_40705_) {
         ItemStack itemstack = p_40704_.getItemInHand(p_40705_);
         BlockHitResult blockhitresult = getPlayerPOVHitResult(p_40703_, p_40704_, this.content == Fluids.EMPTY ? ClipContext.Fluid.SOURCE_ONLY : ClipContext.Fluid.NONE);
@@ -143,10 +144,18 @@ public class MilkingBucketItem extends Item implements DispensibleContainerItem 
         return !p_40701_.getAbilities().instabuild ? new ItemStack(GrowthcraftMilkItems.MILKING_BUCKET_IRON.get()) : p_40700_;
     }
 
+    @Override
     public void checkExtraContent(@javax.annotation.Nullable Player p_150711_, Level p_150712_, ItemStack p_150713_, BlockPos p_150714_) {
     }
 
-    public boolean emptyContents(@javax.annotation.Nullable Player p_150716_, Level p_150717_, BlockPos p_150718_, @javax.annotation.Nullable BlockHitResult p_150719_) {
+    @Deprecated //
+    @Override// Forge: use the ItemStack sensitive version
+    public boolean emptyContents(@Nullable Player p_150716_, Level p_150717_, BlockPos p_150718_, @Nullable BlockHitResult p_150719_) {
+        return this.emptyContents(p_150716_, p_150717_, p_150718_, p_150719_, null);
+    }
+
+    @Override
+    public boolean emptyContents(@Nullable Player p_150716_, Level p_150717_, BlockPos p_150718_, @Nullable BlockHitResult p_150719_, @Nullable ItemStack container) {
         if (!(this.content instanceof FlowingFluid)) {
             return false;
         } else {
@@ -189,11 +198,11 @@ public class MilkingBucketItem extends Item implements DispensibleContainerItem 
         }
     }
 
-    protected void playEmptySound(@javax.annotation.Nullable Player p_40696_, LevelAccessor p_40697_, BlockPos p_40698_) {
-        SoundEvent soundevent = this.content.getFluidType().getSound(p_40696_, p_40697_, p_40698_, net.minecraftforge.common.SoundActions.BUCKET_EMPTY);
+    protected void playEmptySound(@javax.annotation.Nullable Player player, LevelAccessor levelAccessor, BlockPos blockPos) {
+        SoundEvent soundevent = this.content.getFluidType().getSound(player, levelAccessor, blockPos, net.minecraftforge.common.SoundActions.BUCKET_EMPTY);
         if(soundevent == null) soundevent = this.content.is(FluidTags.LAVA) ? SoundEvents.BUCKET_EMPTY_LAVA : SoundEvents.BUCKET_EMPTY;
-        p_40697_.playSound(p_40696_, p_40698_, soundevent, SoundSource.BLOCKS, 1.0F, 1.0F);
-        p_40697_.gameEvent(p_40696_, GameEvent.FLUID_PLACE, p_40698_);
+        levelAccessor.playSound(player, blockPos, soundevent, SoundSource.BLOCKS, 1.0F, 1.0F);
+        levelAccessor.gameEvent(player, GameEvent.FLUID_PLACE, blockPos);
     }
 
     @Override

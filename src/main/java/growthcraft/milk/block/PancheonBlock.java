@@ -133,30 +133,27 @@ public class PancheonBlock extends BaseEntityBlock {
         }
 
         if (!level.isClientSide) {
-            if (FluidUtil.interactWithFluidHandler(player, interactionHand, level, blockPos, blockHitResult.getDirection())
-                    || player.getItemInHand(interactionHand).getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).isPresent()
-            ) {
-                GrowthcraftMilk.LOGGER.warn("has fluid handler");
-                return InteractionResult.SUCCESS;
-            } else if (player.getItemInHand(interactionHand).getItem() == Items.MILK_BUCKET) {
-                GrowthcraftMilk.LOGGER.warn("doesn't have fluid handler");
-
+            if (player.getItemInHand(interactionHand).getItem() == Items.MILK_BUCKET) {
                 PancheonBlockEntity blockEntity = (PancheonBlockEntity) level.getBlockEntity(blockPos);
 
-                if(blockEntity.getFluidTank(0).isEmpty()) {
-                    GrowthcraftMilk.LOGGER.warn("tank is empty");
-                    FluidStack fluidStack = new FluidStack( GrowthcraftMilkFluids.MILK.source.get().getSource(), 1000);
-                    blockEntity.getFluidTank(0).fill(fluidStack, IFluidHandler.FluidAction.EXECUTE);
-                    player.setItemInHand(interactionHand, new ItemStack(Items.BUCKET));
-                }
-                if  (blockEntity.getFluidTank(0).getFluidAmount() - blockEntity.getFluidTank(0).getCapacity() >= 1000
-                        && blockEntity.getFluidStackInTank(0).getFluid() == GrowthcraftMilkFluids.MILK.source.get()) {
-                    GrowthcraftMilk.LOGGER.warn("tank has milk");
+                int capacity = blockEntity.getFluidTank(0).getCapacity();
+                int amount = blockEntity.getFluidTank(0).getFluidAmount();
+                int remainingFill = capacity - amount;
 
+                if(blockEntity.getFluidTank(0).isEmpty()
+                    || (remainingFill >= 1000
+                        && blockEntity.getFluidStackInTank(0).getFluid().getFluidType() == GrowthcraftMilkFluids.MILK.source.get().getFluidType())
+                ) {
                     FluidStack fluidStack = new FluidStack( GrowthcraftMilkFluids.MILK.source.get().getSource(), 1000);
                     blockEntity.getFluidTank(0).fill(fluidStack, IFluidHandler.FluidAction.EXECUTE);
                     player.setItemInHand(interactionHand, new ItemStack(Items.BUCKET));
                 }
+            } else if (
+                    FluidUtil.interactWithFluidHandler(player, interactionHand, level, blockPos, blockHitResult.getDirection())
+                    || player.getItemInHand(interactionHand).getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).isPresent()
+            ) {
+                GrowthcraftMilk.LOGGER.error("Can interactWithFluidHandler or has FLUID_HANDLER_ITEM");
+                return InteractionResult.SUCCESS;
             }
         }
 
