@@ -1,6 +1,6 @@
 package growthcraft.rice.lib.fluid;
 
-import growthcraft.lib.client.FluidRegistryContainer;
+import growthcraft.lib.fluid.FluidRegistryContainer;
 import growthcraft.rice.init.GrowthcraftRiceBlocks;
 import growthcraft.rice.init.GrowthcraftRiceFluids;
 import growthcraft.rice.init.GrowthcraftRiceItems;

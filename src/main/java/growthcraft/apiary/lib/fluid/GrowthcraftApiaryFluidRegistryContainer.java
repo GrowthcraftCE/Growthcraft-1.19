@@ -3,7 +3,7 @@ package growthcraft.apiary.lib.fluid;
 import growthcraft.apiary.init.GrowthcraftApiaryBlocks;
 import growthcraft.apiary.init.GrowthcraftApiaryFluids;
 import growthcraft.apiary.init.GrowthcraftApiaryItems;
-import growthcraft.lib.client.FluidRegistryContainer;
+import growthcraft.lib.fluid.FluidRegistryContainer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;

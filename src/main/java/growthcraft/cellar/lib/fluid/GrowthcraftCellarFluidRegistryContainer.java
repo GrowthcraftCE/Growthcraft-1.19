@@ -3,7 +3,7 @@ package growthcraft.cellar.lib.fluid;
 import growthcraft.cellar.init.GrowthcraftCellarBlocks;
 import growthcraft.cellar.init.GrowthcraftCellarFluids;
 import growthcraft.cellar.init.GrowthcraftCellarItems;
-import growthcraft.lib.client.FluidRegistryContainer;
+import growthcraft.lib.fluid.FluidRegistryContainer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;

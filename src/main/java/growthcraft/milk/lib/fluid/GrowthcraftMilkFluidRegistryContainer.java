@@ -1,6 +1,6 @@
 package growthcraft.milk.lib.fluid;
 
-import growthcraft.lib.client.FluidRegistryContainer;
+import growthcraft.lib.fluid.MilkingBucketFluidRegistryContainer;
 import growthcraft.milk.init.GrowthcraftMilkBlocks;
 import growthcraft.milk.init.GrowthcraftMilkFluids;
 import growthcraft.milk.init.GrowthcraftMilkItems;
@@ -12,7 +12,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Supplier;
 
-public class GrowthcraftMilkFluidRegistryContainer extends FluidRegistryContainer {
+public class GrowthcraftMilkFluidRegistryContainer extends MilkingBucketFluidRegistryContainer {
 
 
 
