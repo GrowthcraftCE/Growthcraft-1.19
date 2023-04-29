@@ -1,7 +1,6 @@
 package growthcraft.milk.block.entity;
 
 import growthcraft.lib.block.entity.GrowthcraftFluidTank;
-import growthcraft.milk.GrowthcraftMilk;
 import growthcraft.milk.init.GrowthcraftMilkBlockEntities;
 import growthcraft.milk.lib.networking.GrowthcraftMilkMessages;
 import growthcraft.milk.lib.networking.packet.PancheonFluidSyncPacket;
@@ -145,8 +144,6 @@ public class PancheonBlockEntity extends BlockEntity implements BlockEntityTicke
 
             if (recipe != null && this.tickClock <= this.tickMax ) {
                 // Then increment the clock.
-                if(this.tickClock %100 == 0) GrowthcraftMilk.LOGGER.warn(String.format("[%d/%d] Processing %s ...", this.tickClock, this.tickMax, this.getFluidStackInTank(0).getFluid().toString()));
-
                 this.tickClock++;
             } else if (recipe != null && this.tickMax > 0 && this.tickClock > this.tickMax) {
                 // Then process the recipe.
@@ -159,7 +156,6 @@ public class PancheonBlockEntity extends BlockEntity implements BlockEntityTicke
 
             } else if(recipe != null && this.tickMax == -1) {
                 // Then we have a new recipe that needs to start processing.
-                GrowthcraftMilk.LOGGER.warn("We found a new recipe!");
                 this.tickMax = recipe.getRecipeProcessingTime();
             } else {
                 // Else make sure the clock is zero.
