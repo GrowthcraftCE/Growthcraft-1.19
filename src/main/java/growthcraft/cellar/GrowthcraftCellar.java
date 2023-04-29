@@ -3,6 +3,7 @@ package growthcraft.cellar;
 import growthcraft.cellar.init.GrowthcraftCellarBlocks;
 import growthcraft.cellar.init.GrowthcraftCellarFluids;
 import growthcraft.cellar.init.GrowthcraftCellarItems;
+import growthcraft.cellar.init.GrowthcraftCellarRecipes;
 import growthcraft.cellar.init.client.GrowthcraftCellarBlockRenderers;
 import growthcraft.cellar.init.config.GrowthcraftCellarConfig;
 import growthcraft.cellar.shared.Reference;
@@ -40,6 +41,8 @@ public class GrowthcraftCellar {
         GrowthcraftCellarItems.ITEMS.register(modEventBus);
         GrowthcraftCellarFluids.FLUID_TYPES.register(modEventBus);
         GrowthcraftCellarFluids.FLUIDS.register(modEventBus);
+
+        GrowthcraftCellarRecipes.register(modEventBus);
 
         MinecraftForge.EVENT_BUS.register(this);
     }

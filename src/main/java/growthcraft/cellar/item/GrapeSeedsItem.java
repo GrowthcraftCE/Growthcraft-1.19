@@ -30,7 +30,7 @@ public class GrapeSeedsItem extends GrowthcraftItem {
         BlockPos blockPos = context.getClickedPos();
         Block block = level.getBlockState(blockPos).getBlock();
 
-        if (block instanceof FarmBlock && level.getBlockState(blockPos.above()).getBlock() instanceof RopeBlock) {
+        if (block instanceof FarmBlock && level.getBlockState(blockPos.above(2)).getBlock() instanceof RopeBlock) {
             BlockState newBlockState = this.grapeVineCropBlock.defaultBlockState();
             newBlockState.setValue(NORTH, BlockStateUtils.isRopeBlock(level.getBlockState(blockPos.north().above())));
             newBlockState.setValue(EAST, BlockStateUtils.isRopeBlock(level.getBlockState(blockPos.east().above())));
