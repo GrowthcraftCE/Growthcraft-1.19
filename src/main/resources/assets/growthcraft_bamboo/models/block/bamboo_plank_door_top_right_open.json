@@ -1,5 +1,7 @@
 {
     "parent": "block/door_top_right_open",
+    "ambientocclusion": false,
+    "render_type": "cutout",
     "textures": {
         "bottom": "growthcraft_bamboo:block/bamboo_plank_door_bottom",
         "top": "growthcraft_bamboo:block/bamboo_plank_door_top"
