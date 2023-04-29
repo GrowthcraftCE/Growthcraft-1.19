@@ -3,7 +3,7 @@ package growthcraft.apples.lib.fluid;
 import growthcraft.apples.init.GrowthcraftApplesBlocks;
 import growthcraft.apples.init.GrowthcraftApplesFluids;
 import growthcraft.apples.init.GrowthcraftApplesItems;
-import growthcraft.lib.client.FluidRegistryContainer;
+import growthcraft.lib.fluid.FluidRegistryContainer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;

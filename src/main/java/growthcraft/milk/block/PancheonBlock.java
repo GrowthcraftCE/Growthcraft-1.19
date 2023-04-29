@@ -3,6 +3,7 @@ package growthcraft.milk.block;
 import growthcraft.milk.GrowthcraftMilk;
 import growthcraft.milk.block.entity.PancheonBlockEntity;
 import growthcraft.milk.init.GrowthcraftMilkBlockEntities;
+import growthcraft.milk.init.GrowthcraftMilkFluids;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
@@ -11,6 +12,8 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -29,7 +32,9 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
@@ -112,9 +117,6 @@ public class PancheonBlock extends BaseEntityBlock {
 
     @Override
     public InteractionResult use(BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand interactionHand, BlockHitResult blockHitResult) {
-        /**
-         * ServerSide and Player is Crouching, show the GUI
-         */
         if (!level.isClientSide && player.isCrouching()) {
             try {
                 // Play sound
@@ -130,22 +132,34 @@ public class PancheonBlock extends BaseEntityBlock {
             return InteractionResult.SUCCESS;
         }
 
-        /**
-         * If fluid capability item is in hand
-         */
         if (!level.isClientSide) {
             if (FluidUtil.interactWithFluidHandler(player, interactionHand, level, blockPos, blockHitResult.getDirection())
                     || player.getItemInHand(interactionHand).getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).isPresent()
             ) {
-                GrowthcraftMilk.LOGGER.debug("Fluid handling should have happened.");
+                GrowthcraftMilk.LOGGER.warn("has fluid handler");
                 return InteractionResult.SUCCESS;
+            } else if (player.getItemInHand(interactionHand).getItem() == Items.MILK_BUCKET) {
+                GrowthcraftMilk.LOGGER.warn("doesn't have fluid handler");
+
+                PancheonBlockEntity blockEntity = (PancheonBlockEntity) level.getBlockEntity(blockPos);
+
+                if(blockEntity.getFluidTank(0).isEmpty()) {
+                    GrowthcraftMilk.LOGGER.warn("tank is empty");
+                    FluidStack fluidStack = new FluidStack( GrowthcraftMilkFluids.MILK.source.get().getSource(), 1000);
+                    blockEntity.getFluidTank(0).fill(fluidStack, IFluidHandler.FluidAction.EXECUTE);
+                    player.setItemInHand(interactionHand, new ItemStack(Items.BUCKET));
+                }
+                if  (blockEntity.getFluidTank(0).getFluidAmount() - blockEntity.getFluidTank(0).getCapacity() >= 1000
+                        && blockEntity.getFluidStackInTank(0).getFluid() == GrowthcraftMilkFluids.MILK.source.get()) {
+                    GrowthcraftMilk.LOGGER.warn("tank has milk");
+
+                    FluidStack fluidStack = new FluidStack( GrowthcraftMilkFluids.MILK.source.get().getSource(), 1000);
+                    blockEntity.getFluidTank(0).fill(fluidStack, IFluidHandler.FluidAction.EXECUTE);
+                    player.setItemInHand(interactionHand, new ItemStack(Items.BUCKET));
+                }
             }
         }
-        /**
-         * TODO: If vanilla milk bucket is in hand, as it does not have a fluid handler
-         */
 
-        // Otherwise always return success
         return InteractionResult.SUCCESS;
     }
 

@@ -1,7 +1,9 @@
-package growthcraft.lib.client;
+package growthcraft.lib.fluid;
 
 import com.mojang.blaze3d.shaders.FogShape;
 import com.mojang.blaze3d.systems.RenderSystem;
+import growthcraft.lib.client.ClientFluidTypeExtensions;
+import growthcraft.milk.item.MilkingBucketItem;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -9,7 +11,6 @@ import net.minecraft.client.renderer.FogRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.Block;
@@ -31,11 +32,11 @@ import org.joml.Vector3f;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-public class FluidRegistryContainer {
+public class MilkingBucketFluidRegistryContainer {
     public final RegistryObject<FluidType> type;
     public final FluidType.Properties typeProperties;
     public final RegistryObject<LiquidBlock> block;
-    public final RegistryObject<BucketItem> bucket;
+    public final RegistryObject<MilkingBucketItem> bucket;
     public final RegistryObject<ForgeFlowingFluid.Source> source;
     public final RegistryObject<ForgeFlowingFluid.Flowing> flowing;
     private ForgeFlowingFluid.Properties properties;
@@ -46,17 +47,16 @@ public class FluidRegistryContainer {
     public DeferredRegister<Block> BLOCK_REGISTRY;
     public DeferredRegister<Item> ITEM_REGISTRY;
 
-
-    public FluidRegistryContainer(String name,
-                                  FluidType.Properties typeProperties,
-                                  Supplier<IClientFluidTypeExtensions> clientExtensions,
-                                  @Nullable AdditionalProperties additionalProperties,
-                                  BlockBehaviour.Properties blockProperties,
-                                  Item.Properties itemProperties,
-                                  DeferredRegister<Fluid>  FLUID_REGISTRY,
-                                  DeferredRegister<FluidType> FLUID_TYPE_REGISTRY,
-                                  DeferredRegister<Block> BLOCK_REGISTRY,
-                                  DeferredRegister<Item> ITEM_REGISTRY) {
+    public MilkingBucketFluidRegistryContainer(String name,
+                                               FluidType.Properties typeProperties,
+                                               Supplier<IClientFluidTypeExtensions> clientExtensions,
+                                               @Nullable AdditionalProperties additionalProperties,
+                                               BlockBehaviour.Properties blockProperties,
+                                               Item.Properties itemProperties,
+                                               DeferredRegister<Fluid>  FLUID_REGISTRY,
+                                               DeferredRegister<FluidType> FLUID_TYPE_REGISTRY,
+                                               DeferredRegister<Block> BLOCK_REGISTRY,
+                                               DeferredRegister<Item> ITEM_REGISTRY) {
 
         this.FLUID_REGISTRY = FLUID_REGISTRY;
         this.FLUID_TYPE_REGISTRY = FLUID_TYPE_REGISTRY;
@@ -86,19 +86,8 @@ public class FluidRegistryContainer {
         this.block = BLOCK_REGISTRY.register(name, () -> new LiquidBlock(this.source, blockProperties));
         this.properties.block(this.block);
 
-        this.bucket = ITEM_REGISTRY.register(name + "_bucket", () -> new BucketItem(this.source, itemProperties));
+        this.bucket = ITEM_REGISTRY.register(name + "_bucket", () -> new MilkingBucketItem(this.source, itemProperties));
         this.properties.bucket(this.bucket);
-    }
-
-    public FluidRegistryContainer(String name, FluidType.Properties typeProperties,
-                                  Supplier<IClientFluidTypeExtensions> clientExtensions, BlockBehaviour.Properties blockProperties,
-                                  Item.Properties itemProperties,
-                                  DeferredRegister<Fluid>  FLUID_REGISTRY,
-                                  DeferredRegister<FluidType> FLUID_TYPE_REGISTRY,
-                                  DeferredRegister<Block> BLOCK_REGISTRY,
-                                  DeferredRegister<Item> ITEM_REGISTRY) {
-        this(name, typeProperties, clientExtensions, null, blockProperties, itemProperties,
-                FLUID_REGISTRY, FLUID_TYPE_REGISTRY, BLOCK_REGISTRY, ITEM_REGISTRY);
     }
 
     public static IClientFluidTypeExtensions createExtension(ClientFluidTypeExtensions extensions) {
