@@ -78,4 +78,9 @@ public class BlockStateUtils {
 
         return blockStateMap;
     }
+
+    public static boolean isHeated(BlockGetter blockGetter, BlockPos blockPos) {
+        Map<String, BlockState> blockMap = BlockStateUtils.getSurroundingBlockState(blockGetter, blockPos);
+        return blockMap.get("below").is(GrowthcraftTags.Blocks.HEATSOURCES);
+    }
 }

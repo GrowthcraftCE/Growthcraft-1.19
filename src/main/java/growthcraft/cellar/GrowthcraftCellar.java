@@ -1,12 +1,13 @@
 package growthcraft.cellar;
 
-import growthcraft.cellar.init.GrowthcraftCellarBlocks;
-import growthcraft.cellar.init.GrowthcraftCellarFluids;
-import growthcraft.cellar.init.GrowthcraftCellarItems;
+import growthcraft.cellar.init.*;
 import growthcraft.cellar.init.client.GrowthcraftCellarBlockRenderers;
 import growthcraft.cellar.init.config.GrowthcraftCellarConfig;
+import growthcraft.cellar.lib.networking.GrowthcraftCellarMessages;
+import growthcraft.cellar.screen.CultureJarScreen;
 import growthcraft.cellar.shared.Reference;
 import growthcraft.core.init.GrowthcraftCreativeModeTabs;
+import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.CreativeModeTabEvent;
@@ -38,8 +39,12 @@ public class GrowthcraftCellar {
         // Blocks, Items, Fluids, Block Entities, Containers
         GrowthcraftCellarBlocks.BLOCKS.register(modEventBus);
         GrowthcraftCellarItems.ITEMS.register(modEventBus);
+        GrowthcraftCellarBlockEntities.BLOCK_ENTITIES.register(modEventBus);
         GrowthcraftCellarFluids.FLUID_TYPES.register(modEventBus);
         GrowthcraftCellarFluids.FLUIDS.register(modEventBus);
+        GrowthcraftCellarMenus.MENUS.register(modEventBus);
+
+        GrowthcraftCellarRecipes.register(modEventBus);
 
         MinecraftForge.EVENT_BUS.register(this);
     }
@@ -47,10 +52,11 @@ public class GrowthcraftCellar {
 
     private void clientSetupEvent(final FMLClientSetupEvent event) {
         GrowthcraftCellarBlockRenderers.setRenderLayers();
+        MenuScreens.register(GrowthcraftCellarMenus.CULTURE_JAR_MENU.get(), CultureJarScreen::new);
     }
 
     private void setup(final FMLCommonSetupEvent event) {
-        // Do Nothing for now ...
+        GrowthcraftCellarMessages.register();
     }
 
     public void buildCreativeTabContents(CreativeModeTabEvent.BuildContents event) {
