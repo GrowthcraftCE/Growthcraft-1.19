@@ -1,9 +1,6 @@
 package growthcraft.cellar.init;
 
-import growthcraft.cellar.block.GrapeVineCropBlock;
-import growthcraft.cellar.block.GrapeVineFruitBlock;
-import growthcraft.cellar.block.GrapeVineLeavesCropBlock;
-import growthcraft.cellar.block.HopsCropBlock;
+import growthcraft.cellar.block.*;
 import growthcraft.cellar.shared.Reference;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -23,6 +20,10 @@ public class GrowthcraftCellarBlocks {
     // TODO: BREW_KETTLE
 
     // TODO: CULTURE_JAR
+    public static final RegistryObject<Block> CULTURE_JAR = registerBlock(
+            Reference.UnlocalizedName.CULTURE_JAR,
+            CultureJarBlock::new
+    );
 
     // TODO: FERMENT_BARREL_OAK
 

@@ -1,8 +1,11 @@
 {
   "credit": "Made with Blockbench, a free, modern block model editor by JannisX11. Model by Kisutora.",
+  "ambientocclusion": false,
+  "render_type": "translucent",
   "textures": {
     "0": "growthcraft_cellar:block/culture_jar",
-    "particle": "growthcraft_cellar:block/culture_jar"
+    "particle": "growthcraft_cellar:block/culture_jar",
+    "missing": "growthcraft:block/missing"
   },
   "elements": [
     {
