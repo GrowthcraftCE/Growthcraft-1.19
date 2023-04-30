@@ -1,0 +1,16 @@
+{
+  "block.growthcraft_rice.cultivated_farmland": "Возделанная почва",
+  "block.growthcraft_rice.rice_crop": "Побеги риса",
+  "fluid_type.growthcraft_rice.rice_water_fluid": "Рисовая вода",
+  "fluid_type.growthcraft_rice.rice_wine_fluid": "Рисовое вино",
+  "fluid_type.growthcraft_rice.sake_fluid": "Саке",
+  "item.growthcraft_rice.cultivator": "Культиватор",
+  "item.growthcraft_rice.knife": "Нож",
+  "item.growthcraft_rice.rice": "Рис",
+  "item.growthcraft_rice.rice_cooked": "Приготовленный рис",
+  "item.growthcraft_rice.rice_stalk": "Стебель риса",
+  "item.growthcraft_rice.rice_water_fluid_bucket": "Ведро рисовой воды",
+  "item.growthcraft_rice.rice_wine_fluid_bucket": "Ведро рисового вина",
+  "item.growthcraft_rice.sake_fluid_bucket": "Ведро саке",
+  "item.growthcraft_rice.sushi_roll": "Суши ролл"
+}

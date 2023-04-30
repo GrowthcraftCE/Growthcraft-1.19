@@ -118,14 +118,43 @@ public class CultureJarBlockEntity extends BlockEntity implements BlockEntityTic
     public void tick(Level level, BlockPos blockPos, BlockState blockState, CultureJarBlockEntity blockEntity) {
         //TODO: Check for Culture Jar recipe and processing.
 
-        // Check for recipe.
-
-        // If recipe requires heat
-        if(this.isHeated()) {
-
+        if(!level.isClientSide && this.isHeated()) {
+            // Do nothing, we are just ensuring that the LIT property is accurate.
         }
 
-        // Handle processing and tick counting.
+        // The Culture Jar requires a fluid and an item in order to do anything.
+        if(!level.isClientSide && this.getFluidTank(0).getFluidAmount() > 0 && !this.itemStackHandler.getStackInSlot(0).isEmpty()) {
+
+            // Check for recipe.
+            List<CultureJarRecipe> recipes = this.getMatchingRecipes(this.getFluidStackInTank(0), this.itemStackHandler.getStackInSlot(0));
+            CultureJarRecipe recipe = recipes.isEmpty() ? null : recipes.get(0);
+
+            if(recipe.isHeatSourceRequired() && !this.isHeated()) {
+                return;
+            }
+
+            if(recipe != null && this.tickClock <= this.tickMax) {
+                this.tickClock++;
+            } else if(recipe != null && this.tickMax > 0 && this.tickClock > this.tickMax) {
+                // Process the resulting recipe.
+                int amountToDrain = recipe.getInputFluidStack().getAmount();
+
+                this.getFluidTank(0).drain(amountToDrain, IFluidHandler.FluidAction.EXECUTE);
+                this.itemStackHandler.getStackInSlot(0).grow(1);
+
+                this.tickMax = -1;
+                this.tickClock = 0;
+
+            } else if (recipe != null && this.tickMax == -1) {
+                this.tickMax = recipe.getRecipeProcessingTime();
+            } else {
+                this.tickMax = -1;
+                this.tickClock = 0;
+            }
+
+            this.level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), Block.UPDATE_ALL);
+        }
+
     }
 
     @Nullable

@@ -6,26 +6,35 @@
     }
   },
   "variants": {
-    "facing=north": {
+    "facing=north,lit=true": {
       "model": "growthcraft_cellar:block/culture_jar"
     },
-    "facing=south": {
+    "facing=south,lit=true": {
       "model": "growthcraft_cellar:block/culture_jar",
       "y": 180
     },
-    "facing=east": {
+    "facing=east,lit=true": {
       "model": "growthcraft_cellar:block/culture_jar",
       "y": 90
     },
-    "facing=west": {
+    "facing=west,lit=true": {
       "model": "growthcraft_cellar:block/culture_jar",
       "y": 270
     },
-    "lit=true": {
-      "model": "growthcraft:block/empty"
+    "facing=north,lit=false": {
+      "model": "growthcraft_cellar:block/culture_jar"
     },
-    "lit=false": {
-      "model": "growthcraft:block/empty"
+    "facing=south,lit=false": {
+      "model": "growthcraft_cellar:block/culture_jar",
+      "y": 180
+    },
+    "facing=east,lit=false": {
+      "model": "growthcraft_cellar:block/culture_jar",
+      "y": 90
+    },
+    "facing=west,lit=false": {
+      "model": "growthcraft_cellar:block/culture_jar",
+      "y": 270
     }
   }
 }
