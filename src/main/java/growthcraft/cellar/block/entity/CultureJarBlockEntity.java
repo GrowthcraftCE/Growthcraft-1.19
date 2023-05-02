@@ -4,6 +4,7 @@ import growthcraft.cellar.init.GrowthcraftCellarBlockEntities;
 import growthcraft.cellar.lib.networking.GrowthcraftCellarMessages;
 import growthcraft.cellar.lib.networking.packet.CultureJarFluidSyncPacket;
 import growthcraft.cellar.recipe.CultureJarRecipe;
+import growthcraft.cellar.recipe.CultureJarStarterRecipe;
 import growthcraft.cellar.screen.CultureJarMenu;
 import growthcraft.lib.block.entity.GrowthcraftFluidTank;
 import growthcraft.lib.utils.BlockStateUtils;
@@ -124,35 +125,67 @@ public class CultureJarBlockEntity extends BlockEntity implements BlockEntityTic
 
         // The Culture Jar requires a fluid and an item in order to do anything.
         if(!level.isClientSide && this.getFluidTank(0).getFluidAmount() > 0 && !this.itemStackHandler.getStackInSlot(0).isEmpty()) {
-
             // Check for recipe.
             List<CultureJarRecipe> recipes = this.getMatchingRecipes(this.getFluidStackInTank(0), this.itemStackHandler.getStackInSlot(0));
             CultureJarRecipe recipe = recipes.isEmpty() ? null : recipes.get(0);
 
-            if(recipe.isHeatSourceRequired() && !this.isHeated()) {
-                return;
+            if (recipe != null) {
+                if (recipe.isHeatSourceRequired() && !this.isHeated()) {
+                    return;
+                }
+
+                if (this.tickClock <= this.tickMax) {
+                    this.tickClock++;
+                } else if (this.tickMax > 0 && this.tickClock > this.tickMax) {
+                    // Process the resulting recipe.
+                    int amountToDrain = recipe.getInputFluidStack().getAmount();
+
+                    this.getFluidTank(0).drain(amountToDrain, IFluidHandler.FluidAction.EXECUTE);
+                    this.itemStackHandler.getStackInSlot(0).grow(1);
+
+                    this.tickMax = -1;
+                    this.tickClock = 0;
+
+                } else if (this.tickMax == -1) {
+                    this.tickMax = recipe.getRecipeProcessingTime();
+                } else {
+                    this.tickMax = -1;
+                    this.tickClock = 0;
+                }
+
+                this.level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), Block.UPDATE_ALL);
             }
+        } else if(!level.isClientSide && this.getFluidTank(0).getFluidAmount() > 0 && this.itemStackHandler.getStackInSlot(0).isEmpty()) {
+            // Check for recipe.
+            List<CultureJarStarterRecipe> recipes = this.getMatchingRecipes(this.getFluidStackInTank(0));
+            CultureJarStarterRecipe recipe = recipes.isEmpty() ? null : recipes.get(0);
 
-            if(recipe != null && this.tickClock <= this.tickMax) {
-                this.tickClock++;
-            } else if(recipe != null && this.tickMax > 0 && this.tickClock > this.tickMax) {
-                // Process the resulting recipe.
-                int amountToDrain = recipe.getInputFluidStack().getAmount();
+            if (recipe != null) {
+                if (recipe.isHeatSourceRequired() && !this.isHeated()) {
+                    return;
+                }
 
-                this.getFluidTank(0).drain(amountToDrain, IFluidHandler.FluidAction.EXECUTE);
-                this.itemStackHandler.getStackInSlot(0).grow(1);
+                if (this.tickClock <= this.tickMax) {
+                    this.tickClock++;
+                } else if (this.tickMax > 0 && this.tickClock > this.tickMax) {
+                    // Process the resulting recipe.
+                    int amountToDrain = recipe.getInputFluidStack().getAmount();
 
-                this.tickMax = -1;
-                this.tickClock = 0;
+                    this.getFluidTank(0).drain(amountToDrain, IFluidHandler.FluidAction.EXECUTE);
+                    this.itemStackHandler.setStackInSlot(0, recipe.getInputItemStack().copy());
 
-            } else if (recipe != null && this.tickMax == -1) {
-                this.tickMax = recipe.getRecipeProcessingTime();
-            } else {
-                this.tickMax = -1;
-                this.tickClock = 0;
+                    this.tickMax = -1;
+                    this.tickClock = 0;
+
+                } else if (this.tickMax == -1) {
+                    this.tickMax = recipe.getRecipeProcessingTime();
+                } else {
+                    this.tickMax = -1;
+                    this.tickClock = 0;
+                }
+
+                this.level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), Block.UPDATE_ALL);
             }
-
-            this.level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), Block.UPDATE_ALL);
         }
 
     }
@@ -218,6 +251,20 @@ public class CultureJarBlockEntity extends BlockEntity implements BlockEntityTic
         for (CultureJarRecipe recipe : recipes) {
             if (recipe.getInputFluidStack().getFluid() == fluidStack.getFluid()
                     && recipe.getInputItemStack().getItem() == itemStack.getItem()) {
+                matchingRecipes.add(recipe);
+            }
+        }
+        return matchingRecipes;
+    }
+
+    private List<CultureJarStarterRecipe> getMatchingRecipes(FluidStack fluidStack) {
+        List<CultureJarStarterRecipe> matchingRecipes = new ArrayList<>();
+
+        List<CultureJarStarterRecipe> recipes = level.getRecipeManager()
+                .getAllRecipesFor(CultureJarStarterRecipe.Type.INSTANCE);
+
+        for (CultureJarStarterRecipe recipe : recipes) {
+            if (recipe.getInputFluidStack().getFluid() == fluidStack.getFluid()) {
                 matchingRecipes.add(recipe);
             }
         }

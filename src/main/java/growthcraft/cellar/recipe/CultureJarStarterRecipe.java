@@ -19,18 +19,18 @@ import net.minecraftforge.fluids.FluidStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class CultureJarRecipe implements Recipe<SimpleContainer> {
+public class CultureJarStarterRecipe implements Recipe<SimpleContainer> {
 
     private final ResourceLocation recipeId;
     private final FluidStack inputFluidStack;
-    private final ItemStack inputItem;
+    private final ItemStack outputItem;
     private final int processingTime;
     private final boolean requiresHeatSource;
 
-    public CultureJarRecipe(ResourceLocation recipeId, FluidStack inputFluidStack, ItemStack inputItem, int processingTime, boolean requiresHeatSource) {
+    public CultureJarStarterRecipe(ResourceLocation recipeId, FluidStack inputFluidStack, ItemStack outputItem, int processingTime, boolean requiresHeatSource) {
         this.recipeId = recipeId;
         this.inputFluidStack = inputFluidStack;
-        this.inputItem = inputItem;
+        this.outputItem = outputItem;
         this.processingTime = processingTime;
         this.requiresHeatSource = requiresHeatSource;
     }
@@ -42,12 +42,12 @@ public class CultureJarRecipe implements Recipe<SimpleContainer> {
 
     public boolean matches(FluidStack fluidStack, ItemStack itemStack) {
         return this.inputFluidStack.getFluid() == fluidStack.getFluid()
-                && this.inputItem.getItem() == itemStack.getItem();
+                && this.outputItem.getItem() == itemStack.getItem();
     }
 
     @Override
     public ItemStack assemble(SimpleContainer simpleContainer, RegistryAccess registryAccess) {
-        return this.inputItem;
+        return this.outputItem;
     }
 
     @Override
@@ -57,7 +57,7 @@ public class CultureJarRecipe implements Recipe<SimpleContainer> {
 
     @Override
     public ItemStack getResultItem(RegistryAccess registryAccess) {
-        return this.inputItem;
+        return this.outputItem;
     }
 
 
@@ -71,7 +71,7 @@ public class CultureJarRecipe implements Recipe<SimpleContainer> {
     }
 
     public ItemStack getInputItemStack() {
-        return this.inputItem;
+        return this.outputItem;
     }
 
     public boolean isHeatSourceRequired() {
@@ -91,41 +91,41 @@ public class CultureJarRecipe implements Recipe<SimpleContainer> {
         return Type.INSTANCE;
     }
 
-    public static class Type implements RecipeType<CultureJarRecipe> {
+    public static class Type implements RecipeType<CultureJarStarterRecipe> {
         private Type() { /* Prevent default constructor */ }
 
-        public static final CultureJarRecipe.Type INSTANCE = new CultureJarRecipe.Type();
-        public static final String ID = Reference.UnlocalizedName.CULTURE_JAR_RECIPE;
+        public static final CultureJarStarterRecipe.Type INSTANCE = new CultureJarStarterRecipe.Type();
+        public static final String ID = Reference.UnlocalizedName.CULTURE_JAR_STARTER_RECIPE;
     }
 
-    public static class Serializer implements RecipeSerializer<CultureJarRecipe> {
+    public static class Serializer implements RecipeSerializer<CultureJarStarterRecipe> {
 
-        public static final CultureJarRecipe.Serializer INSTANCE = new CultureJarRecipe.Serializer();
+        public static final CultureJarStarterRecipe.Serializer INSTANCE = new CultureJarStarterRecipe.Serializer();
         public static final ResourceLocation ID = new ResourceLocation(
                 Reference.MODID,
-                Reference.UnlocalizedName.CULTURE_JAR_RECIPE);
+                Reference.UnlocalizedName.CULTURE_JAR_STARTER_RECIPE);
 
         @Override
-        public @NotNull CultureJarRecipe fromJson(ResourceLocation recipeId, JsonObject json) {
+        public @NotNull CultureJarStarterRecipe fromJson(ResourceLocation recipeId, JsonObject json) {
             FluidStack inputFluid = CraftingUtils.getFluidStack(GsonHelper.getAsJsonObject(json, "input_fluid"));
 
-            ItemStack inputItemStack = CraftingHelper.getItemStack(GsonHelper.getAsJsonObject(json, "input_item"), false);
+            ItemStack inputItemStack = CraftingHelper.getItemStack(GsonHelper.getAsJsonObject(json, "output_item"), false);
 
             int processingTime = GsonHelper.getAsInt(json, "processing_time", 1200);
             boolean needsHeat = GsonHelper.getAsBoolean(json, "requires_heat_source");
 
-            return new CultureJarRecipe(recipeId, inputFluid, inputItemStack, processingTime, needsHeat);
+            return new CultureJarStarterRecipe(recipeId, inputFluid, inputItemStack, processingTime, needsHeat);
         }
 
         @Override
-        public @Nullable CultureJarRecipe fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
+        public @Nullable CultureJarStarterRecipe fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
             try {
                 ItemStack item = buffer.readItem();
                 FluidStack fluid = buffer.readFluidStack();
                 int processing = buffer.readVarInt();
                 boolean heat = buffer.readBoolean();
 
-                return new CultureJarRecipe(recipeId, fluid, item, processing, heat);
+                return new CultureJarStarterRecipe(recipeId, fluid, item, processing, heat);
             } catch (Exception ex) {
                 String message = String.format("Unable to read recipe (%s) from network buffer.", recipeId);
                 GrowthcraftCellar.LOGGER.error(message);
@@ -134,7 +134,7 @@ public class CultureJarRecipe implements Recipe<SimpleContainer> {
         }
 
         @Override
-        public void toNetwork(FriendlyByteBuf buffer, CultureJarRecipe recipe) {
+        public void toNetwork(FriendlyByteBuf buffer, CultureJarStarterRecipe recipe) {
             buffer.writeItemStack(recipe.getInputItemStack(), false);
             buffer.writeFluidStack(recipe.getInputFluidStack());
             buffer.writeVarInt(recipe.getRecipeProcessingTime());
