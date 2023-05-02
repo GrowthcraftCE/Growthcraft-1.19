@@ -38,6 +38,7 @@ public class CultureJarBlockEntityRenderer implements BlockEntityRenderer<Cultur
 
     }
 
+
     @Override
     public boolean shouldRender(CultureJarBlockEntity p_173568_, Vec3 p_173569_) {
         return true;
