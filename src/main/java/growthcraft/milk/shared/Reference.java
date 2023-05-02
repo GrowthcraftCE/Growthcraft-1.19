@@ -80,7 +80,6 @@ public class Reference {
         public static final String YOGURT_PLAIN = "yogurt_plain";
         public static final String YOGURT_PUMPKIN = "yogurt_pumpkin";
         public static final String YOGURT_WATERMELON = "yogurt_watermelon";
-        public static final String CULTURE_JAR_RECIPE = "culture_jar_recipe";
 
         private UnlocalizedName() {
             /* Disable Automatic Creation of Public Constructor */

@@ -29,6 +29,7 @@ public class Reference {
         public static final String COPPER_WORT = "copper_wort";
         public static final String CULTURE_JAR = "culture_jar";
         public static final String CULTURE_JAR_RECIPE = "culture_jar_recipe";
+        public static final String CULTURE_JAR_STARTER_RECIPE = "culture_jar_starter_recipe";
         public static final String DARK_LAGER = "dark_lager";
         public static final String DARK_WORT = "dark_wort";
         public static final String DEEP_AMBER_WORT = "deep_amber_wort";
