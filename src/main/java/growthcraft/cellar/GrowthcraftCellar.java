@@ -1,6 +1,7 @@
 package growthcraft.cellar;
 
 import growthcraft.cellar.init.*;
+import growthcraft.cellar.init.client.GrowthcraftCellarBlockEntityRenderers;
 import growthcraft.cellar.init.client.GrowthcraftCellarBlockRenderers;
 import growthcraft.cellar.init.config.GrowthcraftCellarConfig;
 import growthcraft.cellar.lib.networking.GrowthcraftCellarMessages;
@@ -9,6 +10,7 @@ import growthcraft.cellar.shared.Reference;
 import growthcraft.core.init.GrowthcraftCreativeModeTabs;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
@@ -32,6 +34,7 @@ public class GrowthcraftCellar {
         modEventBus.addListener(this::setup);
         modEventBus.addListener(this::clientSetupEvent);
         modEventBus.addListener(this::buildCreativeTabContents);
+        modEventBus.addListener(this::onRegisterRenderers);
 
         // Config
         GrowthcraftCellarConfig.loadConfig();
@@ -74,4 +77,7 @@ public class GrowthcraftCellar {
         LOGGER.info("Growthcraft Cellar starting up ...");
     }
 
+    public void onRegisterRenderers(EntityRenderersEvent.RegisterRenderers event) {
+        GrowthcraftCellarBlockEntityRenderers.register(event);
+    }
 }
