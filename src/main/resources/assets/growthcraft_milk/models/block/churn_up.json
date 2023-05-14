@@ -1,5 +1,7 @@
 {
   "credit": "Made with Blockbench",
+  "ambientocclusion": false,
+  "render_type": "cutout",
   "textures": {
     "5": "growthcraft_milk:block/oak_planks",
     "particle": "growthcraft_milk:block/butter_churn/butter_churn",

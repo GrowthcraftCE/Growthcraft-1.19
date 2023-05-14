@@ -1,8 +1,8 @@
-package growthcraft.cellar.lib.networking.packet;
+package growthcraft.milk.lib.networking.packet;
 
-import growthcraft.cellar.block.entity.CultureJarBlockEntity;
-import growthcraft.cellar.screen.CultureJarMenu;
 import growthcraft.lib.networking.packet.FluidTankSyncPacket;
+import growthcraft.milk.block.entity.ChurnBlockEntity;
+import growthcraft.milk.screen.ChurnMenu;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
@@ -11,27 +11,28 @@ import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public class CultureJarFluidSyncPacket extends FluidTankSyncPacket {
+public class ChurnFluidTankSyncPacket extends FluidTankSyncPacket {
 
-    public CultureJarFluidSyncPacket(int tankID, FluidStack fluidStack, BlockPos blockPos) {
+    public ChurnFluidTankSyncPacket(int tankID, FluidStack fluidStack, BlockPos blockPos) {
         super(tankID, fluidStack, blockPos);
     }
 
-    public CultureJarFluidSyncPacket(FriendlyByteBuf byteBuf) {
+    public ChurnFluidTankSyncPacket(FriendlyByteBuf byteBuf) {
         super(byteBuf);
     }
 
     public boolean handle(Supplier<NetworkEvent.Context> supplier) {
         NetworkEvent.Context context = supplier.get();
-        context.enqueueWork( () -> {
-                    if(Minecraft.getInstance().level.getBlockEntity(this.blockPos) instanceof CultureJarBlockEntity blockEntity) {
+        context.enqueueWork(() -> {
+                    if (Minecraft.getInstance().level.getBlockEntity(this.blockPos) instanceof ChurnBlockEntity blockEntity) {
                         blockEntity.setFluidStackInTank(this.tankID, this.fluidStack);
 
-                        if(Minecraft.getInstance().player.containerMenu instanceof CultureJarMenu menu &&
+                        if (Minecraft.getInstance().player.containerMenu instanceof ChurnMenu menu &&
                                 menu.getBlockEntity().getBlockPos().equals(this.blockPos)) {
                             menu.setFluid(this.tankID, this.fluidStack);
                         }
                     }
+
                 }
         );
         return true;
