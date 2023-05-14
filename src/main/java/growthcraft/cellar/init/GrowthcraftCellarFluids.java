@@ -241,6 +241,24 @@ public class GrowthcraftCellarFluids {
             new Item.Properties().stacksTo(1)
     );
 
+    public static final GrowthcraftCellarFluidRegistryContainer DEEP_COPPER_WORT = new GrowthcraftCellarFluidRegistryContainer(
+            FluidUtils.getFluidNames(Reference.UnlocalizedName.DEEP_COPPER_WORT).get(FluidUtils.STILL),
+            FluidType.Properties.create().canSwim(true).canDrown(true).canPushEntity(true).supportsBoating(true),
+            () -> GrowthcraftCellarFluidRegistryContainer.createExtension(
+                    new ClientFluidTypeExtensions(
+                            Reference.MODID,
+                            FluidUtils.getFluidNames(Reference.UnlocalizedName.DEEP_COPPER_WORT).get(FluidUtils.STILL)
+                    ).tint(Reference.FluidColor.DEEP_COPPER_WORT.toIntValue())
+                            .fogColor(
+                                    Reference.FluidColor.DEEP_COPPER_WORT.toFloatValues().get("red"),
+                                    Reference.FluidColor.DEEP_COPPER_WORT.toFloatValues().get("green"),
+                                    Reference.FluidColor.DEEP_COPPER_WORT.toFloatValues().get("blue")
+                            )
+            ),
+            BlockBehaviour.Properties.copy(Blocks.WATER),
+            new Item.Properties().stacksTo(1)
+    );
+
     public static final GrowthcraftCellarFluidRegistryContainer GOLDEN_WORT = new GrowthcraftCellarFluidRegistryContainer(
             FluidUtils.getFluidNames(Reference.UnlocalizedName.GOLDEN_WORT).get(FluidUtils.STILL),
             FluidType.Properties.create().canSwim(true).canDrown(true).canPushEntity(true).supportsBoating(true),

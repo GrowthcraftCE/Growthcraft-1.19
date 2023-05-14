@@ -39,6 +39,7 @@ public class GrowthcraftCellarItemRenderers {
         ItemRendererUtils.registerItem(event, Reference.FluidColor.DARK_LAGER.toItemColor(), GrowthcraftCellarFluids.DARK_LAGER.bucket.get());
         ItemRendererUtils.registerItem(event, Reference.FluidColor.DARK_WORT.toItemColor(), GrowthcraftCellarFluids.DARK_WORT.bucket.get());
         ItemRendererUtils.registerItem(event, Reference.FluidColor.DEEP_AMBER_WORT.toItemColor(), GrowthcraftCellarFluids.DEEP_AMBER_WORT.bucket.get());
+        ItemRendererUtils.registerItem(event, Reference.FluidColor.DEEP_COPPER_WORT.toItemColor(), GrowthcraftCellarFluids.DEEP_COPPER_WORT.bucket.get());
         ItemRendererUtils.registerItem(event, Reference.FluidColor.GOLDEN_WORT.toItemColor(), GrowthcraftCellarFluids.GOLDEN_WORT.bucket.get());
         ItemRendererUtils.registerItem(event, Reference.FluidColor.HOPPED_GOLDEN_WORT.toItemColor(), GrowthcraftCellarFluids.HOPPED_GOLDEN_WORT.bucket.get());
         ItemRendererUtils.registerItem(event, Reference.FluidColor.IPA_ALE.toItemColor(), GrowthcraftCellarFluids.IPA_ALE.bucket.get());
