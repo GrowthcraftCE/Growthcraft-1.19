@@ -1,5 +1,6 @@
 package growthcraft.milk.init;
 
+import growthcraft.milk.block.ChurnBlock;
 import growthcraft.milk.block.PancheonBlock;
 import growthcraft.milk.block.ThistleCropBlock;
 import growthcraft.milk.shared.Reference;
@@ -20,9 +21,11 @@ public class GrowthcraftMilkBlocks {
 
     // TODO: Cheese Press
 
-    // TODO: Churn
+    public static final RegistryObject<Block> CHURN = registerBlock(
+        Reference.UnlocalizedName.CHURN,
+            ChurnBlock::new
+    );
 
-    // TODO: Pancheon
     public static final RegistryObject<Block> PANCHEON = registerBlock(
             Reference.UnlocalizedName.PANCHEON,
             PancheonBlock::new
