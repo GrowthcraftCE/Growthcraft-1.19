@@ -52,5 +52,5 @@ gui.grc.switch=Tankları Değiştir
 tile.brew_kettle.name=Bira İbriği
 tile.cork_log.name=Cork Wood
 tile.culture_jar.name=Kültür Kavanozu
-tile.ferment_barrel.name=Fermentasyon Fıçısı
+tile.fermentation_barrel.name=Fermentasyon Fıçısı
 tile.fruit_press.name=Meyve Presi

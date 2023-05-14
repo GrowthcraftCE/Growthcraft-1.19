@@ -21,6 +21,8 @@ public class GrowthcraftCellarBlockEntities {
             ).build(null)
     );
 
+    //TODO: Register fermentation barrel block entity.
+
     public GrowthcraftCellarBlockEntities() {
         /* Disable automatic default public constructor */
     }

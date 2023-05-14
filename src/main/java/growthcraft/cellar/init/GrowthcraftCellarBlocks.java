@@ -25,7 +25,7 @@ public class GrowthcraftCellarBlocks {
             CultureJarBlock::new
     );
 
-    // TODO: FERMENT_BARREL_OAK
+    // TODO: Register fermentation barrel block
 
     // TODO: FRUIT_PRESS
     // TODO: FRUIT_PRESS_PISTON

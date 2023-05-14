@@ -56,6 +56,7 @@ public class GrowthcraftCellar {
     private void clientSetupEvent(final FMLClientSetupEvent event) {
         GrowthcraftCellarBlockRenderers.setRenderLayers();
         MenuScreens.register(GrowthcraftCellarMenus.CULTURE_JAR_MENU.get(), CultureJarScreen::new);
+        // TODO: Register fermentation barrel client side menu.
     }
 
     private void setup(final FMLCommonSetupEvent event) {

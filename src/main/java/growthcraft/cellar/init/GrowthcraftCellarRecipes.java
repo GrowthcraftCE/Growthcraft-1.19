@@ -26,6 +26,8 @@ public class GrowthcraftCellarRecipes {
             SERIALIZERS.register(Reference.UnlocalizedName.CULTURE_JAR_STARTER_RECIPE,
                     () -> CultureJarStarterRecipe.Serializer.INSTANCE);
 
+    // TODO: Register fermentation barrel recipe
+
     public static void register(IEventBus eventBus) {
         SERIALIZERS.register(eventBus);
     }
