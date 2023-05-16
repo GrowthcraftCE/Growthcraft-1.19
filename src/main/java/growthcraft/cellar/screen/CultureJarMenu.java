@@ -43,8 +43,6 @@ public class CultureJarMenu extends AbstractContainerMenu {
         addPlayerHotbar(inventory);
 
         // Add our block's inventory slots.
-        // TODO: Add Culture Jar Item Inventory
-
         this.blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(handler -> {
                 // 1 Input Slot
                 this.addSlot(new SlotItemHandler(handler, 0, 94, 35));

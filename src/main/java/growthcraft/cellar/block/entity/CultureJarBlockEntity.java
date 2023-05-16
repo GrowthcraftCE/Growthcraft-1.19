@@ -117,7 +117,6 @@ public class CultureJarBlockEntity extends BlockEntity implements BlockEntityTic
 
     @Override
     public void tick(Level level, BlockPos blockPos, BlockState blockState, CultureJarBlockEntity blockEntity) {
-        //TODO: Check for Culture Jar recipe and processing.
 
         if(!level.isClientSide && this.isHeated()) {
             // Do nothing, we are just ensuring that the LIT property is accurate.
