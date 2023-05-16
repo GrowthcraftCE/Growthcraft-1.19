@@ -2,6 +2,7 @@ package growthcraft.cellar.init;
 
 import growthcraft.cellar.recipe.CultureJarRecipe;
 import growthcraft.cellar.recipe.CultureJarStarterRecipe;
+import growthcraft.cellar.recipe.FermentationBarrelRecipe;
 import growthcraft.cellar.shared.Reference;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -26,7 +27,9 @@ public class GrowthcraftCellarRecipes {
             SERIALIZERS.register(Reference.UnlocalizedName.CULTURE_JAR_STARTER_RECIPE,
                     () -> CultureJarStarterRecipe.Serializer.INSTANCE);
 
-    // TODO: Register fermentation barrel recipe
+    public static final RegistryObject<RecipeSerializer<FermentationBarrelRecipe>> FERMENT_BARREL_RECIPE_SERIAL =
+            SERIALIZERS.register(Reference.UnlocalizedName.FERMENT_BARREL_RECIPE,
+                    () -> FermentationBarrelRecipe.Serializer.INSTANCE);
 
     public static void register(IEventBus eventBus) {
         SERIALIZERS.register(eventBus);

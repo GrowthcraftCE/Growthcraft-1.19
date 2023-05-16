@@ -1,6 +1,9 @@
 package growthcraft.cellar.lib.networking.packet;
 
+import growthcraft.cellar.block.entity.FermentationBarrelBlockEntity;
+import growthcraft.cellar.screen.FermentationBarrelMenu;
 import growthcraft.lib.networking.packet.FluidTankSyncPacket;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.fluids.FluidStack;
@@ -21,17 +24,14 @@ public class FermentationBarrelFluidTankPacket extends FluidTankSyncPacket {
     public boolean handle(Supplier<NetworkEvent.Context> supplier) {
         NetworkEvent.Context context = supplier.get();
         context.enqueueWork(() -> {
-                    //TODO: Implement network sync hook to fermentation barrel block entity and menu.
-                    /*
-                    if(Minecraft.getInstance().level.getBlockEntity(this.blockPos) instanceof CultureJarBlockEntity blockEntity) {
+                    if (Minecraft.getInstance().level.getBlockEntity(this.blockPos) instanceof FermentationBarrelBlockEntity blockEntity) {
                         blockEntity.setFluidStackInTank(this.tankID, this.fluidStack);
 
-                        if(Minecraft.getInstance().player.containerMenu instanceof CultureJarMenu menu &&
+                        if (Minecraft.getInstance().player.containerMenu instanceof FermentationBarrelMenu menu &&
                                 menu.getBlockEntity().getBlockPos().equals(this.blockPos)) {
                             menu.setFluid(this.tankID, this.fluidStack);
                         }
                     }
-                    */
                 }
         );
         return true;
