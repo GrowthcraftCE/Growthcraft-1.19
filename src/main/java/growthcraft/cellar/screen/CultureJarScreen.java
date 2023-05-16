@@ -47,6 +47,8 @@ public class CultureJarScreen extends AbstractContainerScreen<CultureJarMenu> {
         // Full background image
         this.blit(poseStack, x, y, 0, 0, imageWidth, imageHeight);
 
+        //TODO[8]: Fix progress bar alignment and image. Scale progress upward instead of downward.
+
         // Progress bar
         this.blit(poseStack,
                 x + 82, y + 30,
