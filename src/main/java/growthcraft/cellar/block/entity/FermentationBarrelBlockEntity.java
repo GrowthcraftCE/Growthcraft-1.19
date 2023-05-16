@@ -38,6 +38,7 @@ import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.List;
@@ -212,6 +213,7 @@ public class FermentationBarrelBlockEntity extends BlockEntity implements BlockE
         return this.FLUID_TANK_INPUT_0.getFluid();
     }
 
+    @Nonnull
     public GrowthcraftFluidTank getFluidTank(int tankID) {
         return this.FLUID_TANK_INPUT_0;
     }

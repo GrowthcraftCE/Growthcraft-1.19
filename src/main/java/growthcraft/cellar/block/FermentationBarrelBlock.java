@@ -36,6 +36,8 @@ import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Objects;
+
 public class FermentationBarrelBlock extends BaseEntityBlock implements SimpleWaterloggedBlock {
 
     public static final DirectionProperty FACING = DirectionalBlock.FACING;
@@ -143,14 +145,14 @@ public class FermentationBarrelBlock extends BaseEntityBlock implements SimpleWa
             FermentationBarrelBlockEntity blockEntity = (FermentationBarrelBlockEntity) level.getBlockEntity(blockPos);
 
             if(player.getItemInHand(interactionHand).getItem() instanceof BottleItem
-                    && blockEntity.getFluidTank(0).getFluidAmount() >= 500) {
+                    && Objects.requireNonNull(blockEntity).getFluidTank(0).getFluidAmount() >= 500) {
                 // Drain the fluid and produce the final potion.
                 ItemStack potionItemStack = blockEntity.getResultingPotionItemStack();
 
                 blockEntity.drainFluidTank(0, 500);
                 player.getItemInHand(interactionHand).shrink(1);
 
-                if(!player.getInventory().add(potionItemStack)) {
+                if(potionItemStack != null && !player.getInventory().add(potionItemStack)) {
                     player.drop(potionItemStack, false);
                 }
 
