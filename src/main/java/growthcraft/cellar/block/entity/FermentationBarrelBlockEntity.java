@@ -21,6 +21,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -165,6 +166,27 @@ public class FermentationBarrelBlockEntity extends BlockEntity implements BlockE
             }
         }
         return matchingRecipes;
+    }
+
+    private List<FermentationBarrelRecipe> getMatchingRecipes(FluidStack fluidStack) {
+        List<FermentationBarrelRecipe> matchingRecipes = new ArrayList<>();
+
+        List<FermentationBarrelRecipe> recipes = level.getRecipeManager()
+                .getAllRecipesFor(FermentationBarrelRecipe.Type.INSTANCE);
+
+        for(FermentationBarrelRecipe recipe : recipes) {
+            if(recipe.matches(fluidStack)) {
+                matchingRecipes.add(recipe);
+            }
+        }
+        return matchingRecipes;
+    }
+
+    @Nullable
+    public ItemStack getResultingPotionItemStack() {
+        List<FermentationBarrelRecipe> matchingRecipes = this.getMatchingRecipes(this.getFluidStackInTank(0));
+        FermentationBarrelRecipe recipe = matchingRecipes.get(0);
+        return recipe != null ? recipe.getBottleItemStack().copy() : null;
     }
 
     private void resetTickClock() {

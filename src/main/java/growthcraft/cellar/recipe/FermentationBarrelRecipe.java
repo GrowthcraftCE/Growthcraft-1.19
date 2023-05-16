@@ -94,14 +94,11 @@ public class FermentationBarrelRecipe implements Recipe<SimpleContainer> {
     }
 
     /**
-     * Determine if a FluidStack matches this recipe.
-     *
-     * @deprecated Method not specific enough, use {@link #matches(ItemStack, FluidStack)} instead.
+     * Determine if a FluidStack matches this recipe output.
      *
      * @param fluidStack
      * @return
      */
-    @Deprecated(since = "8.0.10", forRemoval = true)
     public boolean matches(FluidStack fluidStack) {
         return this.outputFluidStack.getFluid() == fluidStack.getFluid();
     }

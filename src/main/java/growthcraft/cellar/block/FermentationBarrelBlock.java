@@ -10,6 +10,8 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.BottleItem;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -31,6 +33,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.fluids.FluidUtil;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
@@ -137,29 +140,38 @@ public class FermentationBarrelBlock extends BaseEntityBlock implements SimpleWa
 
     @Override
     public InteractionResult use(BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand interactionHand, BlockHitResult hitResult) {
-        if (!level.isClientSide && player.isCrouching()) {
-            try {
-                // Play sound
-                level.playSound(player, blockPos, SoundEvents.BARREL_OPEN, SoundSource.BLOCKS, 1.0F, 1.0F);
-                FermentationBarrelBlockEntity blockEntity = (FermentationBarrelBlockEntity) level.getBlockEntity(blockPos);
-                NetworkHooks.openScreen(((ServerPlayer) player), blockEntity, blockPos);
-            } catch (Exception ex) {
-                GrowthcraftCellar.LOGGER.error(String.format("%s unable to open FermentationBarrelBlockEntity GUI at %s.", player.getDisplayName().getString(), blockPos));
-                GrowthcraftCellar.LOGGER.error(ex.getMessage());
-                GrowthcraftCellar.LOGGER.error(ex.fillInStackTrace());
-            }
-            return InteractionResult.SUCCESS;
-        }
-
         if (!level.isClientSide) {
-            if (
+            FermentationBarrelBlockEntity blockEntity = (FermentationBarrelBlockEntity) level.getBlockEntity(blockPos);
+
+            if(player.getItemInHand(interactionHand).getItem() instanceof BottleItem
+                    && blockEntity.getFluidTank(0).getFluidAmount() >= 500) {
+                // Drain the fluid and produce the final potion.
+                blockEntity.getFluidTank(0).drain(500, IFluidHandler.FluidAction.EXECUTE);
+                player.getItemInHand(interactionHand).shrink(1);
+
+                ItemStack potionItemStack = blockEntity.getResultingPotionItemStack();
+                if(!player.getInventory().add(potionItemStack)) {
+                    player.drop(potionItemStack, false);
+                }
+
+                level.sendBlockUpdated(blockPos, blockState, blockState, Block.UPDATE_ALL);
+            } else if (
                     FluidUtil.interactWithFluidHandler(player, interactionHand, level, blockPos, hitResult.getDirection())
                             || player.getItemInHand(interactionHand).getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).isPresent()
             ) {
                 return InteractionResult.SUCCESS;
+            } else if(player.isCrouching()) {
+                try {
+                    // Play sound
+                    level.playSound(player, blockPos, SoundEvents.BARREL_OPEN, SoundSource.BLOCKS, 1.0F, 1.0F);
+                    NetworkHooks.openScreen(((ServerPlayer) player), blockEntity, blockPos);
+                } catch (Exception ex) {
+                    GrowthcraftCellar.LOGGER.error(String.format("%s unable to open FermentationBarrelBlockEntity GUI at %s.", player.getDisplayName().getString(), blockPos));
+                    GrowthcraftCellar.LOGGER.error(ex.getMessage());
+                    GrowthcraftCellar.LOGGER.error(ex.fillInStackTrace());
+                }
             }
-
-            // TODO: Handle drawing out the PotionItem
+            return InteractionResult.SUCCESS;
         }
 
         return InteractionResult.SUCCESS;
