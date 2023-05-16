@@ -33,7 +33,6 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
@@ -146,15 +145,15 @@ public class FermentationBarrelBlock extends BaseEntityBlock implements SimpleWa
             if(player.getItemInHand(interactionHand).getItem() instanceof BottleItem
                     && blockEntity.getFluidTank(0).getFluidAmount() >= 500) {
                 // Drain the fluid and produce the final potion.
-                blockEntity.getFluidTank(0).drain(500, IFluidHandler.FluidAction.EXECUTE);
+                ItemStack potionItemStack = blockEntity.getResultingPotionItemStack();
+
+                blockEntity.drainFluidTank(0, 500);
                 player.getItemInHand(interactionHand).shrink(1);
 
-                ItemStack potionItemStack = blockEntity.getResultingPotionItemStack();
                 if(!player.getInventory().add(potionItemStack)) {
                     player.drop(potionItemStack, false);
                 }
 
-                level.sendBlockUpdated(blockPos, blockState, blockState, Block.UPDATE_ALL);
             } else if (
                     FluidUtil.interactWithFluidHandler(player, interactionHand, level, blockPos, hitResult.getDirection())
                             || player.getItemInHand(interactionHand).getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).isPresent()

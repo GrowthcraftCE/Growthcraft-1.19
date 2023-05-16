@@ -312,4 +312,10 @@ public class FermentationBarrelBlockEntity extends BlockEntity implements BlockE
         }
         Containers.dropContents(this.getLevel(), this.worldPosition, inventory);
     }
+
+    public void drainFluidTank(int tankID, int amount) {
+        this.getFluidTank(0).drain(amount, IFluidHandler.FluidAction.EXECUTE);
+        this.level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), Block.UPDATE_ALL);
+    }
+
 }
