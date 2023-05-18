@@ -1,4 +1,4 @@
-package growthcraft.cellar.screen;
+package growthcraft.cellar.screen.container;
 
 import growthcraft.cellar.block.CultureJarBlock;
 import growthcraft.cellar.block.entity.CultureJarBlockEntity;

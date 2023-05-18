@@ -1,7 +1,7 @@
 package growthcraft.cellar.init;
 
-import growthcraft.cellar.screen.CultureJarMenu;
-import growthcraft.cellar.screen.FermentationBarrelMenu;
+import growthcraft.cellar.screen.container.CultureJarMenu;
+import growthcraft.cellar.screen.container.FermentationBarrelMenu;
 import growthcraft.cellar.shared.Reference;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;

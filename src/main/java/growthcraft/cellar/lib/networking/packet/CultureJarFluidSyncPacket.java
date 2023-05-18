@@ -1,7 +1,7 @@
 package growthcraft.cellar.lib.networking.packet;
 
 import growthcraft.cellar.block.entity.CultureJarBlockEntity;
-import growthcraft.cellar.screen.CultureJarMenu;
+import growthcraft.cellar.screen.container.CultureJarMenu;
 import growthcraft.lib.networking.packet.FluidTankSyncPacket;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;

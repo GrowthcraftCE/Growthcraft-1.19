@@ -4,7 +4,7 @@ import growthcraft.cellar.init.GrowthcraftCellarBlockEntities;
 import growthcraft.cellar.lib.networking.GrowthcraftCellarMessages;
 import growthcraft.cellar.lib.networking.packet.FermentationBarrelFluidTankPacket;
 import growthcraft.cellar.recipe.FermentationBarrelRecipe;
-import growthcraft.cellar.screen.FermentationBarrelMenu;
+import growthcraft.cellar.screen.container.FermentationBarrelMenu;
 import growthcraft.lib.block.entity.GrowthcraftFluidTank;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
