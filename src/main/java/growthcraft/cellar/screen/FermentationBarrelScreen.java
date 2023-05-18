@@ -47,12 +47,11 @@ public class FermentationBarrelScreen extends AbstractContainerScreen<Fermentati
         // Full background image
         blit(poseStack, x, y, 0, 0, imageWidth, imageHeight);
 
-        //TODO[8]: Fix progress bar alignment and image. Scale progress upward instead of downward.
-
         // Progress Bar
         blit(poseStack,
-                x + 82, y + 30,
-                176, 0, 25, menu.getProgressionScaled(25)
+                x + 51, y + 48 - menu.getProgressionScaled(28),
+                188, 28 - menu.getProgressionScaled(28),
+                8, menu.getProgressionScaled(28)
         );
 
         fluidTankRenderer0.render(poseStack, x + 72, y + 17, menu.getFluidStack(0));

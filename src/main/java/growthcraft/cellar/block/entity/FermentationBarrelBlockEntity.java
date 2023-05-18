@@ -143,8 +143,9 @@ public class FermentationBarrelBlockEntity extends BlockEntity implements BlockE
 
                 // Clear the current fluid and replace with the resulting FluidStack with amount multiplier.
                 this.setFluidStackInTank(0, resultingFluidStack);
-
                 this.resetTickClock();
+
+                this.level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), Block.UPDATE_ALL);
             } else if(recipe != null && this.tickMax == -1) {
                 this.tickMax = recipe.getProcessingTime() * recipe.getOutputMultiplier(this.getFluidStackInTank(0));
             } else {
