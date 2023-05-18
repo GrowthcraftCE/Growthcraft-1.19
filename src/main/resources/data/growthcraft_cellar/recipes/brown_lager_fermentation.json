@@ -6,22 +6,22 @@
     "count": 1
   },
   "ingredient_fluid": {
-    "fluid": "growthcraft_cellar:dark_wort_fluid_source",
+    "fluid": "growthcraft_cellar:brown_wort_fluid_source",
     "amount": 1000
   },
   "result": {
-    "fluid": "growthcraft_cellar:dark_lager_fluid_source",
+    "fluid": "growthcraft_cellar:brown_lager_fluid_source",
     "amount": 1000
   },
   "effects": [
     {
-      "effect": "minecraft:resistance",
+      "effect": "minecraft:speed",
       "duration": 6000,
-      "amplifier": 1
+      "amplifier": 3
     }
   ],
   "bottle": {
     "item": "growthcraft_cellar:potion_lager"
   },
-  "color": "0x211515"
+  "color": "0x401F1C"
 }
