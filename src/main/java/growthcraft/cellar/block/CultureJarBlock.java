@@ -93,7 +93,6 @@ public class CultureJarBlock extends BaseEntityBlock {
     @Nullable
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
-        // TODO: Is block below heated?
         return this.defaultBlockState()
                 .setValue(FACING, context.getHorizontalDirection().getOpposite())
                 .setValue(LIT, BlockStateUtils.isHeated(context.getLevel(), context.getClickedPos()));

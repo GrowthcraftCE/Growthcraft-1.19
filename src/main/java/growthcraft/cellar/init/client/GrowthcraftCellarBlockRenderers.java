@@ -36,6 +36,8 @@ public class GrowthcraftCellarBlockRenderers {
         ItemBlockRenderTypes.setRenderLayer(GrowthcraftCellarFluids.DARK_WORT.flowing.get(), RenderType.translucent());
         ItemBlockRenderTypes.setRenderLayer(GrowthcraftCellarFluids.DEEP_AMBER_WORT.source.get(), RenderType.translucent());
         ItemBlockRenderTypes.setRenderLayer(GrowthcraftCellarFluids.DEEP_AMBER_WORT.flowing.get(), RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(GrowthcraftCellarFluids.DEEP_COPPER_WORT.source.get(), RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(GrowthcraftCellarFluids.DEEP_COPPER_WORT.flowing.get(), RenderType.translucent());
         ItemBlockRenderTypes.setRenderLayer(GrowthcraftCellarFluids.GOLDEN_WORT.source.get(), RenderType.translucent());
         ItemBlockRenderTypes.setRenderLayer(GrowthcraftCellarFluids.GOLDEN_WORT.flowing.get(), RenderType.translucent());
         ItemBlockRenderTypes.setRenderLayer(GrowthcraftCellarFluids.HOPPED_GOLDEN_WORT.source.get(), RenderType.translucent());

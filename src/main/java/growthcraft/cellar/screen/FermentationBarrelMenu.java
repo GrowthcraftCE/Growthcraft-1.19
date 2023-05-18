@@ -1,7 +1,7 @@
 package growthcraft.cellar.screen;
 
-import growthcraft.cellar.block.CultureJarBlock;
-import growthcraft.cellar.block.entity.CultureJarBlockEntity;
+import growthcraft.cellar.block.FermentationBarrelBlock;
+import growthcraft.cellar.block.entity.FermentationBarrelBlockEntity;
 import growthcraft.cellar.init.GrowthcraftCellarMenus;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
@@ -16,24 +16,24 @@ import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.items.SlotItemHandler;
 
-public class CultureJarMenu extends AbstractContainerMenu {
+public class FermentationBarrelMenu extends AbstractContainerMenu {
 
-    private final CultureJarBlockEntity blockEntity;
-    private final CultureJarBlock block;
+    private final FermentationBarrelBlockEntity blockEntity;
+    private final FermentationBarrelBlock block;
     private final Level level;
     private final ContainerData data;
 
     private FluidStack fluidStack0;
 
-    public CultureJarMenu(int containerId, Inventory inventory, FriendlyByteBuf extraData) {
+    public FermentationBarrelMenu(int containerId, Inventory inventory, FriendlyByteBuf extraData) {
         this(containerId, inventory, inventory.player.level.getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(2));
     }
 
-    public CultureJarMenu(int containerId, Inventory inventory, BlockEntity blockEntity, ContainerData data) {
-        super(GrowthcraftCellarMenus.CULTURE_JAR_MENU.get(), containerId);
+    public FermentationBarrelMenu(int containerId, Inventory inventory, BlockEntity blockEntity, ContainerData data) {
+        super(GrowthcraftCellarMenus.FERMENTATION_BARREL_MENU.get(), containerId);
 
-        this.blockEntity = (CultureJarBlockEntity) blockEntity;
-        this.block = (CultureJarBlock) inventory.player.level.getBlockEntity(this.blockEntity.getBlockPos()).getBlockState().getBlock();
+        this.blockEntity = (FermentationBarrelBlockEntity) blockEntity;
+        this.block = (FermentationBarrelBlock) inventory.player.level.getBlockEntity(this.blockEntity.getBlockPos()).getBlockState().getBlock();
         this.level = inventory.player.level;
         this.data = data;
 
@@ -42,20 +42,17 @@ public class CultureJarMenu extends AbstractContainerMenu {
         addPlayerInventory(inventory);
         addPlayerHotbar(inventory);
 
-        // Add our block's inventory slots.
         this.blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(handler -> {
-                // 1 Input Slot
-                this.addSlot(new SlotItemHandler(handler, 0, 94, 35));
-            }
+                    // 1 Input Slot
+                    this.addSlot(new SlotItemHandler(handler, 0, 52, 53));
+                }
         );
 
         // Add our block fluid tanks.
         addDataSlots(data);
-
     }
 
-
-    public CultureJarBlockEntity getBlockEntity() {
+    public FermentationBarrelBlockEntity getBlockEntity() {
         return this.blockEntity;
     }
 
@@ -63,7 +60,7 @@ public class CultureJarMenu extends AbstractContainerMenu {
         if (tankID == 0) {
             this.fluidStack0 = fluidStack;
         } else {
-            throw new NullPointerException(String.format("CultureJarMenu setFluidStack at <%s> does not have a fluid tank with the ID of %d!", blockEntity.getBlockPos(), tankID));
+            throw new NullPointerException(String.format("FermentationBarrelMenu setFluidStack at <%s> does not have a fluid tank with the ID of %d!", blockEntity.getBlockPos(), tankID));
         }
     }
 
@@ -71,12 +68,8 @@ public class CultureJarMenu extends AbstractContainerMenu {
         return switch (tankID) {
             case 0 -> this.blockEntity.getFluidStackInTank(0);
             default ->
-                    throw new NullPointerException(String.format("CultureJarMenu getFluidStack at <%s> does not have a fluid tank with the ID of %d!", blockEntity.getBlockPos(), tankID));
+                    throw new NullPointerException(String.format("FermentationBarrelMenu getFluidStack at <%s> does not have a fluid tank with the ID of %d!", blockEntity.getBlockPos(), tankID));
         };
-    }
-
-    public boolean isHeated() {
-        return this.blockEntity.isHeated();
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -161,6 +154,5 @@ public class CultureJarMenu extends AbstractContainerMenu {
             this.addSlot(new Slot(playerInventory, i, 8 + i * 18, 142));
         }
     }
-
 
 }

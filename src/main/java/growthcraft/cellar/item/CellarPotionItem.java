@@ -30,7 +30,7 @@ public class CellarPotionItem extends GrowthcraftItem {
         super(16);
     }
 
-    // TODO: Review custom potions for 1.19
+    // TODO[8]: Review custom potions for 1.19
     @Override
     public @NotNull ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity livingEntity) {
         Player player = livingEntity instanceof Player ? (Player) livingEntity : null;

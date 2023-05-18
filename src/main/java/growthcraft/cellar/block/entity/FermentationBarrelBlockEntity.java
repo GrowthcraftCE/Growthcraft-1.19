@@ -2,12 +2,10 @@ package growthcraft.cellar.block.entity;
 
 import growthcraft.cellar.init.GrowthcraftCellarBlockEntities;
 import growthcraft.cellar.lib.networking.GrowthcraftCellarMessages;
-import growthcraft.cellar.lib.networking.packet.CultureJarFluidSyncPacket;
-import growthcraft.cellar.recipe.CultureJarRecipe;
-import growthcraft.cellar.recipe.CultureJarStarterRecipe;
-import growthcraft.cellar.screen.CultureJarMenu;
+import growthcraft.cellar.lib.networking.packet.FermentationBarrelFluidTankPacket;
+import growthcraft.cellar.recipe.FermentationBarrelRecipe;
+import growthcraft.cellar.screen.FermentationBarrelMenu;
 import growthcraft.lib.block.entity.GrowthcraftFluidTank;
-import growthcraft.lib.utils.BlockStateUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -16,7 +14,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.Containers;
 import net.minecraft.world.MenuProvider;
+import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -38,14 +38,14 @@ import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static growthcraft.cellar.block.CultureJarBlock.LIT;
+public class FermentationBarrelBlockEntity extends BlockEntity implements BlockEntityTicker<FermentationBarrelBlockEntity>, MenuProvider {
 
-public class CultureJarBlockEntity extends BlockEntity implements BlockEntityTicker<CultureJarBlockEntity>, MenuProvider {
     private int tickClock = 0;
     private int tickMax = -1;
 
@@ -62,23 +62,23 @@ public class CultureJarBlockEntity extends BlockEntity implements BlockEntityTic
 
     private LazyOptional<IItemHandler> itemHandlerLazyOptional = LazyOptional.empty();
 
-    private final GrowthcraftFluidTank FLUID_TANK_INPUT_0 = new GrowthcraftFluidTank(1000) {
+    private final GrowthcraftFluidTank FLUID_TANK_INPUT_0 = new GrowthcraftFluidTank(4000) {
         @Override
         protected void onContentsChanged() {
             setChanged();
             if (!level.isClientSide) {
-                GrowthcraftCellarMessages.sendToClients(new CultureJarFluidSyncPacket(0, this.fluid, worldPosition));
+                GrowthcraftCellarMessages.sendToClients(new FermentationBarrelFluidTankPacket(0, this.fluid, worldPosition));
             }
         }
     };
 
     private LazyOptional<IFluidHandler> lazyInputFluidHandler0 = LazyOptional.empty();
 
-    public CultureJarBlockEntity(BlockPos blockPos, BlockState blockState) {
-        this(GrowthcraftCellarBlockEntities.CULTURE_JAR_BLOCK_ENTITY.get(), blockPos, blockState);
+    public FermentationBarrelBlockEntity(BlockPos blockPos, BlockState blockState) {
+        this(GrowthcraftCellarBlockEntities.FERMENTATION_BARREL_BLOCK_ENTITY.get(), blockPos, blockState);
     }
 
-    public CultureJarBlockEntity(BlockEntityType<?> blockEntityType, BlockPos blockPos, BlockState blockState) {
+    public FermentationBarrelBlockEntity(BlockEntityType<?> blockEntityType, BlockPos blockPos, BlockState blockState) {
         super(blockEntityType, blockPos, blockState);
 
         this.FLUID_TANK_INPUT_0.allowAnyFluid(true);
@@ -87,8 +87,8 @@ public class CultureJarBlockEntity extends BlockEntity implements BlockEntityTic
             @Override
             public int get(int index) {
                 return switch (index) {
-                    case 0 -> CultureJarBlockEntity.this.tickClock;
-                    case 1 -> CultureJarBlockEntity.this.tickMax;
+                    case 0 -> FermentationBarrelBlockEntity.this.tickClock;
+                    case 1 -> FermentationBarrelBlockEntity.this.tickMax;
                     default -> 0;
                 };
             }
@@ -96,8 +96,8 @@ public class CultureJarBlockEntity extends BlockEntity implements BlockEntityTic
             @Override
             public void set(int index, int value) {
                 switch (index) {
-                    case 0 -> CultureJarBlockEntity.this.tickClock = value;
-                    case 1 -> CultureJarBlockEntity.this.tickMax = value;
+                    case 0 -> FermentationBarrelBlockEntity.this.tickClock = value;
+                    case 1 -> FermentationBarrelBlockEntity.this.tickMax = value;
                 }
             }
 
@@ -112,87 +112,7 @@ public class CultureJarBlockEntity extends BlockEntity implements BlockEntityTic
     public Component getDisplayName() {
         return this.customName != null
                 ? this.customName
-                : Component.translatable("container.growthcraft_cellar.culture_jar");
-    }
-
-    @Override
-    public void tick(Level level, BlockPos blockPos, BlockState blockState, CultureJarBlockEntity blockEntity) {
-
-        if(!level.isClientSide && this.isHeated()) {
-            // Do nothing, we are just ensuring that the LIT property is accurate.
-        }
-
-        // The Culture Jar requires a fluid and an item in order to do anything.
-        if(!level.isClientSide && this.getFluidTank(0).getFluidAmount() > 0 && !this.itemStackHandler.getStackInSlot(0).isEmpty()) {
-            // Check for recipe.
-            List<CultureJarRecipe> recipes = this.getMatchingRecipes(this.getFluidStackInTank(0), this.itemStackHandler.getStackInSlot(0));
-            CultureJarRecipe recipe = recipes.isEmpty() ? null : recipes.get(0);
-
-            if (recipe != null) {
-                if (recipe.isHeatSourceRequired() && !this.isHeated()) {
-                    return;
-                }
-
-                if (this.tickClock <= this.tickMax) {
-                    this.tickClock++;
-                } else if (this.tickMax > 0 && this.tickClock > this.tickMax) {
-                    // Process the resulting recipe.
-                    int amountToDrain = recipe.getInputFluidStack().getAmount();
-
-                    this.getFluidTank(0).drain(amountToDrain, IFluidHandler.FluidAction.EXECUTE);
-                    this.itemStackHandler.getStackInSlot(0).grow(1);
-
-                    this.tickMax = -1;
-                    this.tickClock = 0;
-
-                } else if (this.tickMax == -1) {
-                    this.tickMax = recipe.getRecipeProcessingTime();
-                } else {
-                    this.tickMax = -1;
-                    this.tickClock = 0;
-                }
-
-                this.level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), Block.UPDATE_ALL);
-            }
-        } else if(!level.isClientSide && this.getFluidTank(0).getFluidAmount() > 0 && this.itemStackHandler.getStackInSlot(0).isEmpty()) {
-            // Check for recipe.
-            List<CultureJarStarterRecipe> recipes = this.getMatchingRecipes(this.getFluidStackInTank(0));
-            CultureJarStarterRecipe recipe = recipes.isEmpty() ? null : recipes.get(0);
-
-            if (recipe != null) {
-                if (recipe.isHeatSourceRequired() && !this.isHeated()) {
-                    return;
-                }
-
-                if (this.tickClock <= this.tickMax) {
-                    this.tickClock++;
-                } else if (this.tickMax > 0 && this.tickClock > this.tickMax) {
-                    // Process the resulting recipe.
-                    int amountToDrain = recipe.getInputFluidStack().getAmount();
-
-                    this.getFluidTank(0).drain(amountToDrain, IFluidHandler.FluidAction.EXECUTE);
-                    this.itemStackHandler.setStackInSlot(0, recipe.getInputItemStack().copy());
-
-                    this.tickMax = -1;
-                    this.tickClock = 0;
-
-                } else if (this.tickMax == -1) {
-                    this.tickMax = recipe.getRecipeProcessingTime();
-                } else {
-                    this.tickMax = -1;
-                    this.tickClock = 0;
-                }
-
-                this.level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), Block.UPDATE_ALL);
-            }
-        }
-
-    }
-
-    @Nullable
-    @Override
-    public AbstractContainerMenu createMenu(int containerId, @NotNull Inventory inventory, @NotNull Player player) {
-        return new CultureJarMenu(containerId, inventory, this, this.data);
+                : Component.translatable("container.growthcraft_cellar.fermentation_barrel");
     }
 
     public void tick() {
@@ -201,13 +121,85 @@ public class CultureJarBlockEntity extends BlockEntity implements BlockEntityTic
         }
     }
 
-    public boolean isHeated() {
-        boolean heated = BlockStateUtils.isHeated(this.level, this.getBlockPos());
-        // Only change the blockstate if it is different.
-        if(this.getBlockState().getValue(LIT).booleanValue() != heated) {
-            this.level.setBlock(this.getBlockPos(), this.getBlockState().setValue(LIT, heated), Block.UPDATE_ALL);
+    @Override
+    public void tick(Level level, BlockPos blockPos, BlockState blockState, FermentationBarrelBlockEntity blockEntity) {
+
+        if(!level.isClientSide && !this.getFluidTank(0).isEmpty()) {
+            List<FermentationBarrelRecipe> recipes = this.getMatchingRecipes();
+            FermentationBarrelRecipe recipe = recipes.isEmpty() ? null : recipes.get(0);
+
+            if(recipe != null && this.tickClock <= this.tickMax) {
+                this.tickClock++;
+            } else if (recipe != null && this.tickMax > 0 && this.tickClock > this.tickMax) {
+                // Determine multiplier for fluid output.
+                int multiplier = recipe.getOutputMultiplier(
+                        this.getFluidStackInTank(0)
+                );
+
+                this.itemStackHandler.getStackInSlot(0).shrink(multiplier);
+                FluidStack resultingFluidStack = recipe.getResultingFluid().copy();
+                int resultingAmount = resultingFluidStack.getAmount() * multiplier;
+                resultingFluidStack.setAmount(resultingAmount);
+
+                // Clear the current fluid and replace with the resulting FluidStack with amount multiplier.
+                this.setFluidStackInTank(0, resultingFluidStack);
+                this.resetTickClock();
+
+                this.level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), Block.UPDATE_ALL);
+            } else if(recipe != null && this.tickMax == -1) {
+                this.tickMax = recipe.getProcessingTime() * recipe.getOutputMultiplier(this.getFluidStackInTank(0));
+            } else {
+                this.resetTickClock();
+            }
+
+            this.level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), Block.UPDATE_ALL);
         }
-        return heated;
+    }
+
+    private List<FermentationBarrelRecipe> getMatchingRecipes() {
+        List<FermentationBarrelRecipe> matchingRecipes = new ArrayList<>();
+
+        List<FermentationBarrelRecipe> recipes = level.getRecipeManager()
+                .getAllRecipesFor(FermentationBarrelRecipe.Type.INSTANCE);
+
+        for(FermentationBarrelRecipe recipe : recipes) {
+            if(recipe.matches(this.itemStackHandler.getStackInSlot(0), this.getFluidStackInTank(0))) {
+                matchingRecipes.add(recipe);
+            }
+        }
+        return matchingRecipes;
+    }
+
+    private List<FermentationBarrelRecipe> getMatchingRecipes(FluidStack fluidStack) {
+        List<FermentationBarrelRecipe> matchingRecipes = new ArrayList<>();
+
+        List<FermentationBarrelRecipe> recipes = level.getRecipeManager()
+                .getAllRecipesFor(FermentationBarrelRecipe.Type.INSTANCE);
+
+        for(FermentationBarrelRecipe recipe : recipes) {
+            if(recipe.matches(fluidStack)) {
+                matchingRecipes.add(recipe);
+            }
+        }
+        return matchingRecipes;
+    }
+
+    @Nullable
+    public ItemStack getResultingPotionItemStack() {
+        List<FermentationBarrelRecipe> matchingRecipes = this.getMatchingRecipes(this.getFluidStackInTank(0));
+        FermentationBarrelRecipe recipe = matchingRecipes.get(0);
+        return recipe != null ? recipe.getBottleItemStack().copy() : null;
+    }
+
+    private void resetTickClock() {
+        this.tickClock = 0;
+        this.tickMax = -1;
+    }
+
+    @Nullable
+    @Override
+    public AbstractContainerMenu createMenu(int containerId, @NotNull Inventory inventory, @NotNull Player player) {
+        return new FermentationBarrelMenu(containerId, inventory, this, this.data);
     }
 
     public boolean isInputTankFull() {
@@ -222,6 +214,7 @@ public class CultureJarBlockEntity extends BlockEntity implements BlockEntityTic
         return this.FLUID_TANK_INPUT_0.getFluid();
     }
 
+    @Nonnull
     public GrowthcraftFluidTank getFluidTank(int tankID) {
         return this.FLUID_TANK_INPUT_0;
     }
@@ -239,35 +232,6 @@ public class CultureJarBlockEntity extends BlockEntity implements BlockEntityTic
             default:
                 return 0;
         }
-    }
-
-    private List<CultureJarRecipe> getMatchingRecipes(FluidStack fluidStack, ItemStack itemStack) {
-        List<CultureJarRecipe> matchingRecipes = new ArrayList<>();
-
-        List<CultureJarRecipe> recipes = level.getRecipeManager()
-                .getAllRecipesFor(CultureJarRecipe.Type.INSTANCE);
-
-        for (CultureJarRecipe recipe : recipes) {
-            if (recipe.getInputFluidStack().getFluid() == fluidStack.getFluid()
-                    && recipe.getInputItemStack().getItem() == itemStack.getItem()) {
-                matchingRecipes.add(recipe);
-            }
-        }
-        return matchingRecipes;
-    }
-
-    private List<CultureJarStarterRecipe> getMatchingRecipes(FluidStack fluidStack) {
-        List<CultureJarStarterRecipe> matchingRecipes = new ArrayList<>();
-
-        List<CultureJarStarterRecipe> recipes = level.getRecipeManager()
-                .getAllRecipesFor(CultureJarStarterRecipe.Type.INSTANCE);
-
-        for (CultureJarStarterRecipe recipe : recipes) {
-            if (recipe.getInputFluidStack().getFluid() == fluidStack.getFluid()) {
-                matchingRecipes.add(recipe);
-            }
-        }
-        return matchingRecipes;
     }
 
     @Nullable
@@ -344,5 +308,17 @@ public class CultureJarBlockEntity extends BlockEntity implements BlockEntityTic
         return super.getCapability(cap, side);
     }
 
+    public void dropItems() {
+        SimpleContainer inventory = new SimpleContainer(itemStackHandler.getSlots());
+        for (int i = 0; i < itemStackHandler.getSlots(); i++) {
+            inventory.setItem(i, itemStackHandler.getStackInSlot(i));
+        }
+        Containers.dropContents(this.getLevel(), this.worldPosition, inventory);
+    }
+
+    public void drainFluidTank(int tankID, int amount) {
+        this.getFluidTank(0).drain(amount, IFluidHandler.FluidAction.EXECUTE);
+        this.level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), Block.UPDATE_ALL);
+    }
 
 }

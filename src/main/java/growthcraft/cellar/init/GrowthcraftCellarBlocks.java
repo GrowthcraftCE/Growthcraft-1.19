@@ -19,15 +19,18 @@ public class GrowthcraftCellarBlocks {
 
     // TODO: BREW_KETTLE
 
-    // TODO: CULTURE_JAR
     public static final RegistryObject<Block> CULTURE_JAR = registerBlock(
             Reference.UnlocalizedName.CULTURE_JAR,
             CultureJarBlock::new
     );
 
-    // TODO: FERMENT_BARREL_OAK
+    public static final RegistryObject<Block> FERMENTATION_BARREL_OAK = registerBlock(
+            Reference.UnlocalizedName.FERMENT_BARREL_OAK,
+            FermentationBarrelBlock::new
+    );
 
     // TODO: FRUIT_PRESS
+
     // TODO: FRUIT_PRESS_PISTON
 
     public static final RegistryObject<Block> RED_GRAPE_VINE_FRUIT = registerBlock(

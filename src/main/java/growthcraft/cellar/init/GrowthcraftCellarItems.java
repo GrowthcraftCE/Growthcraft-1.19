@@ -81,7 +81,6 @@ public class GrowthcraftCellarItems {
             Reference.UnlocalizedName.GRAPE_RED, GrowthcraftFoodItem::new
     );
 
-    // TODO: GRAPE_RED_SEEDS
     public static final RegistryObject<GrapeSeedsItem> GRAPE_RED_SEEDS = ITEMS.register(
             Reference.UnlocalizedName.GRAPE_SEEDS_RED,
             () -> new GrapeSeedsItem(
