@@ -134,4 +134,8 @@ public class RoasterMenu extends AbstractContainerMenu {
             this.addSlot(new Slot(playerInventory, i, 8 + i * 18, 142));
         }
     }
+
+    public boolean isHeated() {
+        return this.blockEntity.isHeated();
+    }
 }

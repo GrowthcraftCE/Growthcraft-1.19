@@ -1,0 +1,21 @@
+{
+  "replace": false,
+  "values": [
+    "growthcraft:crowbar_black",
+    "growthcraft:crowbar_blue",
+    "growthcraft:crowbar_brown",
+    "growthcraft:crowbar_cyan",
+    "growthcraft:crowbar_gray",
+    "growthcraft:crowbar_green",
+    "growthcraft:crowbar_light_blue",
+    "growthcraft:crowbar_light_gray",
+    "growthcraft:crowbar_lime",
+    "growthcraft:crowbar_magenta",
+    "growthcraft:crowbar_orange",
+    "growthcraft:crowbar_pink",
+    "growthcraft:crowbar_purple",
+    "growthcraft:crowbar_red",
+    "growthcraft:crowbar_white",
+    "growthcraft:crowbar_yellow"
+  ]
+}

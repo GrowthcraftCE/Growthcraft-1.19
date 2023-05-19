@@ -50,6 +50,7 @@ public class Reference {
 
 
         public static final String TAG_SALT = "salt";
+        public static final String TAG_ROASTER_WRENCH = "roaster_wrench";
         public static final String TAG_ROPE = "rope";
         public static final String TAG_ROPE_FENCE = "rope_fence";
         public static final String TAG_HEATSOURCES = "heatsources";

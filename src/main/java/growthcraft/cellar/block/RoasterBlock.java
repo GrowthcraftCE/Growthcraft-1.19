@@ -3,6 +3,7 @@ package growthcraft.cellar.block;
 import growthcraft.cellar.GrowthcraftCellar;
 import growthcraft.cellar.block.entity.RoasterBlockEntity;
 import growthcraft.cellar.init.GrowthcraftCellarBlockEntities;
+import growthcraft.core.init.GrowthcraftTags;
 import growthcraft.core.utils.BlockPropertiesUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -109,8 +110,27 @@ public class RoasterBlock extends BaseEntityBlock {
 
     @Override
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
-        //TODO[9]: Handle right click for GUI.
+        if(!level.isClientSide) {
+            if(player.isCrouching()) {
+                // Open the GUI
+            } else if(player.getItemInHand(hand).is(GrowthcraftTags.Items.ROASTER_WRENCH)) {
+                // Then cycle the roaster level
+                this.incrementRoasterLevel(state, 1);
+
+            }
+        }
+
         return InteractionResult.SUCCESS;
+    }
+
+    private void incrementRoasterLevel(BlockState state, int incrementBy) {
+        int currentRoasterLevel = state.getValue(ROASTING_LEVEL) + incrementBy;
+
+        if(currentRoasterLevel > 8) {
+            currentRoasterLevel = 1;
+        }
+
+        state.setValue(ROASTING_LEVEL, currentRoasterLevel);
     }
 
     @Override
