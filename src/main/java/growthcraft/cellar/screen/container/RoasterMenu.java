@@ -39,8 +39,8 @@ public class RoasterMenu extends AbstractContainerMenu {
 
         this.blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(handler -> {
                 // 1 Input Slot
-                this.addSlot(new SlotItemHandler(handler, 0, 52, 53));
-                this.addSlot(new SlotItemHandler(handler, 1, 52, 53));
+                this.addSlot(new SlotItemHandler(handler, 0, 54, 42));
+                this.addSlot(new SlotItemHandler(handler, 1, 106, 42));
         });
 
         // Add our block fluid tanks.
@@ -137,5 +137,9 @@ public class RoasterMenu extends AbstractContainerMenu {
 
     public boolean isHeated() {
         return this.blockEntity.isHeated();
+    }
+
+    public String getRoastingLevel() {
+        return String.valueOf(this.blockEntity.getCurrentRoastingLevel());
     }
 }

@@ -1,7 +1,7 @@
 package growthcraft.cellar.block.entity;
 
+import growthcraft.cellar.block.RoasterBlock;
 import growthcraft.cellar.init.GrowthcraftCellarBlockEntities;
-import growthcraft.cellar.init.GrowthcraftCellarTags;
 import growthcraft.cellar.recipe.RoasterRecipe;
 import growthcraft.cellar.screen.container.RoasterMenu;
 import growthcraft.lib.utils.BlockStateUtils;
@@ -13,6 +13,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.Containers;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleContainer;
@@ -40,8 +41,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static growthcraft.cellar.block.CultureJarBlock.LIT;
-import static growthcraft.cellar.block.RoasterBlock.ROASTING_LEVEL;
+import static growthcraft.cellar.block.RoasterBlock.*;
 
 public class RoasterBlockEntity extends BlockEntity implements BlockEntityTicker<RoasterBlockEntity>, MenuProvider {
 
@@ -57,11 +57,6 @@ public class RoasterBlockEntity extends BlockEntity implements BlockEntityTicker
         @Override
         protected void onContentsChanged(int slot) {
             setChanged();
-        }
-
-        @Override
-        public boolean isItemValid(int slot, @NotNull ItemStack stack) {
-            return (slot == 0 && stack.is(GrowthcraftCellarTags.Items.GRAIN));
         }
     };
 
@@ -99,11 +94,13 @@ public class RoasterBlockEntity extends BlockEntity implements BlockEntityTicker
         };
     }
 
+
     public boolean isHeated() {
         boolean heated = BlockStateUtils.isHeated(this.level, this.getBlockPos());
         // Only change the blockstate if it is different.
-        if(Boolean.TRUE.equals(this.getBlockState().getValue(LIT)) != heated) {
-            if(level != null) this.level.setBlock(this.getBlockPos(), this.getBlockState().setValue(LIT, heated), Block.UPDATE_ALL);
+        if (Boolean.TRUE.equals(this.getBlockState().getValue(LIT)) != heated) {
+            if (level != null)
+                this.level.setBlock(this.getBlockPos(), this.getBlockState().setValue(LIT, heated).setValue(SIGNAL_FIRE, this.isProcessing()), Block.UPDATE_ALL);
         }
         return heated;
     }
@@ -131,40 +128,43 @@ public class RoasterBlockEntity extends BlockEntity implements BlockEntityTicker
     public void tick(Level level, BlockPos blockPos, BlockState blockState, RoasterBlockEntity blockEntity) {
         // TODO[9]: Implement Roaster ticking and processing methods.
 
-        if(!level.isClientSide && isHeated() && !this.itemStackHandler.getStackInSlot(0).isEmpty()) {
+        if (!level.isClientSide && isHeated() && !this.itemStackHandler.getStackInSlot(0).isEmpty()) {
+            try {
+                List<RoasterRecipe> recipes = this.getMatchingRecipes();
+                RoasterRecipe recipe = recipes.get(0);
 
-            List<RoasterRecipe> recipes = this.getMatchingRecipes();
-            RoasterRecipe recipe = recipes.get(0);
+                if (recipe != null) {
+                    if (this.tickClock <= this.tickMax) {
+                        this.tickClock++;
+                    } else if (this.tickMax > 0) {
+                        int itemCount = this.itemStackHandler.getStackInSlot(0).getCount();
+                        ItemStack resultItemStack = recipe.getResultItem().copy();
+                        resultItemStack.setCount(itemCount);
 
-            if(recipe != null) {
-                if(this.tickClock <= this.tickMax) {
-                    this.tickClock++;
-                } else if(this.tickMax > 0) {
-                    int itemCount = this.itemStackHandler.getStackInSlot(0).getCount();
-                    ItemStack resultItemStack = recipe.getResultItem().copy();
-                    resultItemStack.setCount(itemCount);
+                        this.itemStackHandler.setStackInSlot(
+                                1,
+                                resultItemStack
+                        );
 
-                    this.itemStackHandler.setStackInSlot(
-                            1,
-                            resultItemStack
-                    );
+                        // Shrink the input item count.
+                        this.itemStackHandler.getStackInSlot(0).shrink(itemCount);
 
-                    // Shrink the input item count.
-                    this.itemStackHandler.getStackInSlot(0).shrink(itemCount);
+                        // Reset the tick counters and notify all surrounding blocks
+                        this.resetTickClock();
+                        level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), Block.UPDATE_ALL);
+                    } else if (this.tickMax == -1) {
+                        // Roaster processing is based on the roaster level times 600.
+                        // Roaster level of 1 will take 600 ticks (30 secs) to process
+                        // whereas level 8 will take 4800 ticks (4 minutes) to process.
+                        this.tickMax = recipe.getRecipeProcessingTime() * 30 * 20;
+                    } else {
+                        this.resetTickClock();
+                    }
 
-                    // Reset the tick counters and notify all surrounding blocks
-                    this.resetTickClock();
-                    level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), Block.UPDATE_ALL);
-                } else if(this.tickMax == -1) {
-                    // Roaster processing is based on the roaster level times 600.
-                    // Roaster level of 1 will take 600 ticks (30 secs) to process
-                    // whereas level 8 will take 4800 ticks (4 minutes) to process.
-                    this.tickMax = recipe.getRecipeProcessingTime() * 30 * 20;
-                } else {
-                    this.resetTickClock();
+                    level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState().setValue(SIGNAL_FIRE, this.isProcessing()), Block.UPDATE_ALL);
                 }
+            } catch (Exception e) {
 
-                level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), Block.UPDATE_ALL);
             }
         }
     }
@@ -185,14 +185,24 @@ public class RoasterBlockEntity extends BlockEntity implements BlockEntityTicker
         this.tickMax = -1;
     }
 
+    public void incrementRoastingLevel() {
+        if (this.level != null) {
+            this.currentRoastingLevel = (this.currentRoastingLevel % 8) + 1;
+            this.level.setBlock(
+                    this.getBlockPos(),
+                    this.getBlockState().setValue(ROASTING_LEVEL, this.currentRoastingLevel).setValue(SIGNAL_FIRE, this.isProcessing()),
+                    Block.UPDATE_ALL_IMMEDIATE);
+        }
+    }
+
     private List<RoasterRecipe> getMatchingRecipes() {
         List<RoasterRecipe> matchingRecipes = new ArrayList<>();
 
         List<RoasterRecipe> recipes = level.getRecipeManager()
                 .getAllRecipesFor(RoasterRecipe.Type.INSTANCE);
 
-        for(RoasterRecipe recipe : recipes) {
-            if(recipe.matches(this.itemStackHandler.getStackInSlot(0), this.getCurrentRoastingLevel() )) {
+        for (RoasterRecipe recipe : recipes) {
+            if (recipe.matches(this.itemStackHandler.getStackInSlot(0), this.getCurrentRoastingLevel())) {
                 matchingRecipes.add(recipe);
             }
         }
@@ -221,6 +231,7 @@ public class RoasterBlockEntity extends BlockEntity implements BlockEntityTicker
         super.load(nbt);
         this.itemStackHandler.deserializeNBT(nbt.getCompound("inventory"));
         this.tickClock = nbt.getInt("CurrentProcessTicks");
+        this.currentRoastingLevel = nbt.getInt("RoastingLevel");
 
         if (nbt.contains("CustomName", 8)) {
             this.customName = Component.Serializer.fromJson(nbt.getString("CustomName"));
@@ -233,6 +244,7 @@ public class RoasterBlockEntity extends BlockEntity implements BlockEntityTicker
         super.saveAdditional(nbt);
         nbt.put("inventory", this.itemStackHandler.serializeNBT());
         nbt.putInt("CurrentProcessTicks", this.tickClock);
+        nbt.putInt("RoastingLevel", this.currentRoastingLevel);
 
         if (this.customName != null) {
             nbt.putString("CustomName", Component.Serializer.toJson(this.customName));
@@ -279,8 +291,19 @@ public class RoasterBlockEntity extends BlockEntity implements BlockEntityTicker
     }
 
     public int getCurrentRoastingLevel() {
-        return this.getBlockState().getValue(ROASTING_LEVEL);
+        return this.currentRoastingLevel;
     }
 
+    public boolean isProcessing() {
+        return this.tickClock > 0;
+    }
 
+    public static <E extends BlockEntity> void particleTick(Level level, BlockPos blockPos, BlockState blockState, RoasterBlockEntity blockEntity) {
+        RandomSource randomsource = level.random;
+        if (randomsource.nextFloat() < 0.11F) {
+            for (int i = 0; i < randomsource.nextInt(2) + 2; ++i) {
+                RoasterBlock.makeParticles(level, blockPos, blockState.getValue(RoasterBlock.SIGNAL_FIRE), false);
+            }
+        }
+    }
 }

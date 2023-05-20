@@ -45,8 +45,9 @@ public class RoasterScreen extends AbstractContainerScreen<RoasterMenu> {
         // Heat indicator
         if(this.menu.isHeated()) {
             this.blit(poseStack,
-                    x + 96, y + 57,
-                    176, 28, 13, 13
+                    x + 81, y + 57,
+                    176, 28,
+                    13, 13
             );
         }
     }

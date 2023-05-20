@@ -3,6 +3,7 @@ package growthcraft.core.init;
 import growthcraft.core.block.RopeBlock;
 import growthcraft.core.item.CrowbarItem;
 import growthcraft.core.item.RopeItem;
+import growthcraft.core.item.WrenchItem;
 import growthcraft.core.shared.Reference;
 import growthcraft.lib.item.GrowthcraftItem;
 import net.minecraft.resources.ResourceLocation;
@@ -86,6 +87,10 @@ public class GrowthcraftItems {
 
     public static final RegistryObject<GrowthcraftItem> SALT = ITEMS.register(
             Reference.UnlocalizedName.SALT_ITEM, GrowthcraftItem::new
+    );
+
+    public static final RegistryObject<WrenchItem> WRENCH = ITEMS.register(
+            Reference.UnlocalizedName.WRENCH, WrenchItem::new
     );
 
     public static boolean excludeItemRegistry(ResourceLocation registryName) {
