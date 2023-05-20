@@ -75,6 +75,7 @@ public class RoasterBlockEntity extends BlockEntity implements BlockEntityTicker
                 return switch (index) {
                     case 0 -> RoasterBlockEntity.this.tickClock;
                     case 1 -> RoasterBlockEntity.this.tickMax;
+                    case 2 -> RoasterBlockEntity.this.currentRoastingLevel;
                     default -> 0;
                 };
             }
@@ -84,6 +85,7 @@ public class RoasterBlockEntity extends BlockEntity implements BlockEntityTicker
                 switch (index) {
                     case 0 -> RoasterBlockEntity.this.tickClock = value;
                     case 1 -> RoasterBlockEntity.this.tickMax = value;
+                    case 2 -> RoasterBlockEntity.this.currentRoastingLevel = value;
                 }
             }
 
@@ -166,6 +168,8 @@ public class RoasterBlockEntity extends BlockEntity implements BlockEntityTicker
             } catch (Exception e) {
 
             }
+        } else {
+            this.resetTickClock();
         }
     }
 
@@ -232,6 +236,7 @@ public class RoasterBlockEntity extends BlockEntity implements BlockEntityTicker
         this.itemStackHandler.deserializeNBT(nbt.getCompound("inventory"));
         this.tickClock = nbt.getInt("CurrentProcessTicks");
         this.currentRoastingLevel = nbt.getInt("RoastingLevel");
+        this.tickMax = nbt.getInt("MaxProcessTicks");
 
         if (nbt.contains("CustomName", 8)) {
             this.customName = Component.Serializer.fromJson(nbt.getString("CustomName"));
@@ -245,6 +250,7 @@ public class RoasterBlockEntity extends BlockEntity implements BlockEntityTicker
         nbt.put("inventory", this.itemStackHandler.serializeNBT());
         nbt.putInt("CurrentProcessTicks", this.tickClock);
         nbt.putInt("RoastingLevel", this.currentRoastingLevel);
+        nbt.putInt("MaxProcessTicks", this.tickMax);
 
         if (this.customName != null) {
             nbt.putString("CustomName", Component.Serializer.toJson(this.customName));
@@ -305,5 +311,14 @@ public class RoasterBlockEntity extends BlockEntity implements BlockEntityTicker
                 RoasterBlock.makeParticles(level, blockPos, blockState.getValue(RoasterBlock.SIGNAL_FIRE), false);
             }
         }
+    }
+
+    public int getPercentProgress() {
+
+        float progress = (float) this.tickClock / this.tickMax;
+
+        float percentage = progress * 100;
+
+        return Math.round(percentage);
     }
 }

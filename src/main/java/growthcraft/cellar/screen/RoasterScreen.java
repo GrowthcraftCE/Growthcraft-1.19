@@ -7,9 +7,14 @@ import growthcraft.cellar.shared.Reference;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 public class RoasterScreen extends AbstractContainerScreen<RoasterMenu> {
 
@@ -34,13 +39,11 @@ public class RoasterScreen extends AbstractContainerScreen<RoasterMenu> {
         blit(poseStack, x, y, 0, 0, imageWidth, imageHeight);
 
         // TODO[9]: Implement Roaster Progress Bar
-        /*
         blit(poseStack,
-                x + 51, y + 48 - menu.getProgressionScaled(28),
-                188, 28 - menu.getProgressionScaled(28),
-                8, menu.getProgressionScaled(28)
+                x + 76, y + 48,
+                76, 0,
+                menu.getProgressionScaled(28), 9
         );
-        */
 
         // Heat indicator
         if(this.menu.isHeated()) {
@@ -61,10 +64,36 @@ public class RoasterScreen extends AbstractContainerScreen<RoasterMenu> {
 
     @Override
     protected void renderLabels(PoseStack poseStack, int mouseX, int mouseY) {
+        int x = (width - imageWidth) / 2;
+        int y = (height - imageHeight) / 2;
+
         // Screen Title
         this.font.draw(poseStack, this.title, (float) this.titleLabelX, (float) this.titleLabelY, 4210752);
         // Inventory Title
         this.font.draw(poseStack, this.playerInventoryTitle, (float) this.inventoryLabelX, (float) this.inventoryLabelY, 4210752);
+
+        renderProgressToolTip(poseStack, mouseX, mouseY, x, y);
+    }
+
+    private void renderProgressToolTip(PoseStack poseStack, int mouseX, int mouseY, int x, int y) {
+        List<Component> tooltip = new ArrayList<>();
+
+        MutableComponent progressString = Component.translatable(Reference.MODID.concat(".tooltip.roaster.progress"), menu.getRoastingLevel(), menu.getPercentProgress());
+        tooltip.add(progressString);
+
+        if (isMouseAboveArea(mouseX, mouseY, x + 74, y + 45, 28, 9, 28, 9)) {
+            renderTooltip(
+                    poseStack,
+                    tooltip,
+                    Optional.empty(),
+                    mouseX - x,
+                    mouseY - y
+            );
+        }
+    }
+
+    private boolean isMouseAboveArea(int mouseX, int mouseY, int baseX, int baseY, int offsetX, int offsetY, int width, int height) {
+        return (mouseX >= baseX && mouseX <= (baseX + offsetX)) && (mouseY >= baseY && mouseY <= (baseY + offsetY));
     }
 
 }

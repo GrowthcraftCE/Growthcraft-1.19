@@ -43,8 +43,7 @@ public class RoasterMenu extends AbstractContainerMenu {
                 this.addSlot(new SlotItemHandler(handler, 1, 106, 42));
         });
 
-        // Add our block fluid tanks.
-        addDataSlots(data);
+        addDataSlots(this.data);
 
     }
     
@@ -141,5 +140,9 @@ public class RoasterMenu extends AbstractContainerMenu {
 
     public String getRoastingLevel() {
         return String.valueOf(this.blockEntity.getCurrentRoastingLevel());
+    }
+
+    public int getPercentProgress() {
+        return this.blockEntity.getPercentProgress();
     }
 }
