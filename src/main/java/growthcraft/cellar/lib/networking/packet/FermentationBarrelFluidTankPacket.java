@@ -1,7 +1,7 @@
 package growthcraft.cellar.lib.networking.packet;
 
 import growthcraft.cellar.block.entity.FermentationBarrelBlockEntity;
-import growthcraft.cellar.screen.FermentationBarrelMenu;
+import growthcraft.cellar.screen.container.FermentationBarrelMenu;
 import growthcraft.lib.networking.packet.FluidTankSyncPacket;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;

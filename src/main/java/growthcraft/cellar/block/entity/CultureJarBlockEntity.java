@@ -5,7 +5,7 @@ import growthcraft.cellar.lib.networking.GrowthcraftCellarMessages;
 import growthcraft.cellar.lib.networking.packet.CultureJarFluidSyncPacket;
 import growthcraft.cellar.recipe.CultureJarRecipe;
 import growthcraft.cellar.recipe.CultureJarStarterRecipe;
-import growthcraft.cellar.screen.CultureJarMenu;
+import growthcraft.cellar.screen.container.CultureJarMenu;
 import growthcraft.lib.block.entity.GrowthcraftFluidTank;
 import growthcraft.lib.utils.BlockStateUtils;
 import net.minecraft.core.BlockPos;

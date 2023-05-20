@@ -1,7 +1,7 @@
-package growthcraft.cellar.screen;
+package growthcraft.cellar.screen.container;
 
-import growthcraft.cellar.block.FermentationBarrelBlock;
-import growthcraft.cellar.block.entity.FermentationBarrelBlockEntity;
+import growthcraft.cellar.block.RoasterBlock;
+import growthcraft.cellar.block.entity.RoasterBlockEntity;
 import growthcraft.cellar.init.GrowthcraftCellarMenus;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
@@ -13,65 +13,44 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.items.SlotItemHandler;
 
-public class FermentationBarrelMenu extends AbstractContainerMenu {
+public class RoasterMenu extends AbstractContainerMenu {
 
-    private final FermentationBarrelBlockEntity blockEntity;
-    private final FermentationBarrelBlock block;
+    private final RoasterBlockEntity blockEntity;
+    private final RoasterBlock block;
     private final Level level;
     private final ContainerData data;
 
-    private FluidStack fluidStack0;
-
-    public FermentationBarrelMenu(int containerId, Inventory inventory, FriendlyByteBuf extraData) {
+    public RoasterMenu(int containerId, Inventory inventory, FriendlyByteBuf extraData) {
         this(containerId, inventory, inventory.player.level.getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(2));
     }
 
-    public FermentationBarrelMenu(int containerId, Inventory inventory, BlockEntity blockEntity, ContainerData data) {
-        super(GrowthcraftCellarMenus.FERMENTATION_BARREL_MENU.get(), containerId);
+    public RoasterMenu(int containerId, Inventory inventory, BlockEntity blockEntity, ContainerData data) {
+        super(GrowthcraftCellarMenus.ROASTER_MENU.get(), containerId);
 
-        this.blockEntity = (FermentationBarrelBlockEntity) blockEntity;
-        this.block = (FermentationBarrelBlock) inventory.player.level.getBlockEntity(this.blockEntity.getBlockPos()).getBlockState().getBlock();
+        this.blockEntity = (RoasterBlockEntity) blockEntity;
+        this.block = (RoasterBlock) inventory.player.level.getBlockEntity(this.blockEntity.getBlockPos()).getBlockState().getBlock();
         this.level = inventory.player.level;
         this.data = data;
-
-        this.fluidStack0 = this.blockEntity.getFluidStackInTank(0);
 
         addPlayerInventory(inventory);
         addPlayerHotbar(inventory);
 
         this.blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(handler -> {
-                    // 1 Input Slot
-                    this.addSlot(new SlotItemHandler(handler, 0, 52, 53));
-                }
-        );
+                // 1 Input Slot
+                this.addSlot(new SlotItemHandler(handler, 0, 54, 42));
+                this.addSlot(new SlotItemHandler(handler, 1, 106, 42));
+        });
 
-        // Add our block fluid tanks.
-        addDataSlots(data);
+        addDataSlots(this.data);
+
     }
-
-    public FermentationBarrelBlockEntity getBlockEntity() {
+    
+    public RoasterBlockEntity getBlockEntity() {
         return this.blockEntity;
     }
-
-    public void setFluid(int tankID, FluidStack fluidStack) throws NullPointerException {
-        if (tankID == 0) {
-            this.fluidStack0 = fluidStack;
-        } else {
-            throw new NullPointerException(String.format("FermentationBarrelMenu setFluidStack at <%s> does not have a fluid tank with the ID of %d!", blockEntity.getBlockPos(), tankID));
-        }
-    }
-
-    public FluidStack getFluidStack(int tankID) {
-        return switch (tankID) {
-            case 0 -> this.blockEntity.getFluidStackInTank(0);
-            default ->
-                    throw new NullPointerException(String.format("FermentationBarrelMenu getFluidStack at <%s> does not have a fluid tank with the ID of %d!", blockEntity.getBlockPos(), tankID));
-        };
-    }
-
+    
     @OnlyIn(Dist.CLIENT)
     public int getProgressionScaled(int size) {
         return this.blockEntity.getTickClock("current") != 0 && this.blockEntity.getTickClock("max") != 0
@@ -155,4 +134,15 @@ public class FermentationBarrelMenu extends AbstractContainerMenu {
         }
     }
 
+    public boolean isHeated() {
+        return this.blockEntity.isHeated();
+    }
+
+    public String getRoastingLevel() {
+        return String.valueOf(this.blockEntity.getCurrentRoastingLevel());
+    }
+
+    public int getPercentProgress() {
+        return this.blockEntity.getPercentProgress();
+    }
 }

@@ -28,6 +28,7 @@ public class GrowthcraftTags {
         }
 
         public static final TagKey<Block> HEATSOURCES = tag(Reference.UnlocalizedName.TAG_HEATSOURCES);
+
         public static final TagKey<Block> ROPE = tag(Reference.UnlocalizedName.TAG_ROPE);
         public static final TagKey<Block> SALT = tag(Reference.UnlocalizedName.TAG_SALT);
 
@@ -37,9 +38,12 @@ public class GrowthcraftTags {
     }
 
     public static class Items {
+
         private static void init(){
             // Do nothing, simply instantiate static variables
         }
+
+        public static final TagKey<Item> ROASTER_WRENCH = tag(Reference.UnlocalizedName.TAG_ROASTER_WRENCH);
 
         public static final TagKey<Item> SALT = tag(Reference.UnlocalizedName.TAG_SALT);
 

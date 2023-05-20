@@ -2,40 +2,30 @@ package growthcraft.cellar.screen;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import growthcraft.cellar.screen.container.FermentationBarrelMenu;
+import growthcraft.cellar.screen.container.RoasterMenu;
 import growthcraft.cellar.shared.Reference;
-import growthcraft.lib.kaupenjoe.screen.renderer.FluidTankRenderer;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.item.TooltipFlag;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
-public class FermentationBarrelScreen extends AbstractContainerScreen<FermentationBarrelMenu> {
+public class RoasterScreen extends AbstractContainerScreen<RoasterMenu> {
 
     private static final ResourceLocation TEXTURE = new ResourceLocation(
-            Reference.MODID, "textures/gui/fermentation_barrel.png"
+            Reference.MODID, "textures/gui/roaster_screen.png"
     );
 
-    private FluidTankRenderer fluidTankRenderer0;
-
-    public FermentationBarrelScreen(FermentationBarrelMenu menu, Inventory inventory, Component component) {
+    public RoasterScreen(RoasterMenu menu, Inventory inventory, Component component){
         super(menu, inventory, component);
     }
 
-    @Override
-    protected void init() {
-        super.init();
-        assignFluidRender();
-    }
-
-    private void assignFluidRender() {
-        fluidTankRenderer0 = new FluidTankRenderer(4000, true, 50, 52);
-    }
     @Override
     protected void renderBg(@NotNull PoseStack poseStack, float partialTick, int mouseX, int mouseY) {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
@@ -48,14 +38,21 @@ public class FermentationBarrelScreen extends AbstractContainerScreen<Fermentati
         // Full background image
         blit(poseStack, x, y, 0, 0, imageWidth, imageHeight);
 
-        // Progress Bar
+        // TODO[9]: Implement Roaster Progress Bar
         blit(poseStack,
-                x + 51, y + 48 - menu.getProgressionScaled(28),
-                188, 28 - menu.getProgressionScaled(28),
-                8, menu.getProgressionScaled(28)
+                x + 76, y + 48,
+                76, 0,
+                menu.getProgressionScaled(28), 9
         );
 
-        fluidTankRenderer0.render(poseStack, x + 72, y + 17, menu.getFluidStack(0));
+        // Heat indicator
+        if(this.menu.isHeated()) {
+            this.blit(poseStack,
+                    x + 81, y + 57,
+                    176, 28,
+                    13, 13
+            );
+        }
     }
 
     @Override
@@ -63,8 +60,7 @@ public class FermentationBarrelScreen extends AbstractContainerScreen<Fermentati
         renderBackground(poseStack);
         super.render(poseStack, mouseX, mouseY, delta);
         // Render any tooltips for this mouse over location.
-        renderTooltip(poseStack, mouseX, mouseY);
-    }
+        renderTooltip(poseStack, mouseX, mouseY);    }
 
     @Override
     protected void renderLabels(PoseStack poseStack, int mouseX, int mouseY) {
@@ -76,16 +72,19 @@ public class FermentationBarrelScreen extends AbstractContainerScreen<Fermentati
         // Inventory Title
         this.font.draw(poseStack, this.playerInventoryTitle, (float) this.inventoryLabelX, (float) this.inventoryLabelY, 4210752);
 
-        // FluidTank Tooltips
-        renderFluidTankTooltips(poseStack, mouseX, mouseY, x, y);
+        renderProgressToolTip(poseStack, mouseX, mouseY, x, y);
     }
 
+    private void renderProgressToolTip(PoseStack poseStack, int mouseX, int mouseY, int x, int y) {
+        List<Component> tooltip = new ArrayList<>();
 
-    private void renderFluidTankTooltips(PoseStack poseStack, int mouseX, int mouseY, int x, int y) {
-        if (isMouseAboveArea(mouseX, mouseY, x + 72, y + 17, 50, 52, fluidTankRenderer0.getWidth(), fluidTankRenderer0.getHeight())) {
+        MutableComponent progressString = Component.translatable(Reference.MODID.concat(".tooltip.roaster.progress"), menu.getRoastingLevel(), menu.getPercentProgress());
+        tooltip.add(progressString);
+
+        if (isMouseAboveArea(mouseX, mouseY, x + 74, y + 45, 28, 9, 28, 9)) {
             renderTooltip(
                     poseStack,
-                    fluidTankRenderer0.getTooltip(menu.getFluidStack(0), TooltipFlag.Default.NORMAL),
+                    tooltip,
                     Optional.empty(),
                     mouseX - x,
                     mouseY - y
@@ -96,4 +95,5 @@ public class FermentationBarrelScreen extends AbstractContainerScreen<Fermentati
     private boolean isMouseAboveArea(int mouseX, int mouseY, int baseX, int baseY, int offsetX, int offsetY, int width, int height) {
         return (mouseX >= baseX && mouseX <= (baseX + offsetX)) && (mouseY >= baseY && mouseY <= (baseY + offsetY));
     }
+
 }

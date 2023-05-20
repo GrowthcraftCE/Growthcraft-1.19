@@ -10,7 +10,7 @@
     "amount": 1000
   },
   "result": {
-    "fluid": "growthcraft_cellar:white_wine_fluid_source",
+    "fluid": "growthcraft_cellar:white_grape_wine_fluid_source",
     "amount": 1000
   },
   "effects": [

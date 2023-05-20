@@ -29,6 +29,11 @@ public class GrowthcraftCellarBlocks {
             FermentationBarrelBlock::new
     );
 
+    public static final RegistryObject<Block> ROASTER = registerBlock(
+            Reference.UnlocalizedName.ROASTER,
+            RoasterBlock::new
+    );
+
     // TODO: FRUIT_PRESS
 
     // TODO: FRUIT_PRESS_PISTON
@@ -75,8 +80,6 @@ public class GrowthcraftCellarBlocks {
     public static final RegistryObject<Block> HOPS_VINE = registerBlock(
             Reference.UnlocalizedName.HOPS_VINE, HopsCropBlock::new, true
     );
-
-    // TODO: ROASTER
 
     private static RegistryObject<Block> registerBlock(String name, Supplier<Block> block) {
         return registerBlock(name, block, false);

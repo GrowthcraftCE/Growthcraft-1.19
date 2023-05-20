@@ -137,7 +137,6 @@ public class ChurnBlock extends BaseEntityBlock {
                 return InteractionResult.SUCCESS;
             }
         }
-
         if(!level.isClientSide) {
             ChurnBlockEntity blockEntity = (ChurnBlockEntity) level.getBlockEntity(blockPos);
 
