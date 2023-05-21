@@ -1,7 +1,7 @@
 package growthcraft.milk.lib.networking.packet;
 
 import growthcraft.milk.block.entity.PancheonBlockEntity;
-import growthcraft.milk.screen.PancheonMenu;
+import growthcraft.milk.screen.container.PancheonMenu;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;

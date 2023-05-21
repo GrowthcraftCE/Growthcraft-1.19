@@ -5,7 +5,7 @@ import growthcraft.milk.init.GrowthcraftMilkBlockEntities;
 import growthcraft.milk.lib.networking.GrowthcraftMilkMessages;
 import growthcraft.milk.lib.networking.packet.ChurnFluidTankSyncPacket;
 import growthcraft.milk.recipe.ChurnRecipe;
-import growthcraft.milk.screen.ChurnMenu;
+import growthcraft.milk.screen.container.ChurnMenu;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;

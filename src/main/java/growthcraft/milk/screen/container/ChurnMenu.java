@@ -1,7 +1,7 @@
-package growthcraft.milk.screen;
+package growthcraft.milk.screen.container;
 
-import growthcraft.milk.block.PancheonBlock;
-import growthcraft.milk.block.entity.PancheonBlockEntity;
+import growthcraft.milk.block.ChurnBlock;
+import growthcraft.milk.block.entity.ChurnBlockEntity;
 import growthcraft.milk.init.GrowthcraftMilkMenus;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
@@ -12,45 +12,73 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.items.SlotItemHandler;
 
-public class PancheonMenu extends AbstractContainerMenu {
-    private final PancheonBlockEntity blockEntity;
-    private final PancheonBlock block;
+public class ChurnMenu extends AbstractContainerMenu {
+
+    private final ChurnBlockEntity blockEntity;
+    private final ChurnBlock block;
     private final Level level;
     private final ContainerData data;
 
     private FluidStack fluidStack0;
-    private FluidStack fluidStack1;
-    private FluidStack fluidStack2;
 
-    public PancheonMenu(int containerId, Inventory inventory, FriendlyByteBuf extraData) {
+    public ChurnMenu(int containerId, Inventory inventory, FriendlyByteBuf extraData) {
         this(containerId, inventory, inventory.player.level.getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(2));
     }
 
-    public PancheonMenu(int containerId, Inventory inventory, BlockEntity blockEntity , ContainerData data) {
-        super(GrowthcraftMilkMenus.PANCHEON_MENU.get(), containerId);
+    public ChurnMenu(int containerId, Inventory inventory, BlockEntity blockEntity, ContainerData data) {
+        super(GrowthcraftMilkMenus.CHURN_MENU.get(), containerId);
 
-        this.blockEntity = (PancheonBlockEntity) blockEntity;
-        this.block = (PancheonBlock) inventory.player.level.getBlockEntity(this.blockEntity.getBlockPos()).getBlockState().getBlock();
+        this.blockEntity = (ChurnBlockEntity) blockEntity;
+        this.block = (ChurnBlock) inventory.player.level.getBlockEntity(this.blockEntity.getBlockPos()).getBlockState().getBlock();
         this.level = inventory.player.level;
         this.data = data;
 
         this.fluidStack0 = this.blockEntity.getFluidStackInTank(0);
-        this.fluidStack1 = this.blockEntity.getFluidStackInTank(1);
-        this.fluidStack2 = this.blockEntity.getFluidStackInTank(2);
 
         addPlayerInventory(inventory);
         addPlayerHotbar(inventory);
 
-        // Add our block's inventory slots.
+        this.blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(handler -> {
+                    // 1 Input Slot
+                    this.addSlot(new SlotItemHandler(handler, 0, 94, 35));
+                }
+        );
 
         // Add our block fluid tanks.
         addDataSlots(data);
+
     }
 
-    public PancheonBlockEntity getBlockEntity() {
+
+    public ChurnBlockEntity getBlockEntity() {
         return this.blockEntity;
+    }
+
+    public void setFluid(int tankID, FluidStack fluidStack) throws NullPointerException {
+        if (tankID == 0) {
+            this.fluidStack0 = fluidStack;
+        } else {
+            throw new NullPointerException(String.format("ChurnMenu setFluidStack at <%s> does not have a fluid tank with the ID of %d!", blockEntity.getBlockPos(), tankID));
+        }
+    }
+
+    public FluidStack getFluidStack(int tankID) {
+        return switch (tankID) {
+            case 0 -> this.blockEntity.getFluidStackInTank(0);
+            default ->
+                    throw new NullPointerException(String.format("ChurnMenu getFluidStack at <%s> does not have a fluid tank with the ID of %d!", blockEntity.getBlockPos(), tankID));
+        };
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public int getProgressionScaled(int size) {
+        return this.blockEntity.getTickClock("current") != 0 && this.blockEntity.getTickClock("max") != 0
+                ? this.blockEntity.getTickClock("current") * size / this.blockEntity.getTickClock("max")
+                : 0;
     }
 
     // CREDIT GOES TO: diesieben07 | https://github.com/diesieben07/SevenCommons
@@ -128,33 +156,5 @@ public class PancheonMenu extends AbstractContainerMenu {
             this.addSlot(new Slot(playerInventory, i, 8 + i * 18, 142));
         }
     }
-
-    public void setFluid(int tankID, FluidStack fluidStack) throws NullPointerException {
-        switch (tankID) {
-            case 0 -> this.fluidStack0 = fluidStack;
-            case 1 -> this.fluidStack1 = fluidStack;
-            case 2 -> this.fluidStack2 = fluidStack;
-            default ->
-                    throw new NullPointerException(String.format("PancheonMenu setFluidStack at <%s> does not have a fluid tank with the ID of %d!", blockEntity.getBlockPos().toString(), tankID));
-        }
-    }
-    
-    public FluidStack getFluidStack(int tankID) {
-        return switch (tankID) {
-            case 0 -> this.blockEntity.getFluidStackInTank(0);
-            case 1 -> this.blockEntity.getFluidStackInTank(1);
-            case 2 -> this.blockEntity.getFluidStackInTank(2);
-            default ->
-                    throw new NullPointerException(String.format("PancheonMenu getFluidStack at <%s> does not have a fluid tank with the ID of %d!", blockEntity.getBlockPos().toString(), tankID));
-        };
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    public int getProgressionScaled(int size) {
-        return this.blockEntity.getTickClock("current") != 0 && this.blockEntity.getTickClock("max") != 0
-                ? this.blockEntity.getTickClock("current") * size / this.blockEntity.getTickClock("max")
-                : 0;
-    }
-
 
 }

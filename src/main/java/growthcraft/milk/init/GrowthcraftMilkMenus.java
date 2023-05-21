@@ -1,7 +1,7 @@
 package growthcraft.milk.init;
 
-import growthcraft.milk.screen.ChurnMenu;
-import growthcraft.milk.screen.PancheonMenu;
+import growthcraft.milk.screen.container.ChurnMenu;
+import growthcraft.milk.screen.container.PancheonMenu;
 import growthcraft.milk.shared.Reference;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;

@@ -2,7 +2,7 @@ package growthcraft.milk.lib.networking.packet;
 
 import growthcraft.lib.networking.packet.FluidTankSyncPacket;
 import growthcraft.milk.block.entity.ChurnBlockEntity;
-import growthcraft.milk.screen.ChurnMenu;
+import growthcraft.milk.screen.container.ChurnMenu;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
