@@ -1,6 +1,8 @@
 
 {
   "credit": "Made with Blockbench, a free, modern block model editor by JannisX11. Model by Kisutora.",
+  "ambientocclusion": false,
+  "render_type": "cutout",
   "textures": {
     "0": "growthcraft_milk:block/cheese_curd/cheese_curds_cloth",
     "2": "growthcraft_milk:block/cheese_curd/cheese_curds_cloth_string",
