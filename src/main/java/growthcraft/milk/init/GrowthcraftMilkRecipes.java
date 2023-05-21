@@ -1,6 +1,8 @@
 package growthcraft.milk.init;
 
+import growthcraft.milk.recipe.CheesePressRecipe;
 import growthcraft.milk.recipe.ChurnRecipe;
+import growthcraft.milk.recipe.MixingVatRecipe;
 import growthcraft.milk.recipe.PancheonRecipe;
 import growthcraft.milk.shared.Reference;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -22,6 +24,12 @@ public class GrowthcraftMilkRecipes {
 
     public static final RegistryObject<RecipeSerializer<ChurnRecipe>> CHURN_RECIPE_SERIALIZER =
             SERIALIZERS.register(Reference.UnlocalizedName.CHURN_RECIPE, () -> ChurnRecipe.Serializer.INSTANCE);
+
+    public static final RegistryObject<RecipeSerializer<MixingVatRecipe>> MIXING_VAT_RECIPE_SERIALIZER =
+            SERIALIZERS.register(Reference.UnlocalizedName.MIXING_VAT_RECIPE, () -> MixingVatRecipe.Serializer.INSTANCE);
+
+    public static final RegistryObject<RecipeSerializer<CheesePressRecipe>> CHEESE_PRESS_RECIPE_SERIALIZER =
+            SERIALIZERS.register(Reference.UnlocalizedName.CHEESE_PRESS_RECIPE, () -> CheesePressRecipe.Serializer.INSTANCE);
 
     public static void register(IEventBus eventBus) {
         SERIALIZERS.register(eventBus);
