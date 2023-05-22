@@ -26,10 +26,8 @@ import org.jetbrains.annotations.Nullable;
 import java.awt.*;
 
 public class CheeseWheelBlock extends BaseEntityBlock {
-    //TODO[12]: Implement CheeseWheelBlock
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
     public static final BooleanProperty AGED = BooleanProperty.create("aged");
-
     public static final IntegerProperty SLICE_COUNT_TOP = IntegerProperty.create("slicestop", 0, 4);
     public static final IntegerProperty SLICE_COUNT_BOTTOM = IntegerProperty.create("slicesbottom", 0, 4);
 
@@ -113,10 +111,10 @@ public class CheeseWheelBlock extends BaseEntityBlock {
     }
 
     @Override
-    public InteractionResult use(BlockState p_60503_, Level p_60504_, BlockPos p_60505_, Player p_60506_, InteractionHand p_60507_, BlockHitResult p_60508_) {
+    public InteractionResult use(BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand interactionHand, BlockHitResult blockHitResult) {
         //TODO[12]: Implement stacking cheese wheels
 
-        return super.use(p_60503_, p_60504_, p_60505_, p_60506_, p_60507_, p_60508_);
+        return super.use(blockState, level, blockPos, player, interactionHand, blockHitResult);
     }
 
     @Deprecated
