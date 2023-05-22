@@ -93,7 +93,7 @@ public class CheesePressRecipe implements Recipe<SimpleContainer> {
         return Type.INSTANCE;
     }
 
-    public static class Type implements RecipeType<ChurnRecipe> {
+    public static class Type implements RecipeType<CheesePressRecipe> {
         private Type() { /* Prevent default constructor */ }
 
         public static final CheesePressRecipe.Type INSTANCE = new CheesePressRecipe.Type();

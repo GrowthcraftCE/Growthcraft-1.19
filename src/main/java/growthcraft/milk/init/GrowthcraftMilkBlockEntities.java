@@ -1,5 +1,6 @@
 package growthcraft.milk.init;
 
+import growthcraft.milk.block.entity.CheeseWheelBlockEntity;
 import growthcraft.milk.block.entity.ChurnBlockEntity;
 import growthcraft.milk.block.entity.PancheonBlockEntity;
 import growthcraft.milk.shared.Reference;
@@ -12,6 +13,15 @@ public class GrowthcraftMilkBlockEntities {
 
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(
             ForgeRegistries.BLOCK_ENTITY_TYPES, Reference.MODID
+    );
+
+    public static final RegistryObject<BlockEntityType<CheeseWheelBlockEntity>> CHEESE_WHEEL_BLOCK_ENTITY = BLOCK_ENTITIES.register(
+            Reference.UnlocalizedName.CHEESE_WHEEL_TILE_ENTITY,
+            () -> BlockEntityType.Builder.of(
+                    CheeseWheelBlockEntity::new,
+                    //TODO[12]: Add all the cheese wheel blocks to the blockentity
+                    GrowthcraftMilkBlocks.PANCHEON.get()
+            ).build(null)
     );
 
     public static final RegistryObject<BlockEntityType<ChurnBlockEntity>> CHURN_BLOCK_ENTITY = BLOCK_ENTITIES.register(
