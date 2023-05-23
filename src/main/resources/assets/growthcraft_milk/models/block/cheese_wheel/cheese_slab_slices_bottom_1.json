@@ -1,7 +1,9 @@
 {
+  "ambientocclusion": false,
+  "render_type": "cutout",
   "textures": {
-    "0": "growthcraft_milk:block/cheese_base",
-    "1": "growthcraft_milk:block/cheese_side",
+    "0": "growthcraft_milk:block/cheese_slab/cheese_base",
+    "1": "growthcraft_milk:block/cheese_slab/cheese_side",
     "missing": "growthcraft:block/missing",
     "particle": "growthcraft_milk:block/cheese_base"
   },

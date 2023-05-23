@@ -14,7 +14,7 @@
         ]
       },
       "apply": {
-        "model": "growthcraft:block/blank_model"
+        "model": "growthcraft:block/empty"
       }
     },
     {

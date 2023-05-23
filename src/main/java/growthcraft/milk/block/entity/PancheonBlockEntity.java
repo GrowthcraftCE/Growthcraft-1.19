@@ -5,7 +5,7 @@ import growthcraft.milk.init.GrowthcraftMilkBlockEntities;
 import growthcraft.milk.lib.networking.GrowthcraftMilkMessages;
 import growthcraft.milk.lib.networking.packet.PancheonFluidSyncPacket;
 import growthcraft.milk.recipe.PancheonRecipe;
-import growthcraft.milk.screen.PancheonMenu;
+import growthcraft.milk.screen.container.PancheonMenu;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
