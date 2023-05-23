@@ -1,5 +1,6 @@
 package growthcraft.milk.init;
 
+import growthcraft.milk.block.entity.CheesePressBlockEntity;
 import growthcraft.milk.block.entity.CheeseWheelBlockEntity;
 import growthcraft.milk.block.entity.ChurnBlockEntity;
 import growthcraft.milk.block.entity.PancheonBlockEntity;
@@ -13,6 +14,14 @@ public class GrowthcraftMilkBlockEntities {
 
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(
             ForgeRegistries.BLOCK_ENTITY_TYPES, Reference.MODID
+    );
+
+    public static final RegistryObject<BlockEntityType<CheesePressBlockEntity>> CHEESE_PRESS_BLOCK_ENTITY = BLOCK_ENTITIES.register(
+            Reference.UnlocalizedName.CHEESE_PRESS,
+            () -> BlockEntityType.Builder.of(
+                    CheesePressBlockEntity::new,
+                    GrowthcraftMilkBlocks.CHEESE_PRESS.get()
+            ).build(null)
     );
 
     public static final RegistryObject<BlockEntityType<CheeseWheelBlockEntity>> CHEESE_WHEEL_BLOCK_ENTITY = BLOCK_ENTITIES.register(
