@@ -100,8 +100,6 @@ public class CheesePressRecipe implements Recipe<SimpleContainer> {
         public static final String ID = Reference.UnlocalizedName.CHEESE_PRESS_RECIPE;
     }
 
-
-
     public static class Serializer implements RecipeSerializer<CheesePressRecipe> {
 
         public static final CheesePressRecipe.Serializer INSTANCE = new CheesePressRecipe.Serializer();
@@ -113,7 +111,7 @@ public class CheesePressRecipe implements Recipe<SimpleContainer> {
         public @NotNull CheesePressRecipe fromJson(ResourceLocation recipeId, JsonObject json) {
             ItemStack ingredientItemStack = CraftingHelper.getItemStack(GsonHelper.getAsJsonObject(json, "ingredient"), false);
             ItemStack resultItemStack = CraftingHelper.getItemStack(GsonHelper.getAsJsonObject(json, "result_item"), false);
-            ItemStack sliceItemStack = CraftingHelper.getItemStack(GsonHelper.getAsJsonObject(json, "result_item"), false);
+            ItemStack sliceItemStack = CraftingHelper.getItemStack(GsonHelper.getAsJsonObject(json, "slice"), false);
 
             int processingTime = GsonHelper.getAsInt(json, "processing_time", 1);
 

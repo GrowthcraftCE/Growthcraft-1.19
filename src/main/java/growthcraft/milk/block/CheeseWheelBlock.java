@@ -138,7 +138,7 @@ public class CheeseWheelBlock extends BaseEntityBlock {
             return InteractionResult.SUCCESS;
         }
 
-        return super.use(blockState, level, blockPos, player, interactionHand, blockHitResult);
+        return InteractionResult.SUCCESS;
     }
 
     @Deprecated

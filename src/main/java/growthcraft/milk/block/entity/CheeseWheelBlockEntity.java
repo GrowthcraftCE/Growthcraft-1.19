@@ -88,16 +88,16 @@ public class CheeseWheelBlockEntity extends BlockEntity implements BlockEntityTi
     }
 
     public ItemStack takeSlice() {
-        List<CheesePressRecipe> cheesePressRecipes = this.getMatchingRecipes(
-                new ItemStack(this.getBlockState().getBlock().asItem())
-        );
+            List<CheesePressRecipe> cheesePressRecipes = this.getMatchingRecipes(
+                    new ItemStack(this.getBlockState().getBlock().asItem())
+            );
 
-        CheesePressRecipe recipe = cheesePressRecipes.get(0);
+            CheesePressRecipe recipe = cheesePressRecipes.get(0);
 
-        if(recipe != null) {
-            this.takeSlice(1);
-            return recipe.getSliceItemStack();
-        }
+            if (recipe != null) {
+                this.takeSlice(1);
+                return recipe.getSliceItemStack().copy();
+            }
 
         return null;
     }
