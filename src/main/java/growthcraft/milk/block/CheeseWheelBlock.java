@@ -1,9 +1,12 @@
 package growthcraft.milk.block;
 
+import growthcraft.milk.block.entity.CheeseWheelBlockEntity;
+import growthcraft.milk.init.GrowthcraftMilkBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -56,15 +59,18 @@ public class CheeseWheelBlock extends BaseEntityBlock {
 
     @Nullable
     @Override
-    public BlockEntity newBlockEntity(BlockPos p_153215_, BlockState p_153216_) {
-        return null;
+    public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
+        return GrowthcraftMilkBlockEntities.CHEESE_WHEEL_BLOCK_ENTITY.get().create(blockPos, blockState);
     }
 
     @Nullable
     @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level p_153212_, BlockState p_153213_, BlockEntityType<T> p_153214_) {
-        return super.getTicker(p_153212_, p_153213_, p_153214_);
-    }
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState blockState, BlockEntityType<T> blockEntityType) {
+        return createTickerHelper(
+                blockEntityType,
+                GrowthcraftMilkBlockEntities.CHEESE_WHEEL_BLOCK_ENTITY.get(),
+                (worldLevel, pos, state, blockEntity) -> (blockEntity).tick()
+        );    }
 
     @Override
     public RenderShape getRenderShape(BlockState p_60550_) {
@@ -112,7 +118,25 @@ public class CheeseWheelBlock extends BaseEntityBlock {
 
     @Override
     public InteractionResult use(BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand interactionHand, BlockHitResult blockHitResult) {
-        //TODO[12]: Implement stacking cheese wheels
+        if(!level.isClientSide) {
+            CheeseWheelBlockEntity blockEntity = (CheeseWheelBlockEntity) level.getBlockEntity(blockPos);
+
+            if(player.getItemInHand(interactionHand).getItem() == this.asItem()) {
+                blockEntity.addSlice(4);
+                player.getItemInHand(interactionHand).shrink(1);
+            } else if(!player.isCrouching() && player.getItemInHand(interactionHand).isEmpty()) {
+                if(blockEntity.canTakeSlice()) {
+                    player.getInventory().add(blockEntity.takeSlice());
+                }
+            } else if(player.isCrouching() && blockEntity.getSliceCount() >= 4) {
+                blockEntity.takeSlice(4);
+                player.getInventory().add(new ItemStack(this.asItem()));
+            }
+
+            if(blockEntity.getSliceCount() == 0) level.destroyBlock(blockPos, false);
+
+            return InteractionResult.SUCCESS;
+        }
 
         return super.use(blockState, level, blockPos, player, interactionHand, blockHitResult);
     }

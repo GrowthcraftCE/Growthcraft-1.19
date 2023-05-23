@@ -19,8 +19,16 @@ public class GrowthcraftMilkBlockEntities {
             Reference.UnlocalizedName.CHEESE_WHEEL_TILE_ENTITY,
             () -> BlockEntityType.Builder.of(
                     CheeseWheelBlockEntity::new,
-                    //TODO[12]: Add all the cheese wheel blocks to the blockentity
-                    GrowthcraftMilkBlocks.PANCHEON.get()
+                    GrowthcraftMilkBlocks.APPENZELLER_CHEESE.get(),
+                    GrowthcraftMilkBlocks.ASIAGO_CHEESE.get(),
+                    GrowthcraftMilkBlocks.CASU_MARZU_CHEESE.get(),
+                    GrowthcraftMilkBlocks.CHEDDAR_CHEESE.get(),
+                    GrowthcraftMilkBlocks.EMMENTALER_CHEESE.get(),
+                    GrowthcraftMilkBlocks.GORGONZOLA_CHEESE.get(),
+                    GrowthcraftMilkBlocks.GOUDA_CHEESE.get(),
+                    GrowthcraftMilkBlocks.MONTEREY_CHEESE.get(),
+                    GrowthcraftMilkBlocks.PARMESAN_CHEESE.get(),
+                    GrowthcraftMilkBlocks.PROVOLONE_CHEESE.get()
             ).build(null)
     );
 
