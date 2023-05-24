@@ -1,5 +1,6 @@
 package growthcraft.milk.block.entity;
 
+import growthcraft.milk.block.CheesePressBlock;
 import growthcraft.milk.init.GrowthcraftMilkBlockEntities;
 import growthcraft.milk.recipe.CheesePressRecipe;
 import net.minecraft.core.BlockPos;
@@ -10,9 +11,12 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.Containers;
 import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -68,9 +72,33 @@ public class CheesePressBlockEntity extends BlockEntity implements BlockEntityTi
 
     @Override
     public void tick(Level level, BlockPos blockPos, BlockState blockState, CheesePressBlockEntity blockEntity) {
+        if(!level.isClientSide && !this.open && !this.getItemStackHandler().getStackInSlot(0).isEmpty()) {
+            try {
+                List<CheesePressRecipe> recipes = this.getMatchingRecipes();
+                CheesePressRecipe recipe = recipes.get(0);
 
+                if(recipe != null) {
+                    if(this.tickClock <= this.tickMax) {
+                        this.tickClock++;
+                    } else if (this.tickMax > 0) {
+                        // Process the recipe results.
+                        blockEntity.getItemStackHandler().setStackInSlot(0, ItemStack.EMPTY);
+                        blockEntity.getItemStackHandler().setStackInSlot(1, recipe.getResultItemStack());
+                    } else if(this.tickMax == -1) {
+                        this.tickMax = recipe.getProcessingTime();
+                    } else {
+                        this.resetTickClock();
+                    }
+
+                    level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), Block.UPDATE_ALL_IMMEDIATE);
+                }
+            } catch (Exception ex) {
+                // Do nothing, just ignore it.
+            }
+        } else {
+            this.resetTickClock();
+        }
     }
-    //TODO[63]: Implement CheesePressBlockEntity
 
     public int getTickClock(String type) {
         switch (type) {
@@ -217,4 +245,14 @@ public class CheesePressBlockEntity extends BlockEntity implements BlockEntityTi
     public boolean isOpen() {
         return this.open;
     }
+
+    public static <E extends BlockEntity> void particleTick(Level level, BlockPos blockPos, BlockState blockState, CheesePressBlockEntity blockEntity) {
+        RandomSource randomsource = level.random;
+        if (randomsource.nextFloat() < 0.11F) {
+            for (int i = 0; i < randomsource.nextInt(2) + 2; ++i) {
+                CheesePressBlock.makeParticles(level, blockPos, blockState);
+            }
+        }
+    }
+
 }

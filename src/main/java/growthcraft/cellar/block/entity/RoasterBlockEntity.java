@@ -128,7 +128,6 @@ public class RoasterBlockEntity extends BlockEntity implements BlockEntityTicker
 
     @Override
     public void tick(Level level, BlockPos blockPos, BlockState blockState, RoasterBlockEntity blockEntity) {
-        // TODO[9]: Implement Roaster ticking and processing methods.
 
         if (!level.isClientSide && isHeated() && !this.itemStackHandler.getStackInSlot(0).isEmpty()) {
             try {
