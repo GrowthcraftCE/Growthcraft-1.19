@@ -84,6 +84,8 @@ public class CheesePressBlockEntity extends BlockEntity implements BlockEntityTi
                         // Process the recipe results.
                         blockEntity.getItemStackHandler().setStackInSlot(0, ItemStack.EMPTY);
                         blockEntity.getItemStackHandler().setStackInSlot(1, recipe.getResultItemStack());
+
+                        this.resetTickClock();
                     } else if(this.tickMax == -1) {
                         this.tickMax = recipe.getProcessingTime();
                     } else {
