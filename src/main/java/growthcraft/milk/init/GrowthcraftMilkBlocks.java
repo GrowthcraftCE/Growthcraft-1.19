@@ -17,8 +17,10 @@ public class GrowthcraftMilkBlocks {
             ForgeRegistries.BLOCKS, Reference.MODID
     );
 
-
-    // TODO: Cheese Press
+    public static final RegistryObject<Block> CHEESE_PRESS = registerBlock(
+            Reference.UnlocalizedName.CHEESE_PRESS,
+            CheesePressBlock::new
+    );
 
     public static final RegistryObject<Block> CHURN = registerBlock(
         Reference.UnlocalizedName.CHURN,

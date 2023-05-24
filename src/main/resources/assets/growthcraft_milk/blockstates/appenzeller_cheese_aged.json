@@ -11,7 +11,7 @@
           "facing": "north|east|south|west"
         }
       ]},
-      "apply": {"model": "growthcraft:block/blank_model"}
+      "apply": {"model": "growthcraft:block/empty"}
     },
     {
       "when": {
