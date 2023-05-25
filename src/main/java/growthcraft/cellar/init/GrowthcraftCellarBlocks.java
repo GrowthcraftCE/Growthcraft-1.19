@@ -29,12 +29,20 @@ public class GrowthcraftCellarBlocks {
             FermentationBarrelBlock::new
     );
 
+    public static final RegistryObject<Block> FRUIT_PRESS = registerBlock(
+            Reference.UnlocalizedName.FRUIT_PRESS,
+            FruitPressBlock::new
+    );
+
+    public static final RegistryObject<Block> FRUIT_PRESS_PISTON = registerBlock(
+            Reference.UnlocalizedName.FRUIT_PRESS_PISTON,
+            FruitPressPistonBlock::new
+    );
+
     public static final RegistryObject<Block> ROASTER = registerBlock(
             Reference.UnlocalizedName.ROASTER,
             RoasterBlock::new
     );
-
-    // TODO: FRUIT_PRESS
 
     // TODO: FRUIT_PRESS_PISTON
 

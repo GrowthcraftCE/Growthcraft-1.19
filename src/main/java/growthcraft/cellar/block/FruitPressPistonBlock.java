@@ -16,6 +16,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.BlockHitResult;
@@ -28,28 +29,34 @@ import java.util.Arrays;
 
 import static net.minecraft.world.phys.shapes.BooleanOp.OR;
 
-public class FruitPressBlock extends BaseEntityBlock {
-    public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
+public class FruitPressPistonBlock  extends BaseEntityBlock {
 
-    private VoxelShape[] VOXEL_SHAPES = new VoxelShape[] {
-            Block.box(1, 0, 1, 15, 3, 15),
-            Block.box(0, 3, 0, 16, 7, 16),
-            Block.box(1, 7, 1, 15, 16, 15)
+    public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
+    public static final BooleanProperty PRESSED = BooleanProperty.create("pressed");
+
+    private VoxelShape[] VOXEL_SHAPES_UP = new VoxelShape[] {
+            Block.box(3, 0, 3, 13, 16, 13)
     };
 
-    public FruitPressBlock() {
+    private VoxelShape[] VOXEL_SHAPES_DOWN = new VoxelShape[] {
+            Block.box(6.5, 0, 6.5, 9.5, 9, 9.5),
+            Block.box(3, 9, 3, 13, 16, 13)
+    };
+
+    public FruitPressPistonBlock() {
         super(getInitProperties());
     }
 
-    public FruitPressBlock(Properties properties) {
+    public FruitPressPistonBlock(Properties properties) {
         super(properties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
+        this.registerDefaultState(
+                this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(PRESSED, false)
+        );
     }
 
     private static Properties getInitProperties() {
-        Properties properties = Properties.copy(Blocks.BARREL);
+        Properties properties = Properties.copy(Blocks.PISTON);
         properties.noOcclusion();
-        properties.sound(SoundType.CHAIN);
         return properties;
     }
 
@@ -60,18 +67,21 @@ public class FruitPressBlock extends BaseEntityBlock {
 
     @Override
     public VoxelShape getShape(BlockState blockState, BlockGetter blockGetter, BlockPos blockPos, CollisionContext context) {
-        return Arrays.stream(VOXEL_SHAPES).reduce((v1, v2) -> Shapes.join(v1, v2, OR)).get();
+        return blockState.getValue(PRESSED)
+                ? Arrays.stream(VOXEL_SHAPES_DOWN).reduce((v1, v2) -> Shapes.join(v1, v2, OR)).get()
+                : Arrays.stream(VOXEL_SHAPES_UP).reduce((v1, v2) -> Shapes.join(v1, v2, OR)).get();
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> blockStateBuilder) {
-        blockStateBuilder.add(FACING);
+        blockStateBuilder.add(FACING, PRESSED);
     }
 
     @Nullable
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
-        return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
+        return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite())
+                .setValue(PRESSED, this.isPowered(context.getLevel(), context.getClickedPos()));
     }
 
     @Override
@@ -81,26 +91,37 @@ public class FruitPressBlock extends BaseEntityBlock {
 
     @Override
     public BlockState rotate(BlockState state, LevelAccessor level, BlockPos pos, Rotation rotation) {
-        return state.setValue(FACING, rotation.rotate(state.getValue(FACING)));
+        return state.setValue(FACING, rotation.rotate(state.getValue(FACING))).setValue(PRESSED, state.getValue(PRESSED));
     }
 
     @Override
     public BlockState mirror(BlockState state, Mirror mirror) {
-        return state.rotate(mirror.getRotation(state.getValue(FACING)));
+        return state.rotate(mirror.getRotation(state.getValue(FACING))).setValue(PRESSED, state.getValue(PRESSED));
+    }
+
+    @Override
+    public void onRemove(BlockState blockState, Level level, BlockPos blockPos, BlockState state, boolean isMoving) {
+        super.onRemove(blockState, level, blockPos, state, isMoving);
+        level.destroyBlock(blockPos.below(), false);
     }
 
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos p_153215_, BlockState p_153216_) {
-        // TODO: Instantiate FruitPressBlockEntity
+        // TODO: Instantiate FruitPressPistonBlockEntity
         return null;
     }
 
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level p_153212_, BlockState p_153213_, BlockEntityType<T> p_153214_) {
-        // TODO: Create hook to FruitPressBlockEntity ticker.
+        // TODO: Create hook to FruitPressPistonBlockEntity ticker.
         return super.getTicker(p_153212_, p_153213_, p_153214_);
+    }
+
+    @Override
+    public boolean canConnectRedstone(BlockState state, BlockGetter level, BlockPos pos, @Nullable Direction direction) {
+        return false;
     }
 
     @Override
@@ -113,5 +134,9 @@ public class FruitPressBlock extends BaseEntityBlock {
         // TODO: Handle Fluid extraction for the FruitPress
 
         return super.use(p_60503_, p_60504_, p_60505_, p_60506_, p_60507_, p_60508_);
+    }
+
+    public boolean isPowered(Level level, BlockPos pos) {
+        return level.getBestNeighborSignal(pos) == 15;
     }
 }
