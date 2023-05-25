@@ -36,7 +36,8 @@ public class GrowthcraftCellarBlocks {
 
     public static final RegistryObject<Block> FRUIT_PRESS_PISTON = registerBlock(
             Reference.UnlocalizedName.FRUIT_PRESS_PISTON,
-            FruitPressPistonBlock::new
+            FruitPressPistonBlock::new,
+            true
     );
 
     public static final RegistryObject<Block> ROASTER = registerBlock(

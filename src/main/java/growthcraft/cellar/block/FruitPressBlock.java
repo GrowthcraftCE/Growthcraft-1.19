@@ -1,14 +1,18 @@
 package growthcraft.cellar.block;
 
+import growthcraft.cellar.init.GrowthcraftCellarBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
@@ -26,6 +30,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 
+import static growthcraft.cellar.block.FruitPressPistonBlock.PRESSED;
 import static net.minecraft.world.phys.shapes.BooleanOp.OR;
 
 public class FruitPressBlock extends BaseEntityBlock {
@@ -113,5 +118,24 @@ public class FruitPressBlock extends BaseEntityBlock {
         // TODO: Handle Fluid extraction for the FruitPress
 
         return super.use(p_60503_, p_60504_, p_60505_, p_60506_, p_60507_, p_60508_);
+    }
+
+    @Override
+    public boolean canSurvive(BlockState blockState, LevelReader levelReader, BlockPos blockPos) {
+        return levelReader.getBlockState(blockPos.above()).isAir();
+    }
+
+    @Override
+    public void setPlacedBy(Level level, BlockPos blockPos, BlockState blockState, @Nullable LivingEntity livingEntity, ItemStack itemStack) {
+        level.setBlock(blockPos.above(), GrowthcraftCellarBlocks.FRUIT_PRESS_PISTON.get().defaultBlockState().setValue(FACING, blockState.getValue(FACING)).setValue(PRESSED, false), Block.UPDATE_ALL_IMMEDIATE);
+    }
+
+    @Override
+    public void onRemove(BlockState blockState, Level level, BlockPos blockPos, BlockState state, boolean isMoving) {
+        super.onRemove(blockState, level, blockPos, state, isMoving);
+
+        if(level.getBlockState(blockPos.above()).getBlock() instanceof FruitPressPistonBlock) {
+            level.destroyBlock(blockPos.above(), false);
+        }
     }
 }

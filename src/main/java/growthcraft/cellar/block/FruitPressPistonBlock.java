@@ -5,6 +5,8 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -19,6 +21,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.material.PushReaction;
+import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -26,6 +29,8 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import static net.minecraft.world.phys.shapes.BooleanOp.OR;
 
@@ -102,7 +107,15 @@ public class FruitPressPistonBlock  extends BaseEntityBlock {
     @Override
     public void onRemove(BlockState blockState, Level level, BlockPos blockPos, BlockState state, boolean isMoving) {
         super.onRemove(blockState, level, blockPos, state, isMoving);
-        level.destroyBlock(blockPos.below(), false);
+
+        if(level.getBlockState(blockPos.below()).getBlock() instanceof FruitPressBlock) {
+            level.destroyBlock(blockPos.below(), false);
+        }
+    }
+
+    @Override
+    public List<ItemStack> getDrops(BlockState p_60537_, LootContext.Builder p_60538_) {
+        return Collections.emptyList();
     }
 
     @Nullable
@@ -125,18 +138,23 @@ public class FruitPressPistonBlock  extends BaseEntityBlock {
     }
 
     @Override
-    public InteractionResult use(BlockState p_60503_, Level p_60504_, BlockPos p_60505_, Player p_60506_, InteractionHand p_60507_, BlockHitResult p_60508_) {
+    public InteractionResult use(BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand interactionHand, BlockHitResult blockHitResult) {
 
+        if(!level.isClientSide && player.getItemInHand(interactionHand).getItem() == Items.LEVER) {
+            level.setBlock(blockPos.above(), Blocks.LEVER.getStateDefinition().any().setValue(FACING, blockState.getValue(FACING)), Block.UPDATE_ALL_IMMEDIATE);
+        }
         // TODO: Handle insert item into the Fruit Press
 
         // TODO: Handle GUI for FruitPress
 
         // TODO: Handle Fluid extraction for the FruitPress
 
-        return super.use(p_60503_, p_60504_, p_60505_, p_60506_, p_60507_, p_60508_);
+        return super.use(blockState, level, blockPos, player, interactionHand, blockHitResult);
     }
 
     public boolean isPowered(Level level, BlockPos pos) {
         return level.getBestNeighborSignal(pos) == 15;
     }
+
+
 }
