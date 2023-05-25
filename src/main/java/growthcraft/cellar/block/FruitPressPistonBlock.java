@@ -1,9 +1,13 @@
 package growthcraft.cellar.block;
 
+import growthcraft.cellar.GrowthcraftCellar;
+import growthcraft.cellar.init.GrowthcraftCellarBlocks;
+import growthcraft.core.utils.BlockPropertiesUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -20,6 +24,7 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.phys.BlockHitResult;
@@ -40,10 +45,12 @@ public class FruitPressPistonBlock  extends BaseEntityBlock {
     public static final BooleanProperty PRESSED = BooleanProperty.create("pressed");
 
     private VoxelShape[] VOXEL_SHAPES_UP = new VoxelShape[] {
+            Block.box(0, 15, 0, 16, 16, 16),
             Block.box(3, 0, 3, 13, 16, 13)
     };
 
     private VoxelShape[] VOXEL_SHAPES_DOWN = new VoxelShape[] {
+            Block.box(0, 15, 0, 16, 16, 16),
             Block.box(6.5, 0, 6.5, 9.5, 9, 9.5),
             Block.box(3, 9, 3, 13, 16, 13)
     };
@@ -62,6 +69,7 @@ public class FruitPressPistonBlock  extends BaseEntityBlock {
     private static Properties getInitProperties() {
         Properties properties = Properties.copy(Blocks.PISTON);
         properties.noOcclusion();
+        properties.isRedstoneConductor(BlockPropertiesUtils::never);
         return properties;
     }
 
@@ -105,12 +113,13 @@ public class FruitPressPistonBlock  extends BaseEntityBlock {
     }
 
     @Override
-    public void onRemove(BlockState blockState, Level level, BlockPos blockPos, BlockState state, boolean isMoving) {
-        super.onRemove(blockState, level, blockPos, state, isMoving);
-
-        if(level.getBlockState(blockPos.below()).getBlock() instanceof FruitPressBlock) {
-            level.destroyBlock(blockPos.below(), false);
+    public boolean onDestroyedByPlayer(BlockState state, Level level, BlockPos pos, Player player, boolean willHarvest, FluidState fluid) {
+        if(level.getBlockState(pos.below()).getBlock() instanceof FruitPressBlock) {
+            level.destroyBlock(pos.below(), false);
+            ItemEntity itemEntity = new ItemEntity(level, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(GrowthcraftCellarBlocks.FRUIT_PRESS.get().asItem()));
+            level.addFreshEntity(itemEntity);
         }
+        return super.onDestroyedByPlayer(state, level, pos, player, willHarvest, fluid);
     }
 
     @Override
@@ -140,9 +149,12 @@ public class FruitPressPistonBlock  extends BaseEntityBlock {
     @Override
     public InteractionResult use(BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand interactionHand, BlockHitResult blockHitResult) {
 
+        // Handle connecting a lever on the top.
         if(!level.isClientSide && player.getItemInHand(interactionHand).getItem() == Items.LEVER) {
             level.setBlock(blockPos.above(), Blocks.LEVER.getStateDefinition().any().setValue(FACING, blockState.getValue(FACING)), Block.UPDATE_ALL_IMMEDIATE);
+            player.getItemInHand(interactionHand).shrink(1);
         }
+
         // TODO: Handle insert item into the Fruit Press
 
         // TODO: Handle GUI for FruitPress
@@ -156,5 +168,20 @@ public class FruitPressPistonBlock  extends BaseEntityBlock {
         return level.getBestNeighborSignal(pos) == 15;
     }
 
+    @Override
+    public void neighborChanged(BlockState blockState, Level level, BlockPos blockPos, Block neighborBlock, BlockPos neighborBlockPos, boolean isMoving) {
+        super.neighborChanged(blockState, level, blockPos, neighborBlock, neighborBlockPos, isMoving);
 
+        if(!level.isClientSide) {
+            boolean flag = level.hasNeighborSignal(blockPos);
+            if(blockState.getValue(PRESSED) != flag) {
+                level.setBlock(blockPos, blockState.setValue(PRESSED, flag), Block.UPDATE_CLIENTS);
+            }
+        }
+    }
+
+    public static boolean canSupportRigidBlock(BlockGetter p_49937_, BlockPos p_49938_) {
+        GrowthcraftCellar.LOGGER.warn("Calling canSupportRigidBlock");
+        return p_49937_.getBlockState(p_49938_).isFaceSturdy(p_49937_, p_49938_, Direction.UP, SupportType.RIGID);
+    }
 }

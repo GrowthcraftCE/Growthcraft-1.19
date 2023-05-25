@@ -1,6 +1,7 @@
 package growthcraft.cellar.block;
 
 import growthcraft.cellar.init.GrowthcraftCellarBlocks;
+import growthcraft.core.utils.BlockPropertiesUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
@@ -21,6 +22,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -55,6 +57,7 @@ public class FruitPressBlock extends BaseEntityBlock {
         Properties properties = Properties.copy(Blocks.BARREL);
         properties.noOcclusion();
         properties.sound(SoundType.CHAIN);
+        properties.isRedstoneConductor(BlockPropertiesUtils::never);
         return properties;
     }
 
@@ -131,11 +134,10 @@ public class FruitPressBlock extends BaseEntityBlock {
     }
 
     @Override
-    public void onRemove(BlockState blockState, Level level, BlockPos blockPos, BlockState state, boolean isMoving) {
-        super.onRemove(blockState, level, blockPos, state, isMoving);
-
-        if(level.getBlockState(blockPos.above()).getBlock() instanceof FruitPressPistonBlock) {
-            level.destroyBlock(blockPos.above(), false);
+    public boolean onDestroyedByPlayer(BlockState state, Level level, BlockPos pos, Player player, boolean willHarvest, FluidState fluid) {
+        if(level.getBlockState(pos.above()).getBlock() instanceof FruitPressPistonBlock) {
+            level.destroyBlock(pos.above(), false);
         }
+        return super.onDestroyedByPlayer(state, level, pos, player, willHarvest, fluid);
     }
 }
