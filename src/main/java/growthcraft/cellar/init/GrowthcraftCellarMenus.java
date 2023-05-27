@@ -2,6 +2,7 @@ package growthcraft.cellar.init;
 
 import growthcraft.cellar.screen.container.CultureJarMenu;
 import growthcraft.cellar.screen.container.FermentationBarrelMenu;
+import growthcraft.cellar.screen.container.FruitPressMenu;
 import growthcraft.cellar.screen.container.RoasterMenu;
 import growthcraft.cellar.shared.Reference;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -26,6 +27,11 @@ public class GrowthcraftCellarMenus {
     public static final RegistryObject<MenuType<FermentationBarrelMenu>> FERMENTATION_BARREL_MENU = registerMenuType(
             Reference.UnlocalizedName.FERMENT_BARREL,
             FermentationBarrelMenu::new
+    );
+
+    public static final RegistryObject<MenuType<FruitPressMenu>> FRUIT_PRESS_MENU = registerMenuType(
+            Reference.UnlocalizedName.FRUIT_PRESS,
+            FruitPressMenu::new
     );
 
     public static final RegistryObject<MenuType<RoasterMenu>> ROASTER_MENU = registerMenuType(

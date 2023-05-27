@@ -7,6 +7,7 @@ import growthcraft.cellar.init.config.GrowthcraftCellarConfig;
 import growthcraft.cellar.lib.networking.GrowthcraftCellarMessages;
 import growthcraft.cellar.screen.CultureJarScreen;
 import growthcraft.cellar.screen.FermentationBarrelScreen;
+import growthcraft.cellar.screen.FruitPressScreen;
 import growthcraft.cellar.screen.RoasterScreen;
 import growthcraft.cellar.shared.Reference;
 import growthcraft.core.init.GrowthcraftCreativeModeTabs;
@@ -66,6 +67,11 @@ public class GrowthcraftCellar {
         MenuScreens.register(
                 GrowthcraftCellarMenus.FERMENTATION_BARREL_MENU.get(),
                 FermentationBarrelScreen::new
+        );
+
+        MenuScreens.register(
+                GrowthcraftCellarMenus.FRUIT_PRESS_MENU.get(),
+                FruitPressScreen::new
         );
 
         MenuScreens.register(

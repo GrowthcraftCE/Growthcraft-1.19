@@ -16,9 +16,6 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.*;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityTicker;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -39,7 +36,7 @@ import java.util.List;
 
 import static net.minecraft.world.phys.shapes.BooleanOp.OR;
 
-public class FruitPressPistonBlock  extends BaseEntityBlock {
+public class FruitPressPistonBlock  extends Block {
 
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
     public static final BooleanProperty PRESSED = BooleanProperty.create("pressed");
@@ -125,20 +122,6 @@ public class FruitPressPistonBlock  extends BaseEntityBlock {
     @Override
     public List<ItemStack> getDrops(BlockState p_60537_, LootContext.Builder p_60538_) {
         return Collections.emptyList();
-    }
-
-    @Nullable
-    @Override
-    public BlockEntity newBlockEntity(BlockPos p_153215_, BlockState p_153216_) {
-        // TODO: Instantiate FruitPressPistonBlockEntity
-        return null;
-    }
-
-    @Nullable
-    @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level p_153212_, BlockState p_153213_, BlockEntityType<T> p_153214_) {
-        // TODO: Create hook to FruitPressPistonBlockEntity ticker.
-        return super.getTicker(p_153212_, p_153213_, p_153214_);
     }
 
     @Override

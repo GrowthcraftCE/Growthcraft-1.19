@@ -61,4 +61,24 @@ public class GrowthcraftFluidTank extends FluidTank {
         return (fluidsList.get(0) == Fluids.EMPTY || fluidsList.contains(stack.getFluid()));
     }
 
+    public boolean canFluidStackFit(FluidStack fluidStack) {
+        // If the tank is empty and the fluid is valid, and there is capacity, then the
+        // FluidStack will fit.
+        if(this.isEmpty() && this.isFluidValid(fluidStack)
+                && this.capacity > fluidStack.getAmount()) {
+            return true;
+        }
+
+        // If the fluid type matches and there is enough room in the tank,
+        // then the fluid stack can fit.
+        if(this.getFluid().getFluid() == fluidStack.getFluid()
+            && this.capacity - this.getFluidAmount() > fluidStack.getAmount()
+        ) {
+            return true;
+        }
+
+        // Otherwise return false.
+        return false;
+    }
+
 }

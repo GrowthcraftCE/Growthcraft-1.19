@@ -2,6 +2,7 @@ package growthcraft.cellar.lib.networking;
 
 import growthcraft.cellar.lib.networking.packet.CultureJarFluidSyncPacket;
 import growthcraft.cellar.lib.networking.packet.FermentationBarrelFluidTankPacket;
+import growthcraft.cellar.lib.networking.packet.FruitPressFluidTankPacket;
 import growthcraft.cellar.shared.Reference;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -39,6 +40,12 @@ public class GrowthcraftCellarMessages {
                 .decoder(FermentationBarrelFluidTankPacket::new)
                 .encoder(FermentationBarrelFluidTankPacket::toBytes)
                 .consumerMainThread(FermentationBarrelFluidTankPacket::handle)
+                .add();
+
+        net.messageBuilder(FruitPressFluidTankPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+                .decoder(FruitPressFluidTankPacket::new)
+                .encoder(FruitPressFluidTankPacket::toBytes)
+                .consumerMainThread(FruitPressFluidTankPacket::handle)
                 .add();
 
     }

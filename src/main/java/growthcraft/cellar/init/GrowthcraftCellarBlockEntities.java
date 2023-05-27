@@ -2,6 +2,7 @@ package growthcraft.cellar.init;
 
 import growthcraft.cellar.block.entity.CultureJarBlockEntity;
 import growthcraft.cellar.block.entity.FermentationBarrelBlockEntity;
+import growthcraft.cellar.block.entity.FruitPressBlockEntity;
 import growthcraft.cellar.block.entity.RoasterBlockEntity;
 import growthcraft.cellar.shared.Reference;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -28,6 +29,14 @@ public class GrowthcraftCellarBlockEntities {
             () -> BlockEntityType.Builder.of(
                     FermentationBarrelBlockEntity::new,
                     GrowthcraftCellarBlocks.FERMENTATION_BARREL_OAK.get()
+            ).build(null)
+    );
+
+    public static final RegistryObject<BlockEntityType<FruitPressBlockEntity>> FRUIT_PRESS_BLOCK_ENTITY = BLOCK_ENTITIES.register(
+            Reference.UnlocalizedName.FRUIT_PRESS,
+            () -> BlockEntityType.Builder.of(
+                    FruitPressBlockEntity::new,
+                    GrowthcraftCellarBlocks.FRUIT_PRESS.get()
             ).build(null)
     );
 

@@ -1,9 +1,15 @@
 package growthcraft.cellar.block;
 
+import growthcraft.cellar.GrowthcraftCellar;
+import growthcraft.cellar.block.entity.FruitPressBlockEntity;
+import growthcraft.cellar.init.GrowthcraftCellarBlockEntities;
 import growthcraft.cellar.init.GrowthcraftCellarBlocks;
 import growthcraft.core.utils.BlockPropertiesUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
@@ -28,6 +34,9 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.fluids.FluidUtil;
+import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
@@ -38,11 +47,7 @@ import static net.minecraft.world.phys.shapes.BooleanOp.OR;
 public class FruitPressBlock extends BaseEntityBlock {
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 
-    private VoxelShape[] VOXEL_SHAPES = new VoxelShape[] {
-            Block.box(1, 0, 1, 15, 3, 15),
-            Block.box(0, 3, 0, 16, 7, 16),
-            Block.box(1, 7, 1, 15, 16, 15)
-    };
+    private final VoxelShape[] VOXEL_SHAPES = new VoxelShape[]{Block.box(1, 0, 1, 15, 3, 15), Block.box(0, 3, 0, 16, 7, 16), Block.box(1, 7, 1, 15, 16, 15)};
 
     public FruitPressBlock() {
         super(getInitProperties());
@@ -99,28 +104,42 @@ public class FruitPressBlock extends BaseEntityBlock {
 
     @Nullable
     @Override
-    public BlockEntity newBlockEntity(BlockPos p_153215_, BlockState p_153216_) {
-        // TODO: Instantiate FruitPressBlockEntity
-        return null;
+    public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
+        return GrowthcraftCellarBlockEntities.FRUIT_PRESS_BLOCK_ENTITY.get().create(blockPos, blockState);
     }
 
     @Nullable
     @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level p_153212_, BlockState p_153213_, BlockEntityType<T> p_153214_) {
-        // TODO: Create hook to FruitPressBlockEntity ticker.
-        return super.getTicker(p_153212_, p_153213_, p_153214_);
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState blockState, BlockEntityType<T> entityType) {
+        return createTickerHelper(
+                entityType,
+                GrowthcraftCellarBlockEntities.FRUIT_PRESS_BLOCK_ENTITY.get(),
+                (worldLevel, pos, state, blockEntity) -> (blockEntity).tick()
+        );
     }
 
     @Override
-    public InteractionResult use(BlockState p_60503_, Level p_60504_, BlockPos p_60505_, Player p_60506_, InteractionHand p_60507_, BlockHitResult p_60508_) {
+    public InteractionResult use(BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand interactionHand, BlockHitResult hitResult) {
+        if (!level.isClientSide) {
+            FruitPressBlockEntity blockEntity = (FruitPressBlockEntity) level.getBlockEntity(blockPos);
 
-        // TODO: Handle insert item into the Fruit Press
+            if (FluidUtil.interactWithFluidHandler(player, interactionHand, level, blockPos, hitResult.getDirection()) || player.getItemInHand(interactionHand).getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).isPresent()) {
+                return InteractionResult.SUCCESS;
+            } else if (player.isCrouching() && !level.getBlockState(blockPos.above()).getValue(PRESSED)) {
+                try {
+                    // Play sound
+                    level.playSound(player, blockPos, SoundEvents.BARREL_OPEN, SoundSource.BLOCKS, 1.0F, 1.0F);
+                    NetworkHooks.openScreen(((ServerPlayer) player), blockEntity, blockPos);
+                } catch (Exception ex) {
+                    GrowthcraftCellar.LOGGER.error(String.format("%s unable to open FruitPressBlockEntity GUI at %s.", player.getDisplayName().getString(), blockPos));
+                    GrowthcraftCellar.LOGGER.error(ex.getMessage());
+                    GrowthcraftCellar.LOGGER.error(ex.fillInStackTrace());
+                }
+            }
+            return InteractionResult.SUCCESS;
+        }
 
-        // TODO: Handle GUI for FruitPress
-
-        // TODO: Handle Fluid extraction for the FruitPress
-
-        return super.use(p_60503_, p_60504_, p_60505_, p_60506_, p_60507_, p_60508_);
+        return InteractionResult.PASS;
     }
 
     @Override
@@ -135,7 +154,7 @@ public class FruitPressBlock extends BaseEntityBlock {
 
     @Override
     public boolean onDestroyedByPlayer(BlockState state, Level level, BlockPos pos, Player player, boolean willHarvest, FluidState fluid) {
-        if(level.getBlockState(pos.above()).getBlock() instanceof FruitPressPistonBlock) {
+        if (level.getBlockState(pos.above()).getBlock() instanceof FruitPressPistonBlock) {
             level.destroyBlock(pos.above(), false);
         }
         return super.onDestroyedByPlayer(state, level, pos, player, willHarvest, fluid);
