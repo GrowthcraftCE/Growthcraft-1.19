@@ -1,5 +1,6 @@
 package growthcraft.cellar.lib.networking;
 
+import growthcraft.cellar.lib.networking.packet.BrewKettleFluidTankPacket;
 import growthcraft.cellar.lib.networking.packet.CultureJarFluidSyncPacket;
 import growthcraft.cellar.lib.networking.packet.FermentationBarrelFluidTankPacket;
 import growthcraft.cellar.lib.networking.packet.FruitPressFluidTankPacket;
@@ -29,6 +30,12 @@ public class GrowthcraftCellarMessages {
                 .simpleChannel();
 
         INSTANCE = net;
+
+        net.messageBuilder(BrewKettleFluidTankPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+                .decoder(BrewKettleFluidTankPacket::new)
+                .encoder(BrewKettleFluidTankPacket::toBytes)
+                .consumerMainThread(BrewKettleFluidTankPacket::handle)
+                .add();
 
         net.messageBuilder(CultureJarFluidSyncPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
                 .decoder(CultureJarFluidSyncPacket::new)

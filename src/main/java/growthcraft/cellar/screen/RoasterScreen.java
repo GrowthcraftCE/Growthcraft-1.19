@@ -38,7 +38,6 @@ public class RoasterScreen extends AbstractContainerScreen<RoasterMenu> {
         // Full background image
         blit(poseStack, x, y, 0, 0, imageWidth, imageHeight);
 
-        // TODO[9]: Implement Roaster Progress Bar
         blit(poseStack,
                 x + 76, y + 48,
                 76, 0,

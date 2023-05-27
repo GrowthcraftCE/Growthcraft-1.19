@@ -1,9 +1,6 @@
 package growthcraft.cellar.init;
 
-import growthcraft.cellar.screen.container.CultureJarMenu;
-import growthcraft.cellar.screen.container.FermentationBarrelMenu;
-import growthcraft.cellar.screen.container.FruitPressMenu;
-import growthcraft.cellar.screen.container.RoasterMenu;
+import growthcraft.cellar.screen.container.*;
 import growthcraft.cellar.shared.Reference;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
@@ -17,6 +14,11 @@ public class GrowthcraftCellarMenus {
 
     public static final DeferredRegister<MenuType<?>> MENUS = DeferredRegister.create(
             ForgeRegistries.MENU_TYPES, Reference.MODID
+    );
+
+    public static final RegistryObject<MenuType<BrewKettleMenu>> BREW_KETTLE_MENU = registerMenuType(
+            Reference.UnlocalizedName.BREW_KETTLE,
+            BrewKettleMenu::new
     );
 
     public static final RegistryObject<MenuType<CultureJarMenu>> CULTURE_JAR_MENU = registerMenuType(

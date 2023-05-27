@@ -17,7 +17,10 @@ public class GrowthcraftCellarBlocks {
             ForgeRegistries.BLOCKS, Reference.MODID
     );
 
-    // TODO: BREW_KETTLE
+    public static final RegistryObject<Block> BREW_KETTLE = registerBlock(
+            Reference.UnlocalizedName.BREW_KETTLE,
+            BrewKettleBlock::new
+    );
 
     public static final RegistryObject<Block> CULTURE_JAR = registerBlock(
             Reference.UnlocalizedName.CULTURE_JAR,

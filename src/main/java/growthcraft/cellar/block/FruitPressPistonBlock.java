@@ -142,7 +142,7 @@ public class FruitPressPistonBlock  extends Block {
         if(!level.isClientSide && player.getItemInHand(interactionHand).getItem() == Items.LEVER) {
             level.setBlock(blockPos.above(), Blocks.LEVER.getStateDefinition().any().setValue(FACING, blockState.getValue(FACING)), Block.UPDATE_ALL_IMMEDIATE);
             player.getItemInHand(interactionHand).shrink(1);
-        } else if (player.isCrouching() && !blockState.getValue(PRESSED)) {
+        } else if (!level.isClientSide && player.isCrouching() && !blockState.getValue(PRESSED)) {
             try {
                 // Play sound
                 level.playSound(player, blockPos, SoundEvents.BARREL_OPEN, SoundSource.BLOCKS, 1.0F, 1.0F);

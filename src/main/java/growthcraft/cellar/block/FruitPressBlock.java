@@ -49,7 +49,11 @@ import static net.minecraft.world.phys.shapes.BooleanOp.OR;
 public class FruitPressBlock extends BaseEntityBlock {
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 
-    private final VoxelShape[] VOXEL_SHAPES = new VoxelShape[]{Block.box(1, 0, 1, 15, 3, 15), Block.box(0, 3, 0, 16, 7, 16), Block.box(1, 7, 1, 15, 16, 15)};
+    private final VoxelShape[] VOXEL_SHAPES = new VoxelShape[]{
+            Block.box(1, 0, 1, 15, 3, 15),
+            Block.box(0, 3, 0, 16, 7, 16),
+            Block.box(1, 7, 1, 15, 16, 15)
+    };
 
     public FruitPressBlock() {
         super(getInitProperties());
@@ -148,7 +152,7 @@ public class FruitPressBlock extends BaseEntityBlock {
             return InteractionResult.SUCCESS;
         }
 
-        return InteractionResult.PASS;
+        return InteractionResult.SUCCESS;
     }
 
     @Override
@@ -175,10 +179,10 @@ public class FruitPressBlock extends BaseEntityBlock {
         FruitPressBlockEntity blockEntity = (FruitPressBlockEntity) level.getBlockEntity(blockPos);
 
         if (level.getBlockState(blockPos.above()).getValue(PRESSED) && blockEntity.getTickClock("current") > 0) {
-            double d0 = (double) blockPos.getX() + randomSource.nextDouble() / 1.0D;
+            double d0 = (double) blockPos.getX() + randomSource.nextDouble();
             //double d1 = (double) blockPos.getY() - 0.05D;
-            double d1 = (double) blockPos.getY();
-            double d2 = (double) blockPos.getZ() + randomSource.nextDouble() / 1.0D;
+            double d1 = blockPos.getY();
+            double d2 = (double) blockPos.getZ() + randomSource.nextDouble();
 
             level.addParticle(ParticleTypes.FALLING_HONEY, d0, d1, d2, 0.0D, 0.0D, 0.0D);
         }
