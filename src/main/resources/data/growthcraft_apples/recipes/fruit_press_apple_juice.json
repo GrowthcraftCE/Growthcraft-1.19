@@ -1,6 +1,6 @@
 {
   "type": "growthcraft_cellar:fruit_press_recipe",
-  "processing_time": 400,
+  "processing_time": 600,
   "input_item": {
     "item": "minecraft:apple",
     "count": 1

@@ -1,10 +1,14 @@
 package growthcraft.cellar.block;
 
 import growthcraft.cellar.GrowthcraftCellar;
+import growthcraft.cellar.block.entity.FruitPressBlockEntity;
 import growthcraft.cellar.init.GrowthcraftCellarBlocks;
 import growthcraft.core.utils.BlockPropertiesUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -28,6 +32,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
@@ -131,18 +136,24 @@ public class FruitPressPistonBlock  extends Block {
 
     @Override
     public InteractionResult use(BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand interactionHand, BlockHitResult blockHitResult) {
+        FruitPressBlockEntity blockEntity = (FruitPressBlockEntity) level.getBlockEntity(blockPos.below());
 
         // Handle connecting a lever on the top.
         if(!level.isClientSide && player.getItemInHand(interactionHand).getItem() == Items.LEVER) {
             level.setBlock(blockPos.above(), Blocks.LEVER.getStateDefinition().any().setValue(FACING, blockState.getValue(FACING)), Block.UPDATE_ALL_IMMEDIATE);
             player.getItemInHand(interactionHand).shrink(1);
+        } else if (player.isCrouching() && !blockState.getValue(PRESSED)) {
+            try {
+                // Play sound
+                level.playSound(player, blockPos, SoundEvents.BARREL_OPEN, SoundSource.BLOCKS, 1.0F, 1.0F);
+                NetworkHooks.openScreen(((ServerPlayer) player), blockEntity, blockPos.below());
+            } catch (Exception ex) {
+                GrowthcraftCellar.LOGGER.error(String.format("%s unable to open FruitPressBlockEntity GUI at %s.", player.getDisplayName().getString(), blockPos));
+                GrowthcraftCellar.LOGGER.error(ex.getMessage());
+                GrowthcraftCellar.LOGGER.error(ex.fillInStackTrace());
+            }
         }
 
-        // TODO: Handle insert item into the Fruit Press
-
-        // TODO: Handle GUI for FruitPress
-
-        // TODO: Handle Fluid extraction for the FruitPress
 
         return super.use(blockState, level, blockPos, player, interactionHand, blockHitResult);
     }

@@ -1,5 +1,6 @@
 package growthcraft.cellar.block.entity;
 
+import growthcraft.cellar.block.FruitPressBlock;
 import growthcraft.cellar.init.GrowthcraftCellarBlockEntities;
 import growthcraft.cellar.lib.networking.GrowthcraftCellarMessages;
 import growthcraft.cellar.lib.networking.packet.FruitPressFluidTankPacket;
@@ -14,6 +15,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.Containers;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleContainer;
@@ -124,7 +126,6 @@ public class FruitPressBlockEntity extends BlockEntity implements BlockEntityTic
 
     @Override
     public void tick(Level level, BlockPos blockPos, BlockState blockState, FruitPressBlockEntity blockEntity) {
-        //TODO: Implement FruitPressBlockEntity tick actions
         if(!level.isClientSide
                 && level.getBlockState(blockPos.above()).getValue(PRESSED)
         ) {
@@ -297,5 +298,14 @@ public class FruitPressBlockEntity extends BlockEntity implements BlockEntityTic
     public void drainFluidTank(int tankID, int amount) {
         this.getFluidTank(0).drain(amount, IFluidHandler.FluidAction.EXECUTE);
         this.level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), Block.UPDATE_ALL);
+    }
+
+    public static <E extends BlockEntity> void particleTick(Level level, BlockPos blockPos, BlockState blockState, FruitPressBlockEntity blockEntity) {
+        RandomSource randomsource = level.random;
+        if (randomsource.nextFloat() < 0.11F && blockEntity.getTickClock("current") > 0) {
+            for (int i = 0; i < randomsource.nextInt(2) + 2; ++i) {
+                FruitPressBlock.makeParticles(level, blockPos, blockState);
+            }
+        }
     }
 }

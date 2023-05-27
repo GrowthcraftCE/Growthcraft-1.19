@@ -2,11 +2,11 @@
   "type": "growthcraft_cellar:fruit_press_recipe",
   "processing_time": 600,
   "input_item": {
-    "item": "growthcraft_cellar:grape_white",
+    "item": "growthcraft_apiary:honey_comb_full",
     "count": 1
   },
   "output_fluid": {
-    "fluid": "growthcraft_cellar:white_grape_juice_fluid_source",
+    "fluid": "growthcraft_apiary:honey_fluid",
     "amount": 250
   },
   "by_product": {

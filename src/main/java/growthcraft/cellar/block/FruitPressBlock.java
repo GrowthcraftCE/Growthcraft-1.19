@@ -7,9 +7,11 @@ import growthcraft.cellar.init.GrowthcraftCellarBlocks;
 import growthcraft.core.utils.BlockPropertiesUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
@@ -111,11 +113,18 @@ public class FruitPressBlock extends BaseEntityBlock {
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState blockState, BlockEntityType<T> entityType) {
-        return createTickerHelper(
-                entityType,
-                GrowthcraftCellarBlockEntities.FRUIT_PRESS_BLOCK_ENTITY.get(),
-                (worldLevel, pos, state, blockEntity) -> (blockEntity).tick()
-        );
+        if (level.isClientSide) {
+            return createTickerHelper(
+                    entityType,
+                    GrowthcraftCellarBlockEntities.FRUIT_PRESS_BLOCK_ENTITY.get(),
+                    FruitPressBlockEntity::particleTick);
+        } else {
+            return createTickerHelper(
+                    entityType,
+                    GrowthcraftCellarBlockEntities.FRUIT_PRESS_BLOCK_ENTITY.get(),
+                    (worldLevel, pos, state, blockEntity) -> (blockEntity).tick()
+            );
+        }
     }
 
     @Override
@@ -158,5 +167,21 @@ public class FruitPressBlock extends BaseEntityBlock {
             level.destroyBlock(pos.above(), false);
         }
         return super.onDestroyedByPlayer(state, level, pos, player, willHarvest, fluid);
+    }
+
+    public static void makeParticles(Level level, BlockPos blockPos, BlockState blockState) {
+        RandomSource randomSource = level.getRandom();
+
+        FruitPressBlockEntity blockEntity = (FruitPressBlockEntity) level.getBlockEntity(blockPos);
+
+        if (level.getBlockState(blockPos.above()).getValue(PRESSED) && blockEntity.getTickClock("current") > 0) {
+            double d0 = (double) blockPos.getX() + randomSource.nextDouble() / 1.0D;
+            //double d1 = (double) blockPos.getY() - 0.05D;
+            double d1 = (double) blockPos.getY();
+            double d2 = (double) blockPos.getZ() + randomSource.nextDouble() / 1.0D;
+
+            level.addParticle(ParticleTypes.FALLING_HONEY, d0, d1, d2, 0.0D, 0.0D, 0.0D);
+        }
+
     }
 }
