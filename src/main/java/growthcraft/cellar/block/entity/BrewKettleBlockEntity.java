@@ -17,6 +17,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Containers;
 import net.minecraft.world.MenuProvider;
@@ -74,21 +76,21 @@ public class BrewKettleBlockEntity extends BlockEntity implements BlockEntityTic
         }
     };
 
-    private LazyOptional<IItemHandler> itemHandlerLazyOptional = LazyOptional.empty();
+    private LazyOptional<IItemHandler> inventoryItemHandler = LazyOptional.empty();
 
-    private final GrowthcraftFluidTank FLUID_TANK_INPUT_0 = new GrowthcraftFluidTank(4000) {
+    private final GrowthcraftFluidTank FLUID_TANK_0 = new GrowthcraftFluidTank(4000) {
         @Override
         protected void onContentsChanged() {
             setChanged();
             if (!level.isClientSide) {
-                GrowthcraftCellarMessages.sendToClients(new BrewKettleFluidTankPacket(0, this.fluid, worldPosition));
+                GrowthcraftCellarMessages.sendToClients(new BrewKettleFluidTankPacket(0, this.getFluid(), worldPosition));
             }
         }
     };
 
-    private LazyOptional<IFluidHandler> lazyInputFluidHandler0 = LazyOptional.empty();
+    private LazyOptional<IFluidHandler> fluidHandler0 = LazyOptional.empty();
 
-    private final GrowthcraftFluidTank FLUID_TANK_OUTPUT_0 = new GrowthcraftFluidTank(4000) {
+    private final GrowthcraftFluidTank FLUID_TANK_1 = new GrowthcraftFluidTank(4000) {
         @Override
         protected void onContentsChanged() {
             setChanged();
@@ -98,7 +100,7 @@ public class BrewKettleBlockEntity extends BlockEntity implements BlockEntityTic
         }
     };
 
-    private LazyOptional<IFluidHandler> lazyOutputFluidHandler0 = LazyOptional.empty();
+    private LazyOptional<IFluidHandler> fluidHandler1 = LazyOptional.empty();
 
     public BrewKettleBlockEntity(BlockPos blockPos, BlockState blockState) {
         this(GrowthcraftCellarBlockEntities.BREW_KETTLE_BLOCK_ENTITY.get(),
@@ -108,7 +110,7 @@ public class BrewKettleBlockEntity extends BlockEntity implements BlockEntityTic
     public BrewKettleBlockEntity(BlockEntityType<?> blockEntityType, BlockPos blockPos, BlockState blockState) {
         super(blockEntityType, blockPos, blockState);
 
-        this.FLUID_TANK_INPUT_0.allowAnyFluid(true);
+        this.FLUID_TANK_0.allowAnyFluid(true);
 
         this.data = new ContainerData() {
             @Override
@@ -158,9 +160,13 @@ public class BrewKettleBlockEntity extends BlockEntity implements BlockEntityTic
     @Override
     public void tick(Level level, BlockPos blockPos, BlockState blockState, BrewKettleBlockEntity blockEntity) {
         // TODO: Implement BrewKettleBlockEntity ticking.
-
+        boolean doTick = false;
+        if(doTick) {
+            // Just here to break point.
+        }
 
     }
+
 
     private List<BrewKettleRecipe> getMatchingRecipes() {
         List<BrewKettleRecipe> matchingRecipes = new ArrayList<>();
@@ -171,7 +177,7 @@ public class BrewKettleBlockEntity extends BlockEntity implements BlockEntityTic
         for (BrewKettleRecipe recipe : recipes) {
             if (recipe.matches(
                     this.itemStackHandler.getStackInSlot(0),
-                    this.FLUID_TANK_INPUT_0.getFluid(),
+                    this.FLUID_TANK_0.getFluid(),
                     this.hasLid(),
                     BlockStateUtils.isHeated(this.getLevel(), this.getBlockPos())
             )) {
@@ -201,8 +207,8 @@ public class BrewKettleBlockEntity extends BlockEntity implements BlockEntityTic
 
     public void setFluidStackInTank(int tankID, FluidStack fluidStack) {
         switch (tankID) {
-            case 0 -> this.FLUID_TANK_INPUT_0.setFluid(fluidStack);
-            case 1 -> this.FLUID_TANK_OUTPUT_0.setFluid(fluidStack);
+            case 0 -> this.FLUID_TANK_0.setFluid(fluidStack);
+            case 1 -> this.FLUID_TANK_1.setFluid(fluidStack);
             default -> {
                 // Do nothing
             }
@@ -211,16 +217,16 @@ public class BrewKettleBlockEntity extends BlockEntity implements BlockEntityTic
 
     public FluidStack getFluidStackInTank(int tankID) {
         return switch (tankID) {
-            case 0 -> this.FLUID_TANK_INPUT_0.getFluid();
-            case 1 -> this.FLUID_TANK_OUTPUT_0.getFluid();
+            case 0 -> this.FLUID_TANK_0.getFluid();
+            case 1 -> this.FLUID_TANK_1.getFluid();
             default -> null;
         };
     }
 
     public GrowthcraftFluidTank getFluidTank(int tankID) {
         return switch (tankID) {
-            case 0 -> this.FLUID_TANK_INPUT_0;
-            case 1 -> this.FLUID_TANK_OUTPUT_0;
+            case 0 -> this.FLUID_TANK_0;
+            case 1 -> this.FLUID_TANK_1;
             default -> null;
         };
     }
@@ -260,8 +266,8 @@ public class BrewKettleBlockEntity extends BlockEntity implements BlockEntityTic
     public void load(@NotNull CompoundTag nbt) {
         super.load(nbt);
         this.itemStackHandler.deserializeNBT(nbt.getCompound("inventory"));
-        this.FLUID_TANK_INPUT_0.readFromNBT(nbt.getCompound("fluid_tank_input_0"));
-        this.FLUID_TANK_OUTPUT_0.readFromNBT(nbt.getCompound("fluid_tank_output_0"));
+        this.FLUID_TANK_0.readFromNBT(nbt.getCompound("fluid_tank_input_0"));
+        this.FLUID_TANK_1.readFromNBT(nbt.getCompound("fluid_tank_output_0"));
         this.tickClock = nbt.getInt("CurrentProcessTicks");
         this.tickMax = nbt.getInt("MaxProcessTicks");
 
@@ -274,8 +280,8 @@ public class BrewKettleBlockEntity extends BlockEntity implements BlockEntityTic
     @ParametersAreNonnullByDefault
     protected void saveAdditional(CompoundTag nbt) {
         nbt.put("inventory", itemStackHandler.serializeNBT());
-        nbt.put("fluid_tank_input_0", FLUID_TANK_INPUT_0.writeToNBT(new CompoundTag()));
-        nbt.put("fluid_tank_output_0", FLUID_TANK_OUTPUT_0.writeToNBT(new CompoundTag()));
+        nbt.put("fluid_tank_input_0", FLUID_TANK_0.writeToNBT(new CompoundTag()));
+        nbt.put("fluid_tank_output_0", FLUID_TANK_1.writeToNBT(new CompoundTag()));
         nbt.putInt("CurrentProcessTicks", this.tickClock);
         nbt.putInt("MaxProcessTicks", this.tickMax);
 
@@ -294,17 +300,17 @@ public class BrewKettleBlockEntity extends BlockEntity implements BlockEntityTic
     @Override
     public void onLoad() {
         super.onLoad();
-        itemHandlerLazyOptional = LazyOptional.of(() -> itemStackHandler);
-        lazyInputFluidHandler0 = LazyOptional.of(() -> FLUID_TANK_INPUT_0);
-        lazyOutputFluidHandler0 = LazyOptional.of(() -> FLUID_TANK_OUTPUT_0);
+        inventoryItemHandler = LazyOptional.of(() -> itemStackHandler);
+        fluidHandler0 = LazyOptional.of(() -> FLUID_TANK_0);
+        fluidHandler1 = LazyOptional.of(() -> FLUID_TANK_1);
     }
 
     @Override
     public void invalidateCaps() {
         super.invalidateCaps();
-        itemHandlerLazyOptional.invalidate();
-        lazyInputFluidHandler0.invalidate();
-        lazyOutputFluidHandler0.invalidate();
+        inventoryItemHandler.invalidate();
+        fluidHandler0.invalidate();
+        fluidHandler1.invalidate();
     }
 
     @NotNull
@@ -312,12 +318,11 @@ public class BrewKettleBlockEntity extends BlockEntity implements BlockEntityTic
     public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
 
         if (side == Direction.UP && cap == ForgeCapabilities.FLUID_HANDLER) {
-            return this.lazyInputFluidHandler0.cast();
+            return this.fluidHandler0.cast();
         } else if (cap == ForgeCapabilities.FLUID_HANDLER) {
-            return this.lazyOutputFluidHandler0.cast();
+            return this.fluidHandler1.cast();
         } else if (cap == ForgeCapabilities.ITEM_HANDLER) {
-            return itemHandlerLazyOptional.cast();
-        } else if (cap == ForgeCapabilities.ENERGY) {
+            return inventoryItemHandler.cast();
         }
 
         return super.getCapability(cap, side);
@@ -354,4 +359,11 @@ public class BrewKettleBlockEntity extends BlockEntity implements BlockEntityTic
         float percentage = progress * 100;
         return Math.round(percentage);
     }
+
+    public void playSound(String sound) {
+        if(Objects.equals(sound, "open") && this.level != null) {
+            this.level.playSound(null, this.getBlockPos(), SoundEvents.IRON_DOOR_OPEN, SoundSource.BLOCKS);
+        }
+    }
+
 }

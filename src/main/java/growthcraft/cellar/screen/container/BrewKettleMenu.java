@@ -46,9 +46,9 @@ public class BrewKettleMenu extends AbstractContainerMenu {
         this.blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(handler -> {
                     // 0 Lid Slot
                     this.addSlot(new SlotItemHandler(handler, 0, 19, 17));
-                    // 0 Lid Slot
+                    // 1 Input Slot
                     this.addSlot(new SlotItemHandler(handler, 1, 80, 35));
-                    // 0 Lid Slot
+                    // 2 By Product Slot (output only)
                     this.addSlot(new SlotItemHandler(handler, 2, 141, 17));
                 }
         );
@@ -73,8 +73,8 @@ public class BrewKettleMenu extends AbstractContainerMenu {
 
     public FluidStack getFluidStack(int tankID) {
         return switch (tankID) {
-            case 0 -> this.blockEntity.getFluidStackInTank(0);
-            case 1 -> this.blockEntity.getFluidStackInTank(1);
+            case 0 -> this.blockEntity.getFluidStackInTank(0).copy();
+            case 1 -> this.blockEntity.getFluidStackInTank(1).copy();
             default ->
                     throw new NullPointerException(String.format("BrewKettleMenu getFluidStack at <%s> does not have a fluid tank with the ID of %d!", blockEntity.getBlockPos(), tankID));
         };

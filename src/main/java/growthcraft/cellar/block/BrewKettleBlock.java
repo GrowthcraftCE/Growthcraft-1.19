@@ -36,6 +36,8 @@ import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Arrays;
 
 import static net.minecraft.world.phys.shapes.BooleanOp.OR;
@@ -58,7 +60,7 @@ public class BrewKettleBlock extends BaseEntityBlock {
             Block.box(0, 0, 14, 4, 3, 16),
             Block.box(14, 0, 2, 16, 3, 4),
             Block.box(14, 0, 12, 16, 3, 14),
-            Block.box(1, 14, 1, 15, 15, 15),
+            Block.box(1, 15, 1, 15, 16, 15),
             Block.box(0, 0, 12, 2, 3, 14)
     };
 
@@ -135,18 +137,26 @@ public class BrewKettleBlock extends BaseEntityBlock {
     }
 
     @Override
+    @Nonnull
+    @ParametersAreNonnullByDefault
     public InteractionResult use(BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand interactionHand, BlockHitResult hitResult) {
         if (!level.isClientSide) {
             BrewKettleBlockEntity blockEntity = (BrewKettleBlockEntity) level.getBlockEntity(blockPos);
+            if(blockEntity == null) return InteractionResult.FAIL;
 
-            if (FluidUtil.interactWithFluidHandler(player, interactionHand, level, blockPos, hitResult.getDirection())
-                    || player.getItemInHand(interactionHand).getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).isPresent()) {
-                return InteractionResult.SUCCESS;
-            } else if (player.isCrouching()) {
+            // Try to do fluid handling first.
+            if(player.getItemInHand(interactionHand)
+                    .getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM)
+                    .isPresent()
+            ) {
+                boolean fluidInteractionResult = FluidUtil.interactWithFluidHandler(player, interactionHand, level, blockPos, hitResult.getDirection());
+                if(fluidInteractionResult) return InteractionResult.SUCCESS;
+            }
+
+            // If the player is crouching, try and open the GUI
+            if (player.isCrouching()) {
                 try {
-                    // Play sound
-                    level.playSound(player, blockPos, SoundEvents.CHEST_OPEN, SoundSource.BLOCKS, 1.0F, 1.0F);
-
+                    blockEntity.playSound("open");
                     NetworkHooks.openScreen(((ServerPlayer) player), blockEntity, blockPos);
                 } catch (Exception ex) {
                     GrowthcraftCellar.LOGGER.error(String.format("%s unable to open BrewKettleBlockEntity GUI at %s.", player.getDisplayName().getString(), blockPos));
@@ -157,6 +167,7 @@ public class BrewKettleBlock extends BaseEntityBlock {
             return InteractionResult.SUCCESS;
         }
 
+        // Always return SUCCESS for client side.
         return InteractionResult.SUCCESS;
     }
 

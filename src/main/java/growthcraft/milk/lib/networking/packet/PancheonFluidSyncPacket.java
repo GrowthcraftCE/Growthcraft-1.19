@@ -3,6 +3,7 @@ package growthcraft.milk.lib.networking.packet;
 import growthcraft.milk.block.entity.PancheonBlockEntity;
 import growthcraft.milk.screen.container.PancheonMenu;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.fluids.FluidStack;
@@ -37,8 +38,9 @@ public class PancheonFluidSyncPacket {
         context.enqueueWork( () -> {
                     if(Minecraft.getInstance().level.getBlockEntity(this.blockPos) instanceof PancheonBlockEntity blockEntity) {
                         blockEntity.setFluidStackInTank(this.tankID, this.fluidStack);
+                        LocalPlayer player = Minecraft.getInstance().player;
 
-                        if(Minecraft.getInstance().player.containerMenu instanceof PancheonMenu menu &&
+                        if(player.containerMenu instanceof PancheonMenu menu &&
                                 menu.getBlockEntity().getBlockPos().equals(this.blockPos)) {
                             menu.setFluid(this.tankID, this.fluidStack);
                         }
