@@ -160,9 +160,44 @@ public class BrewKettleBlockEntity extends BlockEntity implements BlockEntityTic
     @Override
     public void tick(Level level, BlockPos blockPos, BlockState blockState, BrewKettleBlockEntity blockEntity) {
         // TODO: Implement BrewKettleBlockEntity ticking.
-        boolean doTick = false;
-        if(doTick) {
-            // Just here to break point.
+        if(!level.isClientSide) {
+            
+            if(!this.itemStackHandler.getStackInSlot(1).isEmpty() 
+                && !this.FLUID_TANK_0.isEmpty()) {
+                List<BrewKettleRecipe> recipes = this.getMatchingRecipes();
+                BrewKettleRecipe recipe = recipes.get(0);
+
+                if(recipe != null) {
+                    if(this.tickClock <= this.tickMax) {
+                        this.tickClock++;
+                    } else if(this.tickMax > 0) {
+                        // Process recipe results.
+                        this.itemStackHandler.getStackInSlot(1).shrink(
+                                recipe.getInputItemStack().getCount()
+                        );
+
+                        this.getFluidTank(0).drain(
+                                recipe.getInputFluidStack().getAmount(),
+                                IFluidHandler.FluidAction.EXECUTE
+                        );
+
+                        this.getFluidTank().fill(
+                                recipe.getOutputFluidStack().copy(),
+                                IFluidHandler.FluidAction.EXECUTE
+                        );
+
+                        this.resetTickClock();
+                    } else if (this.tickMax == -1) {
+                        this.tickMax = recipe.getProcessingTime();
+                    } else {
+                        this.resetTickClock();
+                    }
+
+                    level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), Block.UPDATE_ALL);
+                }
+            }
+        } else {
+            // Do nothing on the client side.
         }
 
     }
@@ -181,7 +216,13 @@ public class BrewKettleBlockEntity extends BlockEntity implements BlockEntityTic
                     this.hasLid(),
                     BlockStateUtils.isHeated(this.getLevel(), this.getBlockPos())
             )) {
-                matchingRecipes.add(recipe);
+                if(!this.FLUID_TANK_1.getFluid().isEmpty()) {
+                    if(this.FLUID_TANK_1.getFluid().getRawFluid() == recipe.getOutputFluidStack().getFluid()) {
+                        matchingRecipes.add(recipe);
+                    }
+                } else {
+                    matchingRecipes.add(recipe);
+                }
             }
         }
         return matchingRecipes;
