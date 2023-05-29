@@ -43,9 +43,6 @@ public class PancheonMenu extends AbstractContainerMenu {
         addPlayerInventory(inventory);
         addPlayerHotbar(inventory);
 
-        // Add our block's inventory slots.
-
-        // Add our block fluid tanks.
         addDataSlots(data);
     }
 

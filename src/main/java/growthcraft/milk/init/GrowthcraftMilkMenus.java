@@ -1,6 +1,7 @@
 package growthcraft.milk.init;
 
 import growthcraft.milk.screen.container.ChurnMenu;
+import growthcraft.milk.screen.container.MixingVatMenu;
 import growthcraft.milk.screen.container.PancheonMenu;
 import growthcraft.milk.shared.Reference;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -19,6 +20,9 @@ public class GrowthcraftMilkMenus {
 
     public static final RegistryObject<MenuType<ChurnMenu>> CHURN_MENU =
             registerMenuType(Reference.UnlocalizedName.CHURN, ChurnMenu::new);
+
+    public static final RegistryObject<MenuType<MixingVatMenu>> MIXING_VAT_MENU =
+            registerMenuType(Reference.UnlocalizedName.MIXING_VAT, MixingVatMenu::new);
 
     public static final RegistryObject<MenuType<PancheonMenu>> PANCHEON_MENU =
             registerMenuType(Reference.UnlocalizedName.PANCHEON, PancheonMenu::new);

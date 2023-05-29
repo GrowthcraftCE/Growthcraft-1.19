@@ -181,7 +181,7 @@ public class BrewKettleBlockEntity extends BlockEntity implements BlockEntityTic
                                 IFluidHandler.FluidAction.EXECUTE
                         );
 
-                        this.getFluidTank().fill(
+                        this.getFluidTank(1).fill(
                                 recipe.getOutputFluidStack().copy(),
                                 IFluidHandler.FluidAction.EXECUTE
                         );
