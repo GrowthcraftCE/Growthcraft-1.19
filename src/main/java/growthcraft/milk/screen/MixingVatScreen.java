@@ -16,13 +16,13 @@ import java.util.Optional;
 
 public class MixingVatScreen extends AbstractContainerScreen<MixingVatMenu> {
     //TODO[5]: Implement MixingVatScreen
+    //
+    private static final ResourceLocation TEXTURE = new ResourceLocation(
+                Reference.MODID, "textures/gui/mixing_vat_screen.png"
+    );
+
     private FluidTankRenderer fluidTankRenderer0;
     private FluidTankRenderer fluidTankRenderer1;
-    private FluidTankRenderer fluidTankRenderer2;
-
-    private static final ResourceLocation TEXTURE = new ResourceLocation(
-            Reference.MODID, "textures/gui/mixing_vat_screen.png"
-    );
 
     public MixingVatScreen(MixingVatMenu menu, Inventory inventory, Component component) {
         super(menu, inventory, component);
@@ -35,9 +35,8 @@ public class MixingVatScreen extends AbstractContainerScreen<MixingVatMenu> {
     }
 
     private void assignFluidRender() {
-        fluidTankRenderer0 = new FluidTankRenderer(2000, true, 16, 52);
-        fluidTankRenderer1 = new FluidTankRenderer(1000, true, 16, 23);
-        fluidTankRenderer2 = new FluidTankRenderer(1000, true, 16, 23);
+        fluidTankRenderer0 = new FluidTankRenderer(4000, true, 16, 38);
+        fluidTankRenderer1 = new FluidTankRenderer(1000, true, 16, 10);
     }
 
     @Override
@@ -55,9 +54,8 @@ public class MixingVatScreen extends AbstractContainerScreen<MixingVatMenu> {
         this.blit(poseStack, x + 82, y + 29, 176, 42, 13, menu.getProgressionScaled(29));
 
         // TODO: Add FluidTankRenderers to MixingVatScreen
-        fluidTankRenderer0.render(poseStack, x + 62, y + 18, menu.getFluidStack(0));
-        fluidTankRenderer1.render(poseStack, x + 98, y + 18, menu.getFluidStack(1));
-        fluidTankRenderer2.render(poseStack, x + 98, y + 47, menu.getFluidStack(2));
+        fluidTankRenderer0.render(poseStack, x + 49, y + 32, menu.getFluidStack(0));
+        fluidTankRenderer1.render(poseStack, x + 49, y + 18, menu.getFluidStack(1));
     }
 
     @Override
@@ -85,7 +83,7 @@ public class MixingVatScreen extends AbstractContainerScreen<MixingVatMenu> {
     private void renderFluidTankTooltips(PoseStack poseStack, int mouseX, int mouseY, int x, int y) {
 
         // FluidTank0
-        if(isMouseAboveArea(mouseX, mouseY, x + 62, y + 18, 16, 52, fluidTankRenderer0.getWidth(), fluidTankRenderer0.getHeight())) {
+        if(isMouseAboveArea(mouseX, mouseY, x + 49, y + 32, 16, 38, fluidTankRenderer0.getWidth(), fluidTankRenderer0.getHeight())) {
             renderTooltip(
                     poseStack,
                     fluidTankRenderer0.getTooltip(menu.getFluidStack(0), TooltipFlag.Default.NORMAL),
@@ -95,20 +93,10 @@ public class MixingVatScreen extends AbstractContainerScreen<MixingVatMenu> {
             );
         }
 
-        if(isMouseAboveArea(mouseX, mouseY, x + 98, y + 18, 16, 23, fluidTankRenderer1.getWidth(), fluidTankRenderer1.getHeight())) {
+        if(isMouseAboveArea(mouseX, mouseY, x + 49, y + 18, 16, 10, fluidTankRenderer1.getWidth(), fluidTankRenderer1.getHeight())) {
             renderTooltip(
                     poseStack,
                     fluidTankRenderer1.getTooltip(menu.getFluidStack(1), TooltipFlag.Default.NORMAL),
-                    Optional.empty(),
-                    mouseX - x,
-                    mouseY - y
-            );
-        }
-
-        if(isMouseAboveArea(mouseX, mouseY, x + 98, y + 47, 16, 23, fluidTankRenderer2.getWidth(), fluidTankRenderer2.getHeight())) {
-            renderTooltip(
-                    poseStack,
-                    fluidTankRenderer2.getTooltip(menu.getFluidStack(2), TooltipFlag.Default.NORMAL),
                     Optional.empty(),
                     mouseX - x,
                     mouseY - y

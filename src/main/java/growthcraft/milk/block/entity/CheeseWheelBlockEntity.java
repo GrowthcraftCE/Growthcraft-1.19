@@ -92,7 +92,7 @@ public class CheeseWheelBlockEntity extends BlockEntity implements BlockEntityTi
                     new ItemStack(this.getBlockState().getBlock().asItem())
             );
 
-            CheesePressRecipe recipe = cheesePressRecipes.get(0);
+            CheesePressRecipe recipe = cheesePressRecipes.isEmpty() ? null : cheesePressRecipes.get(0);
 
             if (recipe != null) {
                 this.takeSlice(1);

@@ -45,7 +45,7 @@ public class GrowthcraftFluidTank extends FluidTank {
     }
 
     @Override
-    protected void onContentsChanged() {
+    public void onContentsChanged() {
         super.onContentsChanged();
     }
 

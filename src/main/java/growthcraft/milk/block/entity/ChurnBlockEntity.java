@@ -65,7 +65,7 @@ public class ChurnBlockEntity extends BlockEntity implements BlockEntityTicker<C
 
     private final GrowthcraftFluidTank FLUID_TANK_INPUT_0 = new GrowthcraftFluidTank(1000) {
         @Override
-        protected void onContentsChanged() {
+        public void onContentsChanged() {
             setChanged();
             if (!level.isClientSide) {
                 GrowthcraftMilkMessages.sendToClients(new ChurnFluidTankSyncPacket(0, this.fluid, worldPosition));

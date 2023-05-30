@@ -1,9 +1,6 @@
 package growthcraft.milk.init;
 
-import growthcraft.milk.block.entity.CheesePressBlockEntity;
-import growthcraft.milk.block.entity.CheeseWheelBlockEntity;
-import growthcraft.milk.block.entity.ChurnBlockEntity;
-import growthcraft.milk.block.entity.PancheonBlockEntity;
+import growthcraft.milk.block.entity.*;
 import growthcraft.milk.shared.Reference;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.registries.DeferredRegister;
@@ -46,6 +43,14 @@ public class GrowthcraftMilkBlockEntities {
             () -> BlockEntityType.Builder.of(
                     ChurnBlockEntity::new,
                     GrowthcraftMilkBlocks.CHURN.get()
+            ).build(null)
+    );
+
+    public static final RegistryObject<BlockEntityType<MixingVatBlockEntity>> MIXING_VAT_BLOCK_ENTITY = BLOCK_ENTITIES.register(
+            Reference.UnlocalizedName.MIXING_VAT,
+            () -> BlockEntityType.Builder.of(
+                    MixingVatBlockEntity::new,
+                    GrowthcraftMilkBlocks.MIXING_VAT.get()
             ).build(null)
     );
 

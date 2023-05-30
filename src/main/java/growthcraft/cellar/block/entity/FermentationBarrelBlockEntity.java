@@ -64,7 +64,7 @@ public class FermentationBarrelBlockEntity extends BlockEntity implements BlockE
 
     private final GrowthcraftFluidTank FLUID_TANK_INPUT_0 = new GrowthcraftFluidTank(4000) {
         @Override
-        protected void onContentsChanged() {
+        public void onContentsChanged() {
             setChanged();
             if (!level.isClientSide) {
                 GrowthcraftCellarMessages.sendToClients(new FermentationBarrelFluidTankPacket(0, this.fluid, worldPosition));
@@ -187,7 +187,7 @@ public class FermentationBarrelBlockEntity extends BlockEntity implements BlockE
     @Nullable
     public ItemStack getResultingPotionItemStack() {
         List<FermentationBarrelRecipe> matchingRecipes = this.getMatchingRecipes(this.getFluidStackInTank(0));
-        FermentationBarrelRecipe recipe = matchingRecipes.get(0);
+        FermentationBarrelRecipe recipe = matchingRecipes.isEmpty() ? null : matchingRecipes.get(0);
         return recipe != null ? recipe.getBottleItemStack().copy() : null;
     }
 

@@ -80,7 +80,7 @@ public class BrewKettleBlockEntity extends BlockEntity implements BlockEntityTic
 
     private final GrowthcraftFluidTank FLUID_TANK_0 = new GrowthcraftFluidTank(4000) {
         @Override
-        protected void onContentsChanged() {
+        public void onContentsChanged() {
             setChanged();
             if (!level.isClientSide) {
                 GrowthcraftCellarMessages.sendToClients(new BrewKettleFluidTankPacket(0, this.getFluid(), worldPosition));
@@ -92,7 +92,7 @@ public class BrewKettleBlockEntity extends BlockEntity implements BlockEntityTic
 
     private final GrowthcraftFluidTank FLUID_TANK_1 = new GrowthcraftFluidTank(4000) {
         @Override
-        protected void onContentsChanged() {
+        public void onContentsChanged() {
             setChanged();
             if (!level.isClientSide) {
                 GrowthcraftCellarMessages.sendToClients(new BrewKettleFluidTankPacket(1, this.fluid, worldPosition));
@@ -165,7 +165,7 @@ public class BrewKettleBlockEntity extends BlockEntity implements BlockEntityTic
             if(!this.itemStackHandler.getStackInSlot(1).isEmpty() 
                 && !this.FLUID_TANK_0.isEmpty()) {
                 List<BrewKettleRecipe> recipes = this.getMatchingRecipes();
-                BrewKettleRecipe recipe = recipes.get(0);
+                BrewKettleRecipe recipe = recipes.isEmpty() ? null : recipes.get(0);
 
                 if(recipe != null) {
                     if(this.tickClock <= this.tickMax) {

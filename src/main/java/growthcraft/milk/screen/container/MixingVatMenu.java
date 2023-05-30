@@ -1,9 +1,7 @@
 package growthcraft.milk.screen.container;
 
 import growthcraft.milk.block.MixingVatBlock;
-import growthcraft.milk.block.PancheonBlock;
 import growthcraft.milk.block.entity.MixingVatBlockEntity;
-import growthcraft.milk.block.entity.PancheonBlockEntity;
 import growthcraft.milk.init.GrowthcraftMilkMenus;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
@@ -14,17 +12,15 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.items.SlotItemHandler;
 
 public class MixingVatMenu extends AbstractContainerMenu {
     private MixingVatBlockEntity blockEntity;
     private MixingVatBlock block;
     private Level level;
     private ContainerData data;
-
-    private FluidStack fluidStack0;
-    private FluidStack fluidStack1;
-    private FluidStack fluidStack2;
 
     public MixingVatMenu(int containerId, Inventory inventory, FriendlyByteBuf extraData) {
         this(containerId, inventory, inventory.player.level.getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(2));
@@ -33,14 +29,20 @@ public class MixingVatMenu extends AbstractContainerMenu {
     public MixingVatMenu(int containerId, Inventory inventory, BlockEntity blockEntity , ContainerData data) {
         super(GrowthcraftMilkMenus.MIXING_VAT_MENU.get(), containerId);
 
-        this.blockEntity = (PancheonBlockEntity) blockEntity;
-        this.block = (PancheonBlock) inventory.player.level.getBlockEntity(this.blockEntity.getBlockPos()).getBlockState().getBlock();
+        this.blockEntity = (MixingVatBlockEntity) blockEntity;
+        this.block = (MixingVatBlock) blockEntity.getBlockState().getBlock();
         this.level = inventory.player.level;
         this.data = data;
 
-        this.fluidStack0 = this.blockEntity.getFluidStackInTank(0);
-        this.fluidStack1 = this.blockEntity.getFluidStackInTank(1);
-        this.fluidStack2 = this.blockEntity.getFluidStackInTank(2);
+        this.blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(handler -> {
+                    // Input Slots
+                    this.addSlot(new SlotItemHandler(handler, 0, 71, 18));
+                    this.addSlot(new SlotItemHandler(handler, 1, 71, 36));
+                    this.addSlot(new SlotItemHandler(handler, 2, 71, 54));
+                    //
+                    this.addSlot(new SlotItemHandler(handler, 3, 124, 18));
+                }
+        );
 
         addPlayerInventory(inventory);
         addPlayerHotbar(inventory);
@@ -129,23 +131,11 @@ public class MixingVatMenu extends AbstractContainerMenu {
     }
 
     public void setFluid(int tankID, FluidStack fluidStack) throws NullPointerException {
-        switch (tankID) {
-            case 0 -> this.fluidStack0 = fluidStack;
-            case 1 -> this.fluidStack1 = fluidStack;
-            case 2 -> this.fluidStack2 = fluidStack;
-            default ->
-                    throw new NullPointerException(String.format("PancheonMenu setFluidStack at <%s> does not have a fluid tank with the ID of %d!", blockEntity.getBlockPos().toString(), tankID));
-        }
+        this.blockEntity.setFluidStackInTank(tankID, fluidStack);
     }
 
     public FluidStack getFluidStack(int tankID) {
-        return switch (tankID) {
-            case 0 -> this.blockEntity.getFluidStackInTank(0);
-            case 1 -> this.blockEntity.getFluidStackInTank(1);
-            case 2 -> this.blockEntity.getFluidStackInTank(2);
-            default ->
-                    throw new NullPointerException(String.format("PancheonMenu getFluidStack at <%s> does not have a fluid tank with the ID of %d!", blockEntity.getBlockPos().toString(), tankID));
-        };
+        return this.blockEntity.getFluidStackInTank(tankID);
     }
 
     @OnlyIn(Dist.CLIENT)

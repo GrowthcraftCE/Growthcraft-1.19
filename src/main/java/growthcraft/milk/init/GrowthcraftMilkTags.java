@@ -40,7 +40,7 @@ public class GrowthcraftMilkTags {
             // Do nothing, simply instantiate static variables
         }
 
-        //public static final TagKey<Item> SALT = tag(Reference.UnlocalizedName.TAG_SALT);
+        public static final TagKey<Item> TAG_MIXING_VAT_TOOLS = tag(Reference.UnlocalizedName.TAG_MIXING_VAT_TOOLS);
 
         private static TagKey<Item> tag(String name) {
             return ItemTags.create(new ResourceLocation(Reference.MODID, name));

@@ -37,12 +37,12 @@ public class MixingVatFluidSyncPacket {
         NetworkEvent.Context context = supplier.get();
         context.enqueueWork( () -> {
                     if(Minecraft.getInstance().level.getBlockEntity(this.blockPos) instanceof MixingVatBlockEntity blockEntity) {
-                        blockEntity.setFluidStackInTank(this.tankID, this.fluidStack);
+                        blockEntity.setFluidStackInTank(this.tankID, this.fluidStack.copy());
                         LocalPlayer player = Minecraft.getInstance().player;
 
                         if(player.containerMenu instanceof MixingVatMenu menu &&
                                 menu.getBlockEntity().getBlockPos().equals(this.blockPos)) {
-                            menu.setFluid(this.tankID, this.fluidStack);
+                            menu.setFluid(this.tankID, this.fluidStack.copy());
                         }
                     }
                 }

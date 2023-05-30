@@ -66,7 +66,7 @@ public class FruitPressBlockEntity extends BlockEntity implements BlockEntityTic
 
     private final GrowthcraftFluidTank FLUID_TANK_INPUT_0 = new GrowthcraftFluidTank(4000) {
         @Override
-        protected void onContentsChanged() {
+        public void onContentsChanged() {
             setChanged();
             if (!level.isClientSide) {
                 GrowthcraftCellarMessages.sendToClients(new FruitPressFluidTankPacket(0, this.fluid, worldPosition));

@@ -132,7 +132,7 @@ public class RoasterBlockEntity extends BlockEntity implements BlockEntityTicker
         if (!level.isClientSide && isHeated() && !this.itemStackHandler.getStackInSlot(0).isEmpty()) {
             try {
                 List<RoasterRecipe> recipes = this.getMatchingRecipes();
-                RoasterRecipe recipe = recipes.get(0);
+                RoasterRecipe recipe = recipes.isEmpty() ? null : recipes.get(0);
 
                 if (recipe != null) {
                     if (this.tickClock <= this.tickMax) {
