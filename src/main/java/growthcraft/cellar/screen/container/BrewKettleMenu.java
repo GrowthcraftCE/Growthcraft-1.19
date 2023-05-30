@@ -17,13 +17,10 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.items.SlotItemHandler;
 
 public class BrewKettleMenu extends AbstractContainerMenu {
-    private final BrewKettleBlockEntity blockEntity;
-    private final BrewKettleBlock block;
+    private BrewKettleBlockEntity blockEntity;
+    private BrewKettleBlock block;
     private final Level level;
-    private final ContainerData data;
-
-    private FluidStack fluidStack0;
-    private FluidStack fluidStack1;
+    private ContainerData data;
 
     public BrewKettleMenu(int containerId, Inventory inventory, FriendlyByteBuf extraData) {
         this(containerId, inventory, inventory.player.level.getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(2));
@@ -36,9 +33,6 @@ public class BrewKettleMenu extends AbstractContainerMenu {
         this.block = (BrewKettleBlock) inventory.player.level.getBlockEntity(this.blockEntity.getBlockPos()).getBlockState().getBlock();
         this.level = inventory.player.level;
         this.data = data;
-
-        this.fluidStack0 = this.blockEntity.getFluidStackInTank(0);
-        this.fluidStack1 = this.blockEntity.getFluidStackInTank(1);
 
         addPlayerInventory(inventory);
         addPlayerHotbar(inventory);
@@ -62,22 +56,11 @@ public class BrewKettleMenu extends AbstractContainerMenu {
     }
 
     public void setFluid(int tankID, FluidStack fluidStack) throws NullPointerException {
-        if (tankID == 0) {
-            this.fluidStack0 = fluidStack;
-        } else if (tankID == 1) {
-            this.fluidStack1 = fluidStack;
-        } else {
-            throw new NullPointerException(String.format("BrewKettleMenu setFluidStack at <%s> does not have a fluid tank with the ID of %d!", blockEntity.getBlockPos(), tankID));
-        }
+        this.blockEntity.setFluidStackInTank(tankID, fluidStack);
     }
 
     public FluidStack getFluidStack(int tankID) {
-        return switch (tankID) {
-            case 0 -> this.blockEntity.getFluidStackInTank(0).copy();
-            case 1 -> this.blockEntity.getFluidStackInTank(1).copy();
-            default ->
-                    throw new NullPointerException(String.format("BrewKettleMenu getFluidStack at <%s> does not have a fluid tank with the ID of %d!", blockEntity.getBlockPos(), tankID));
-        };
+        return this.blockEntity.getFluidStackInTank(tankID);
     }
 
     public boolean isHeated() {

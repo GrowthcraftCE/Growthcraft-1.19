@@ -9,6 +9,7 @@ import growthcraft.cellar.recipe.BrewKettleRecipe;
 import growthcraft.cellar.screen.container.BrewKettleMenu;
 import growthcraft.lib.block.entity.GrowthcraftFluidTank;
 import growthcraft.lib.utils.BlockStateUtils;
+import growthcraft.lib.utils.DirectionUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -111,6 +112,7 @@ public class BrewKettleBlockEntity extends BlockEntity implements BlockEntityTic
         super(blockEntityType, blockPos, blockState);
 
         this.FLUID_TANK_0.allowAnyFluid(true);
+        this.FLUID_TANK_1.allowAnyFluid(true);
 
         this.data = new ContainerData() {
             @Override
@@ -335,7 +337,7 @@ public class BrewKettleBlockEntity extends BlockEntity implements BlockEntityTic
 
     @Override
     public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
-        this.load(Objects.requireNonNull(pkt.getTag()));
+        super.onDataPacket(net, pkt);
     }
 
     @Override
@@ -358,12 +360,16 @@ public class BrewKettleBlockEntity extends BlockEntity implements BlockEntityTic
     @Override
     public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
 
-        if (side == Direction.UP && cap == ForgeCapabilities.FLUID_HANDLER) {
-            return this.fluidHandler0.cast();
-        } else if (cap == ForgeCapabilities.FLUID_HANDLER) {
-            return this.fluidHandler1.cast();
+        if(cap == ForgeCapabilities.FLUID_HANDLER) {
+            if(DirectionUtils.isSide(side)) {
+                return this.fluidHandler1.cast();
+
+            } else if(DirectionUtils.isTop(side)) {
+                return this.fluidHandler0.cast();
+
+            }
         } else if (cap == ForgeCapabilities.ITEM_HANDLER) {
-            return inventoryItemHandler.cast();
+            return this.inventoryItemHandler.cast();
         }
 
         return super.getCapability(cap, side);
