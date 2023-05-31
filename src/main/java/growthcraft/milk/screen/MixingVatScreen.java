@@ -50,10 +50,12 @@ public class MixingVatScreen extends AbstractContainerScreen<MixingVatMenu> {
 
         this.blit(poseStack, x, y, 0, 0, imageWidth, imageHeight);
 
-        // TODO: Add progress bar to MixingVatScreen
-        this.blit(poseStack, x + 82, y + 29, 176, 42, 13, menu.getProgressionScaled(29));
+        this.blit(poseStack,
+                x + 82, y + 29,
+                176, 42,
+                13, menu.getProgressionScaled(29)
+        );
 
-        // TODO: Add FluidTankRenderers to MixingVatScreen
         fluidTankRenderer0.render(poseStack, x + 49, y + 32, menu.getFluidStack(0));
         fluidTankRenderer1.render(poseStack, x + 49, y + 18, menu.getFluidStack(1));
     }

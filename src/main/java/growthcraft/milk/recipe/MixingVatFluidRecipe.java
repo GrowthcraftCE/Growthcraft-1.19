@@ -60,9 +60,6 @@ public class MixingVatFluidRecipe implements Recipe<SimpleContainer> {
     public boolean matches(FluidStack testBaseFluidStack, FluidStack testReagentFluidStack,
                            List<ItemStack> testIngredients) {
 
-        FluidStack inputFluid = this.getInputFluidStack();
-        FluidStack reagentFluid = this.reagentFluidStack;
-
         boolean inputFluidTypeMatches = testBaseFluidStack.getFluid() == this.getInputFluidStack().getFluid();
         boolean inputFluidAmountMatches = testBaseFluidStack.getAmount() == this.getInputFluidStack().getAmount();
 
@@ -90,19 +87,19 @@ public class MixingVatFluidRecipe implements Recipe<SimpleContainer> {
     }
 
     public FluidStack getInputFluidStack() {
-        return this.inputFluidStack;
+        return this.inputFluidStack.copy();
     }
 
     public FluidStack getReagentFluidStack() {
-        return this.reagentFluidStack;
+        return this.reagentFluidStack.copy();
     }
 
     public FluidStack getOutputFluidStack() {
-        return this.outputFluidStack;
+        return this.outputFluidStack.copy();
     }
 
     public FluidStack getWasteFluidStack() {
-        return this.wasteFluidStack;
+        return this.wasteFluidStack.copy();
     }
 
     @Override
@@ -206,7 +203,6 @@ public class MixingVatFluidRecipe implements Recipe<SimpleContainer> {
                 }
             }
 
-            if (category == RecipeUtils.Category.FLUID) {
                 FluidStack reagentFluid = CraftingUtils.getFluidStack(
                         GsonHelper.getAsJsonObject(json, "reagent_fluid"));
                 FluidStack resultFluid = CraftingUtils.getFluidStack(
@@ -216,9 +212,7 @@ public class MixingVatFluidRecipe implements Recipe<SimpleContainer> {
 
                 return new MixingVatFluidRecipe(recipeId, RecipeUtils.Category.FLUID,
                         inputFluid, reagentFluid, ingredients, processingTime, resultFluid, wasteFluid, activationTool);
-            }
 
-            return null;
         }
 
         @Override
@@ -262,11 +256,9 @@ public class MixingVatFluidRecipe implements Recipe<SimpleContainer> {
                 buffer.writeItemStack(recipe.getIngredientList().get(i), false);
             }
 
-
-            MixingVatFluidRecipe fluidRecipe = recipe;
-            buffer.writeFluidStack(fluidRecipe.getReagentFluidStack());
-            buffer.writeFluidStack(fluidRecipe.getOutputFluidStack());
-            buffer.writeFluidStack(fluidRecipe.getWasteFluidStack());
+            buffer.writeFluidStack(recipe.getReagentFluidStack());
+            buffer.writeFluidStack(recipe.getOutputFluidStack());
+            buffer.writeFluidStack(recipe.getWasteFluidStack());
 
         }
 

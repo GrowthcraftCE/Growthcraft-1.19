@@ -50,6 +50,9 @@ public class MixingVatBlockEntity extends BlockEntity implements BlockEntityTick
     //TODO[5]: Implement MixingVatBlockEntity
     private int tickClock = 0;
     private int tickMax = -1;
+    private boolean activated = false;
+    private ItemStack activationTool = ItemStack.EMPTY;
+    private ItemStack resultActivationTool = ItemStack.EMPTY;
 
     protected final ContainerData data;
 
@@ -193,29 +196,28 @@ public class MixingVatBlockEntity extends BlockEntity implements BlockEntityTick
             recipeCategory = itemRecipe.getCategory();
         }
 
-        if (RecipeUtils.isNotNull(recipeCategory) && this.tickClock <= this.tickMax) {
+        if (RecipeUtils.isNotNull(recipeCategory) && this.tickClock <= this.tickMax && this.activated) {
             this.tickClock++;
-        } else if (RecipeUtils.isNotNull(recipeCategory) && this.tickMax > 0) {
+        } else if (RecipeUtils.isNotNull(recipeCategory) && this.tickMax > 0 && this.activated) {
 
             if(fluidRecipe != null) {
-                // Consume all of the inventory items.
+                // Consume all the inventory items.
                 this.itemStackHandler.setStackInSlot(0, ItemStack.EMPTY);
                 this.itemStackHandler.setStackInSlot(1, ItemStack.EMPTY);
                 this.itemStackHandler.setStackInSlot(2, ItemStack.EMPTY);
 
                 // Set the output fluid and any reagent/waste fluid.
-                this.inputFluidTank.setFluid(fluidRecipe.getReagentFluidStack().copy());
+                this.inputFluidTank.setFluid(fluidRecipe.getOutputFluidStack().copy());
                 this.reagentFluidTank.setFluid(fluidRecipe.getWasteFluidStack().copy());
 
             } else if(itemRecipe != null) {
                 // Consume all the inventory items and fluid.
                 this.itemStackHandler.setStackInSlot(0, ItemStack.EMPTY);
                 this.itemStackHandler.setStackInSlot(1, ItemStack.EMPTY);
-                this.itemStackHandler.setStackInSlot(2, itemRecipe.getResultItemStack().copy());
+                this.itemStackHandler.setStackInSlot(2, ItemStack.EMPTY);
+                this.itemStackHandler.setStackInSlot(3, itemRecipe.getResultItemStack().copy());
                 this.inputFluidTank.setFluid(FluidStack.EMPTY);
                 this.reagentFluidTank.setFluid(FluidStack.EMPTY);
-
-
             }
 
             this.resetTickClock();
@@ -226,11 +228,23 @@ public class MixingVatBlockEntity extends BlockEntity implements BlockEntityTick
                 case FLUID -> fluidRecipe.getProcessingTime();
                 default -> -1;
             };
+
+            this.activationTool = switch (recipeCategory) {
+                case ITEM -> itemRecipe.getActivationTool();
+                case FLUID -> fluidRecipe.getActivationTool();
+                default -> ItemStack.EMPTY;
+            };
+
+            this.resultActivationTool = switch (recipeCategory) {
+                case ITEM -> itemRecipe.getResultActivationTool();
+                case FLUID -> ItemStack.EMPTY;
+                default -> ItemStack.EMPTY;
+            };
+        } else if(this.tickMax > 0 && !this.activated) {
+            // Then do nothing, we are waiting activate the recipe.
         } else {
             this.resetTickClock();
         }
-
-
     }
 
     public int getTickClock(String type) {
@@ -244,6 +258,7 @@ public class MixingVatBlockEntity extends BlockEntity implements BlockEntityTick
     private void resetTickClock() {
         this.tickClock = 0;
         this.tickMax = -1;
+        this.activated = false;
     }
 
     private List<MixingVatFluidRecipe> getMatchingFluidRecipes() {
@@ -292,8 +307,6 @@ public class MixingVatBlockEntity extends BlockEntity implements BlockEntityTick
             );
 
             for(MixingVatItemRecipe recipe : recipes) {
-
-
                 if (recipe.matches(
                         this.inputFluidTank.getFluid(),
                         currentItems)
@@ -327,6 +340,7 @@ public class MixingVatBlockEntity extends BlockEntity implements BlockEntityTick
 
         this.tickClock = nbt.getInt("CurrentProcessTicks");
         this.tickMax = nbt.getInt("MaxProcessTicks");
+        this.activated = nbt.getBoolean("IsActivated");
 
         this.itemStackHandler.deserializeNBT(nbt.getCompound("inventory"));
         this.inputFluidTank.readFromNBT(nbt.getCompound("InputFluidTank"));
@@ -343,6 +357,7 @@ public class MixingVatBlockEntity extends BlockEntity implements BlockEntityTick
 
         nbt.putInt("CurrentProcessTicks", this.tickClock);
         nbt.putInt("MaxProcessTicks", this.tickMax);
+        nbt.putBoolean("IsActivated", this.activated);
 
         nbt.put("inventory", itemStackHandler.serializeNBT());
         nbt.put("InputFluidTank", inputFluidTank.writeToNBT(new CompoundTag()));
@@ -450,6 +465,45 @@ public class MixingVatBlockEntity extends BlockEntity implements BlockEntityTick
                                 this.getBlockPos(), tankID));
             }
         };
+    }
+
+    public boolean activateRecipe(ItemStack stack) {
+        if(this.activated) return false;
+        this.activated = this.getActivationTool() != null && this.getActivationTool().getItem() == stack.getItem();
+
+        // Reset the activation tool.
+        this.activationTool = ItemStack.EMPTY;
+
+        return this.activated;
+    }
+
+    private ItemStack getActivationTool() {
+        return this.activationTool;
+    }
+
+    private ItemStack getResultActivationTool() {
+        return this.resultActivationTool;
+    }
+
+    public boolean activateResult(Player player, ItemStack resultActivationTool) {
+        if (this.getResultActivationTool() != null
+                && this.getResultActivationTool().getItem() == resultActivationTool.getItem()
+        ) {
+            ItemStack itemStack = this.itemStackHandler.extractItem(
+                    3,
+                    this.itemStackHandler.getStackInSlot(3).getCount(),
+                    false);
+
+            if (!player.getInventory().add(itemStack)) {
+                player.drop(itemStack, false);
+            }
+
+            // Reset the resultActivationTool
+            this.resultActivationTool = ItemStack.EMPTY;
+
+            return true;
+        }
+        return false;
     }
 
     public void playSound(String sound) {

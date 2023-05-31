@@ -126,10 +126,14 @@ public class MixingVatBlock extends BaseEntityBlock {
 
             return fluidInteractionResult ? InteractionResult.SUCCESS : InteractionResult.FAIL;
         } else if (player.getItemInHand(interactionHand).is(GrowthcraftMilkTags.Items.TAG_MIXING_VAT_TOOLS)) {
-
             // TODO Handle tool activation of MixingVat.
-            boolean canActivate = blockEntity.canActivateProcessing(player.getItemInHand(interactionHand));
-            boolean canGetResult = blockEntity.canActivateResultItem(player.getItemInHand(interactionHand));
+            if(blockEntity.activateRecipe(player.getItemInHand(interactionHand))) {
+
+            }
+
+            if(blockEntity.activateResult(player, player.getItemInHand(interactionHand))) {
+
+            }
 
             return InteractionResult.SUCCESS;
         } else {
