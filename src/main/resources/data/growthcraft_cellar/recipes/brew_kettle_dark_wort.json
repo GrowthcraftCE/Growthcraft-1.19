@@ -9,11 +9,11 @@
     "amount": 250
   },
   "input_item": {
-    "item": "minecraft:wheat",
+    "item": "growthcraft_cellar:grain_dark",
     "count": 1
   },
   "output_fluid": {
-    "fluid": "growthcraft_cellar:wort_fluid",
+    "fluid": "growthcraft_cellar:dark_wort_fluid_source",
     "amount": 250
   },
   "by_product": {

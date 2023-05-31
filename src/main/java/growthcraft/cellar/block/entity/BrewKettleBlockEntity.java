@@ -213,7 +213,7 @@ public class BrewKettleBlockEntity extends BlockEntity implements BlockEntityTic
 
         for (BrewKettleRecipe recipe : recipes) {
             if (recipe.matches(
-                    this.itemStackHandler.getStackInSlot(0),
+                    this.itemStackHandler.getStackInSlot(1),
                     this.FLUID_TANK_0.getFluid(),
                     this.hasLid(),
                     BlockStateUtils.isHeated(this.getLevel(), this.getBlockPos())
