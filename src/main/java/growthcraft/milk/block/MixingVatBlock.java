@@ -128,14 +128,12 @@ public class MixingVatBlock extends BaseEntityBlock {
         } else if (player.getItemInHand(interactionHand).is(GrowthcraftMilkTags.Items.TAG_MIXING_VAT_TOOLS)) {
             // TODO Handle tool activation of MixingVat.
             if(blockEntity.activateRecipe(player.getItemInHand(interactionHand))) {
-
+                return InteractionResult.SUCCESS;
             }
 
             if(blockEntity.activateResult(player, player.getItemInHand(interactionHand))) {
-
+                return InteractionResult.SUCCESS;
             }
-
-            return InteractionResult.SUCCESS;
         } else {
             // Otherwise, try and interact with the GUI.
             try {
@@ -155,5 +153,6 @@ public class MixingVatBlock extends BaseEntityBlock {
                 return InteractionResult.FAIL;
             }
         }
+        return InteractionResult.SUCCESS;
     }
 }

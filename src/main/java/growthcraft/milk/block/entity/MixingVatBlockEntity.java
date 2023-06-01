@@ -26,6 +26,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.state.BlockState;
@@ -196,55 +197,49 @@ public class MixingVatBlockEntity extends BlockEntity implements BlockEntityTick
             recipeCategory = itemRecipe.getCategory();
         }
 
-        if (RecipeUtils.isNotNull(recipeCategory) && this.tickClock <= this.tickMax && this.activated) {
+        boolean validRecipe = (fluidRecipe != null || itemRecipe != null);
+
+        if (validRecipe && this.tickClock <= this.tickMax && this.activated) {
             this.tickClock++;
-        } else if (RecipeUtils.isNotNull(recipeCategory) && this.tickMax > 0 && this.activated) {
+        } else if (validRecipe && this.tickMax > 0 && this.activated) {
+
+            // Consume all the inventory items.
+            this.itemStackHandler.setStackInSlot(0, ItemStack.EMPTY);
+            this.itemStackHandler.setStackInSlot(1, ItemStack.EMPTY);
+            this.itemStackHandler.setStackInSlot(2, ItemStack.EMPTY);
 
             if(fluidRecipe != null) {
-                // Consume all the inventory items.
-                this.itemStackHandler.setStackInSlot(0, ItemStack.EMPTY);
-                this.itemStackHandler.setStackInSlot(1, ItemStack.EMPTY);
-                this.itemStackHandler.setStackInSlot(2, ItemStack.EMPTY);
-
                 // Set the output fluid and any reagent/waste fluid.
                 this.inputFluidTank.setFluid(fluidRecipe.getOutputFluidStack().copy());
                 this.reagentFluidTank.setFluid(fluidRecipe.getWasteFluidStack().copy());
 
-            } else if(itemRecipe != null) {
+            } else {
                 // Consume all the inventory items and fluid.
-                this.itemStackHandler.setStackInSlot(0, ItemStack.EMPTY);
-                this.itemStackHandler.setStackInSlot(1, ItemStack.EMPTY);
-                this.itemStackHandler.setStackInSlot(2, ItemStack.EMPTY);
                 this.itemStackHandler.setStackInSlot(3, itemRecipe.getResultItemStack().copy());
                 this.inputFluidTank.setFluid(FluidStack.EMPTY);
                 this.reagentFluidTank.setFluid(FluidStack.EMPTY);
             }
 
             this.resetTickClock();
-        } else if (RecipeUtils.isNotNull(recipeCategory) && this.tickMax == -1) {
-            // Then we have a new recipe that needs to start processing.
-            this.tickMax = switch(recipeCategory) {
-                case ITEM -> itemRecipe.getProcessingTime();
-                case FLUID -> fluidRecipe.getProcessingTime();
-                default -> -1;
-            };
+        } else if (validRecipe && this.tickMax == -1) {
+            if(fluidRecipe != null) {
+                this.tickMax = fluidRecipe.getProcessingTime();
+                this.activationTool = fluidRecipe.getActivationTool();
+                this.resultActivationTool = ItemStack.EMPTY;
+            } else {
+                this.tickMax = itemRecipe.getProcessingTime();
+                this.activationTool = itemRecipe.getActivationTool();
+                this.resultActivationTool = itemRecipe.getResultActivationTool();
+            }
 
-            this.activationTool = switch (recipeCategory) {
-                case ITEM -> itemRecipe.getActivationTool();
-                case FLUID -> fluidRecipe.getActivationTool();
-                default -> ItemStack.EMPTY;
-            };
-
-            this.resultActivationTool = switch (recipeCategory) {
-                case ITEM -> itemRecipe.getResultActivationTool();
-                case FLUID -> ItemStack.EMPTY;
-                default -> ItemStack.EMPTY;
-            };
+            level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), Block.UPDATE_ALL);
         } else if(this.tickMax > 0 && !this.activated) {
             // Then do nothing, we are waiting activate the recipe.
         } else {
             this.resetTickClock();
         }
+
+
     }
 
     public int getTickClock(String type) {
@@ -504,6 +499,16 @@ public class MixingVatBlockEntity extends BlockEntity implements BlockEntityTick
             return true;
         }
         return false;
+    }
+
+    public boolean isProcessing() {
+        return this.tickClock > 0;
+    }
+
+    public int getPercentProgress() {
+        float progress = (float) this.tickClock / this.tickMax;
+        float percentage = progress * 100;
+        return Math.round(percentage);
     }
 
     public void playSound(String sound) {

@@ -161,7 +161,6 @@ public class BrewKettleBlockEntity extends BlockEntity implements BlockEntityTic
 
     @Override
     public void tick(Level level, BlockPos blockPos, BlockState blockState, BrewKettleBlockEntity blockEntity) {
-        // TODO: Implement BrewKettleBlockEntity ticking.
         if(!level.isClientSide) {
             
             if(!this.itemStackHandler.getStackInSlot(1).isEmpty() 
@@ -203,7 +202,6 @@ public class BrewKettleBlockEntity extends BlockEntity implements BlockEntityTic
         }
 
     }
-
 
     private List<BrewKettleRecipe> getMatchingRecipes() {
         List<BrewKettleRecipe> matchingRecipes = new ArrayList<>();

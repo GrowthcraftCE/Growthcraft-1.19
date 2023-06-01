@@ -1,5 +1,6 @@
 package growthcraft.milk.screen.container;
 
+import growthcraft.milk.GrowthcraftMilk;
 import growthcraft.milk.block.MixingVatBlock;
 import growthcraft.milk.block.entity.MixingVatBlockEntity;
 import growthcraft.milk.init.GrowthcraftMilkMenus;
@@ -15,15 +16,17 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.items.SlotItemHandler;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Objects;
 
 public class MixingVatMenu extends AbstractContainerMenu {
-    private MixingVatBlockEntity blockEntity;
-    private MixingVatBlock block;
-    private Level level;
-    private ContainerData data;
+    private final MixingVatBlockEntity blockEntity;
+    private final MixingVatBlock block;
+    private final Level level;
 
     public MixingVatMenu(int containerId, Inventory inventory, FriendlyByteBuf extraData) {
-        this(containerId, inventory, inventory.player.level.getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(2));
+        this(containerId, inventory, Objects.requireNonNull(inventory.player.level.getBlockEntity(extraData.readBlockPos())), new SimpleContainerData(2));
     }
 
     public MixingVatMenu(int containerId, Inventory inventory, BlockEntity blockEntity , ContainerData data) {
@@ -32,14 +35,13 @@ public class MixingVatMenu extends AbstractContainerMenu {
         this.blockEntity = (MixingVatBlockEntity) blockEntity;
         this.block = (MixingVatBlock) blockEntity.getBlockState().getBlock();
         this.level = inventory.player.level;
-        this.data = data;
 
         this.blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(handler -> {
                     // Input Slots
                     this.addSlot(new SlotItemHandler(handler, 0, 71, 18));
                     this.addSlot(new SlotItemHandler(handler, 1, 71, 36));
                     this.addSlot(new SlotItemHandler(handler, 2, 71, 54));
-                    //
+                    // Output slot
                     this.addSlot(new SlotItemHandler(handler, 3, 124, 18));
                 }
         );
@@ -91,7 +93,7 @@ public class MixingVatMenu extends AbstractContainerMenu {
                 return ItemStack.EMPTY;
             }
         } else {
-            System.out.println("Invalid slotIndex:" + index);
+            GrowthcraftMilk.LOGGER.error(String.format("Invalid slotIndex: %d", index));
             return ItemStack.EMPTY;
         }
         // If stack size == 0 (the entire stack was moved) set slot contents to null
@@ -105,7 +107,7 @@ public class MixingVatMenu extends AbstractContainerMenu {
     }
 
     @Override
-    public boolean stillValid(Player player) {
+    public boolean stillValid(@NotNull Player player) {
         return stillValid(
                 ContainerLevelAccess.create(
                         this.level,
@@ -136,6 +138,10 @@ public class MixingVatMenu extends AbstractContainerMenu {
 
     public FluidStack getFluidStack(int tankID) {
         return this.blockEntity.getFluidStackInTank(tankID);
+    }
+
+    public int getPercentProgress() {
+        return this.blockEntity.getPercentProgress();
     }
 
     @OnlyIn(Dist.CLIENT)
