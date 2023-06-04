@@ -1,8 +1,8 @@
 package growthcraft.milk.block.entity;
 
 import growthcraft.lib.block.entity.GrowthcraftFluidTank;
+import growthcraft.lib.utils.BlockStateUtils;
 import growthcraft.lib.utils.DirectionUtils;
-import growthcraft.lib.utils.RecipeUtils;
 import growthcraft.milk.init.GrowthcraftMilkBlockEntities;
 import growthcraft.milk.lib.networking.GrowthcraftMilkMessages;
 import growthcraft.milk.lib.networking.packet.MixingVatFluidSyncPacket;
@@ -47,6 +47,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
+import static growthcraft.cellar.block.CultureJarBlock.LIT;
+
 public class MixingVatBlockEntity extends BlockEntity implements BlockEntityTicker<MixingVatBlockEntity>, MenuProvider {
     //TODO[5]: Implement MixingVatBlockEntity
     private int tickClock = 0;
@@ -68,7 +70,7 @@ public class MixingVatBlockEntity extends BlockEntity implements BlockEntityTick
 
     private LazyOptional<IItemHandler> inventoryHandler = LazyOptional.empty();
 
-    private final GrowthcraftFluidTank inputFluidTank = new GrowthcraftFluidTank(4000) {
+    private final GrowthcraftFluidTank FLUID_TANK_INPUT = new GrowthcraftFluidTank(4000) {
         @Override
         public void onContentsChanged() {
             setChanged();
@@ -78,7 +80,7 @@ public class MixingVatBlockEntity extends BlockEntity implements BlockEntityTick
         }
     };
 
-    private final GrowthcraftFluidTank reagentFluidTank = new GrowthcraftFluidTank(1000) {
+    private final GrowthcraftFluidTank FLUID_TANK_OUTPUT = new GrowthcraftFluidTank(1000) {
         @Override
         public void onContentsChanged() {
             setChanged();
@@ -94,8 +96,8 @@ public class MixingVatBlockEntity extends BlockEntity implements BlockEntityTick
     public MixingVatBlockEntity(BlockPos blockPos, BlockState state) {
         super(GrowthcraftMilkBlockEntities.MIXING_VAT_BLOCK_ENTITY.get(), blockPos, state);
 
-        this.inputFluidTank.allowAnyFluid(true);
-        this.reagentFluidTank.allowAnyFluid(true);
+        this.FLUID_TANK_INPUT.allowAnyFluid(true);
+        this.FLUID_TANK_OUTPUT.allowAnyFluid(true);
 
         this.data = new ContainerData() {
             @Override
@@ -178,24 +180,12 @@ public class MixingVatBlockEntity extends BlockEntity implements BlockEntityTick
     public void tick(Level level, BlockPos blockPos, BlockState blockState, MixingVatBlockEntity mixingVatBlockEntity) {
         if (level.isClientSide) return;
 
-        RecipeUtils.Category recipeCategory = RecipeUtils.Category.NULL;
-
         // First check for a MixingVatFluidRecipe
         List<MixingVatFluidRecipe> fluidRecipes = this.getMatchingFluidRecipes();
         MixingVatFluidRecipe fluidRecipe = fluidRecipes.isEmpty() ? null : fluidRecipes.get(0);
 
-        if(fluidRecipe != null) {
-            // Then we have a Fluid recipe.
-            recipeCategory = fluidRecipe.getCategory();
-        }
-
         List<MixingVatItemRecipe> itemRecipes = this.getMatchingItemRecipes();
         MixingVatItemRecipe itemRecipe = itemRecipes.isEmpty() ? null : itemRecipes.get(0);
-
-        if(fluidRecipe == null && itemRecipe != null) {
-            // Then we have an Item recipe.
-            recipeCategory = itemRecipe.getCategory();
-        }
 
         boolean validRecipe = (fluidRecipe != null || itemRecipe != null);
 
@@ -210,14 +200,14 @@ public class MixingVatBlockEntity extends BlockEntity implements BlockEntityTick
 
             if(fluidRecipe != null) {
                 // Set the output fluid and any reagent/waste fluid.
-                this.inputFluidTank.setFluid(fluidRecipe.getOutputFluidStack().copy());
-                this.reagentFluidTank.setFluid(fluidRecipe.getWasteFluidStack().copy());
+                this.FLUID_TANK_INPUT.setFluid(fluidRecipe.getOutputFluidStack().copy());
+                this.FLUID_TANK_OUTPUT.setFluid(fluidRecipe.getWasteFluidStack().copy());
 
             } else {
                 // Consume all the inventory items and fluid.
                 this.itemStackHandler.setStackInSlot(3, itemRecipe.getResultItemStack().copy());
-                this.inputFluidTank.setFluid(FluidStack.EMPTY);
-                this.reagentFluidTank.setFluid(FluidStack.EMPTY);
+                this.FLUID_TANK_INPUT.setFluid(FluidStack.EMPTY);
+                this.FLUID_TANK_OUTPUT.setFluid(FluidStack.EMPTY);
             }
 
             this.resetTickClock();
@@ -233,13 +223,18 @@ public class MixingVatBlockEntity extends BlockEntity implements BlockEntityTick
             }
 
             level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), Block.UPDATE_ALL);
-        } else if(this.tickMax > 0 && !this.activated) {
+        } else if(validRecipe && this.tickMax > 0 && !this.activated) {
             // Then do nothing, we are waiting activate the recipe.
         } else {
             this.resetTickClock();
         }
 
-
+        level.sendBlockUpdated(
+                this.getBlockPos(),
+                this.getBlockState(),
+                this.getBlockState(),
+                Block.UPDATE_ALL
+        );
     }
 
     public int getTickClock(String type) {
@@ -273,8 +268,8 @@ public class MixingVatBlockEntity extends BlockEntity implements BlockEntityTick
 
         for(MixingVatFluidRecipe recipe : recipes) {
             if (recipe.matches(
-                    this.inputFluidTank.getFluid().copy(),
-                    this.reagentFluidTank.getFluid().copy(),
+                    this.FLUID_TANK_INPUT.getFluid().copy(),
+                    this.FLUID_TANK_OUTPUT.getFluid().copy(),
                     currentItems)
             ) {
                 matchingRecipes.add(recipe);
@@ -295,7 +290,7 @@ public class MixingVatBlockEntity extends BlockEntity implements BlockEntityTick
             if (!itemStackHandler.getStackInSlot(i).isEmpty()) currentItems.add(itemStackHandler.getStackInSlot(i));
         }
 
-        if(!inputFluidTank.isEmpty() && !currentItems.isEmpty()) {
+        if(!FLUID_TANK_INPUT.isEmpty() && !currentItems.isEmpty()) {
            // Then we need to try and match a MixingVatItemRecipe.
             List<MixingVatItemRecipe> recipes = this.level.getRecipeManager().getAllRecipesFor(
                     MixingVatItemRecipe.Type.INSTANCE
@@ -303,7 +298,7 @@ public class MixingVatBlockEntity extends BlockEntity implements BlockEntityTick
 
             for(MixingVatItemRecipe recipe : recipes) {
                 if (recipe.matches(
-                        this.inputFluidTank.getFluid(),
+                        this.FLUID_TANK_INPUT.getFluid(),
                         currentItems)
                 ) {
                     matchingRecipes.add(recipe);
@@ -338,8 +333,11 @@ public class MixingVatBlockEntity extends BlockEntity implements BlockEntityTick
         this.activated = nbt.getBoolean("IsActivated");
 
         this.itemStackHandler.deserializeNBT(nbt.getCompound("inventory"));
-        this.inputFluidTank.readFromNBT(nbt.getCompound("InputFluidTank"));
-        this.reagentFluidTank.readFromNBT(nbt.getCompound("ReagentFluidTank"));
+        this.FLUID_TANK_INPUT.readFromNBT(nbt.getCompound("InputFluidTank"));
+        this.FLUID_TANK_OUTPUT.readFromNBT(nbt.getCompound("ReagentFluidTank"));
+
+        this.activationTool = ItemStack.of(nbt.getCompound("ActivationTool"));
+        this.resultActivationTool = ItemStack.of(nbt.getCompound("ResultActivationTool"));
 
         if (nbt.contains("CustomName", 8)) {
             this.customName = Component.Serializer.fromJson(nbt.getString("CustomName"));
@@ -355,8 +353,11 @@ public class MixingVatBlockEntity extends BlockEntity implements BlockEntityTick
         nbt.putBoolean("IsActivated", this.activated);
 
         nbt.put("inventory", itemStackHandler.serializeNBT());
-        nbt.put("InputFluidTank", inputFluidTank.writeToNBT(new CompoundTag()));
-        nbt.put("ReagentFluidTank", reagentFluidTank.writeToNBT(new CompoundTag()));
+        nbt.put("InputFluidTank", FLUID_TANK_INPUT.writeToNBT(new CompoundTag()));
+        nbt.put("ReagentFluidTank", FLUID_TANK_OUTPUT.writeToNBT(new CompoundTag()));
+
+        nbt.put("ActivationTool", this.activationTool.serializeNBT());
+        nbt.put("ResultActivationTool", this.resultActivationTool.serializeNBT());
 
         if (this.customName != null) {
             nbt.putString("CustomName", Component.Serializer.toJson(this.customName));
@@ -373,8 +374,8 @@ public class MixingVatBlockEntity extends BlockEntity implements BlockEntityTick
     @Override
     public void onLoad() {
         super.onLoad();
-        inputFluidHandler = LazyOptional.of(() -> inputFluidTank);
-        reagentFluidHandler = LazyOptional.of(() -> reagentFluidTank);
+        inputFluidHandler = LazyOptional.of(() -> FLUID_TANK_INPUT);
+        reagentFluidHandler = LazyOptional.of(() -> FLUID_TANK_OUTPUT);
         inventoryHandler = LazyOptional.of(() -> itemStackHandler);
     }
 
@@ -402,10 +403,14 @@ public class MixingVatBlockEntity extends BlockEntity implements BlockEntityTick
         return super.getCapability(cap, side);
     }
 
+    public ItemStackHandler getInventoryHandler() {
+        return itemStackHandler;
+    }
+
     public void setFluidStackInTank(int tankID, FluidStack fluidStack) {
         switch (tankID) {
-            case 0 -> this.inputFluidTank.setFluid(fluidStack);
-            case 1 -> this.reagentFluidTank.setFluid(fluidStack);
+            case 0 -> this.FLUID_TANK_INPUT.setFluid(fluidStack);
+            case 1 -> this.FLUID_TANK_OUTPUT.setFluid(fluidStack);
             default -> {
                 throw new IndexOutOfBoundsException(
                         String.format("MixingVatBlockEntity at %s: setFluidStackInTank(int %d, FluidStack %s) is not a valid tank ID.",
@@ -427,15 +432,7 @@ public class MixingVatBlockEntity extends BlockEntity implements BlockEntityTick
     }
 
     public FluidStack getFluidStackInTank(int tankID) {
-        return switch (tankID) {
-            case 0 -> this.inputFluidTank.getFluid().copy();
-            case 1 -> this.reagentFluidTank.getFluid().copy();
-            default -> {
-                throw new IndexOutOfBoundsException(
-                        String.format("MixingVatBlockEntity at %s: %d is not a valid tank ID.",
-                                this.getBlockPos(), tankID));
-            }
-        };
+        return tankID == 0 ? this.FLUID_TANK_INPUT.getFluid() : this.FLUID_TANK_OUTPUT.getFluid();
     }
 
     public FluidTank getFluidTank(String tankName) {
@@ -451,15 +448,7 @@ public class MixingVatBlockEntity extends BlockEntity implements BlockEntityTick
     }
 
     private FluidTank getFluidTank(int tankID) {
-        return switch (tankID) {
-            case 0 -> this.inputFluidTank;
-            case 1 -> this.reagentFluidTank;
-            default -> {
-                throw new IndexOutOfBoundsException(
-                        String.format("MixingVatBlockEntity at %s: %d is not a valid tank ID.",
-                                this.getBlockPos(), tankID));
-            }
-        };
+        return tankID == 0 ? this.FLUID_TANK_INPUT : this.FLUID_TANK_OUTPUT;
     }
 
     public boolean activateRecipe(ItemStack stack) {
@@ -517,5 +506,12 @@ public class MixingVatBlockEntity extends BlockEntity implements BlockEntityTick
         }
     }
 
-
+    public boolean isHeated() {
+        boolean heated = BlockStateUtils.isHeated(this.level, this.getBlockPos());
+        // Only change the blockstate if it is different.
+        if(this.getBlockState().getValue(LIT).booleanValue() != heated) {
+            this.level.setBlock(this.getBlockPos(), this.getBlockState().setValue(LIT, heated), Block.UPDATE_ALL);
+        }
+        return heated;
+    }
 }

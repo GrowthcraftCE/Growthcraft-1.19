@@ -51,10 +51,18 @@ public class MixingVatScreen extends AbstractContainerScreen<MixingVatMenu> {
         this.blit(poseStack, x, y, 0, 0, imageWidth, imageHeight);
 
         this.blit(poseStack,
-                x + 82, y + 29,
-                176, 42,
+                x + 99, y + 21,
+                176, 43,
                 13, menu.getProgressionScaled(29)
         );
+
+        if(this.menu.isHeated()) {
+            this.blit(poseStack,
+                    x + 98, y + 56,
+                    176, 28,
+                    13, 13
+            );
+        }
 
         fluidTankRenderer0.render(poseStack, x + 49, y + 32, menu.getFluidStack(0));
         fluidTankRenderer1.render(poseStack, x + 49, y + 18, menu.getFluidStack(1));

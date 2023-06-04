@@ -136,7 +136,7 @@ public class PancheonBlockEntity extends BlockEntity implements BlockEntityTicke
     }
 
     @Override
-    public void tick(Level level, BlockPos pos, BlockState blockState, PancheonBlockEntity blockEntity) {
+    public void tick(Level level, BlockPos blockPos, BlockState blockState, PancheonBlockEntity blockEntity) {
 
         if(!level.isClientSide && this.isInputTankFull()) {
             List<PancheonRecipe> recipes = this.getMatchingRecipes(this.getFluidStackInTank(0));

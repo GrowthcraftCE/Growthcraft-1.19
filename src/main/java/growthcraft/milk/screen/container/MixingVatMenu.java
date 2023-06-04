@@ -1,5 +1,6 @@
 package growthcraft.milk.screen.container;
 
+import growthcraft.lib.screen.container.handler.NonInteractiveSlotItemHandler;
 import growthcraft.milk.GrowthcraftMilk;
 import growthcraft.milk.block.MixingVatBlock;
 import growthcraft.milk.block.entity.MixingVatBlockEntity;
@@ -25,6 +26,8 @@ public class MixingVatMenu extends AbstractContainerMenu {
     private final MixingVatBlock block;
     private final Level level;
 
+    private ContainerData data;
+
     public MixingVatMenu(int containerId, Inventory inventory, FriendlyByteBuf extraData) {
         this(containerId, inventory, Objects.requireNonNull(inventory.player.level.getBlockEntity(extraData.readBlockPos())), new SimpleContainerData(2));
     }
@@ -35,6 +38,7 @@ public class MixingVatMenu extends AbstractContainerMenu {
         this.blockEntity = (MixingVatBlockEntity) blockEntity;
         this.block = (MixingVatBlock) blockEntity.getBlockState().getBlock();
         this.level = inventory.player.level;
+        this.data = data;
 
         this.blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(handler -> {
                     // Input Slots
@@ -42,14 +46,14 @@ public class MixingVatMenu extends AbstractContainerMenu {
                     this.addSlot(new SlotItemHandler(handler, 1, 71, 36));
                     this.addSlot(new SlotItemHandler(handler, 2, 71, 54));
                     // Output slot
-                    this.addSlot(new SlotItemHandler(handler, 3, 124, 18));
+                    this.addSlot(new NonInteractiveSlotItemHandler(handler, 3, 124, 18));
                 }
         );
 
         addPlayerInventory(inventory);
         addPlayerHotbar(inventory);
 
-        addDataSlots(data);
+        addDataSlots(this.data);
     }
 
     public BlockEntity getBlockEntity() {
@@ -137,7 +141,12 @@ public class MixingVatMenu extends AbstractContainerMenu {
     }
 
     public FluidStack getFluidStack(int tankID) {
-        return this.blockEntity.getFluidStackInTank(tankID);
+        return switch (tankID) {
+            case 0 -> this.blockEntity.getFluidStackInTank(0);
+            case 1 -> this.blockEntity.getFluidStackInTank(1);
+            default ->
+                    throw new NullPointerException(String.format("MixingVatmenu getFluidStack at <%s> does not have a fluid tank with the ID of %d!", blockEntity.getBlockPos().toString(), tankID));
+        };
     }
 
     public int getPercentProgress() {
@@ -146,8 +155,12 @@ public class MixingVatMenu extends AbstractContainerMenu {
 
     @OnlyIn(Dist.CLIENT)
     public int getProgressionScaled(int size) {
-        return this.blockEntity.getTickClock("current") != 0 && this.blockEntity.getTickClock("max") != 0
-                ? this.blockEntity.getTickClock("current") * size / this.blockEntity.getTickClock("max")
+        return this.data.get(0) != 0 && this.data.get(1)  != 0
+                ? this.data.get(0)  * size / this.data.get(1)
                 : 0;
+    }
+
+    public boolean isHeated() {
+        return this.blockEntity.isHeated();
     }
 }

@@ -201,6 +201,8 @@ public class BrewKettleBlockEntity extends BlockEntity implements BlockEntityTic
             // Do nothing on the client side.
         }
 
+        level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), Block.UPDATE_ALL);
+
     }
 
     private List<BrewKettleRecipe> getMatchingRecipes() {
