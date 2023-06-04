@@ -50,11 +50,18 @@ public class BrewKettleRecipe implements Recipe<SimpleContainer> {
     }
 
     public boolean matches(ItemStack itemStack, FluidStack fluidStack, boolean needsLid, boolean needsHeat) {
-        return this.inputItemStack.getItem() == itemStack.getItem()
-                && this.inputItemStack.getCount() <= itemStack.getCount()
-                && this.inputFluidStack.getFluid() == fluidStack.getFluid()
-                && this.inputFluidStack.getAmount() <= fluidStack.getAmount()
-                && this.requiresLid == needsLid && this.requiresHeat == needsHeat;
+
+        boolean inputItemTypeMatches = this.inputItemStack.getItem() == itemStack.getItem();
+        boolean inputItemCountLessThan = this.inputItemStack.getCount() <= itemStack.getCount();
+        boolean inputFluidTypeMatches = this.inputFluidStack.getFluid() == fluidStack.getFluid();
+        boolean inputFluidAmountLessThan = this.inputFluidStack.getAmount() <= fluidStack.getAmount();
+        boolean hasRequiredLid = this.requiresLid == needsLid && this.requiresHeat == needsHeat;
+
+        return inputItemTypeMatches
+                && inputItemCountLessThan
+                && inputFluidTypeMatches
+                && inputFluidAmountLessThan
+                && hasRequiredLid;
     }
 
     @Override
@@ -144,10 +151,10 @@ public class BrewKettleRecipe implements Recipe<SimpleContainer> {
             FluidStack outputFluid = CraftingUtils.getFluidStack(GsonHelper.getAsJsonObject(json, "output_fluid"));
 
             boolean requiresHeat = GsonHelper.getAsBoolean(json, "requires_heat");
-            boolean requiresLid = GsonHelper.getAsBoolean(json, "requires_heat");
+            boolean requiresLid = GsonHelper.getAsBoolean(json, "requires_lid");
 
             int processingTime = GsonHelper.getAsInt(json, "processing_time", 600);
-            int byProductChance = GsonHelper.getAsInt(json, "processing_time", 10);
+            int byProductChance = GsonHelper.getAsInt(json, "by_product_chance", 10);
 
             return new BrewKettleRecipe(recipeId, inputFluid, inputItemStack,
                     outputFluid, byProductItemStack, byProductChance, processingTime,

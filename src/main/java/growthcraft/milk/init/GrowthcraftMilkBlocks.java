@@ -27,6 +27,11 @@ public class GrowthcraftMilkBlocks {
             ChurnBlock::new
     );
 
+    public static final RegistryObject<Block> MIXING_VAT = registerBlock(
+            Reference.UnlocalizedName.MIXING_VAT,
+            MixingVatBlock::new
+    );
+
     public static final RegistryObject<Block> PANCHEON = registerBlock(
             Reference.UnlocalizedName.PANCHEON,
             PancheonBlock::new
@@ -142,8 +147,6 @@ public class GrowthcraftMilkBlocks {
             CheeseUtils.getCheeseNames(Reference.UnlocalizedName.PROVOLONE).get(CheeseUtils.CURDS),
             () -> new CheeseCurdBlock(Reference.ItemColor.PROVOLONE_CHEESE.getColor())
     );
-
-
 
     // TODO: Cheese Wheels
 

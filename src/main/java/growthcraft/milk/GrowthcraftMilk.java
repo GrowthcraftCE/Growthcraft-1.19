@@ -7,6 +7,7 @@ import growthcraft.milk.init.client.GrowthcraftMilkBlockRenderers;
 import growthcraft.milk.init.config.GrowthcraftMilkConfig;
 import growthcraft.milk.lib.networking.GrowthcraftMilkMessages;
 import growthcraft.milk.screen.ChurnScreen;
+import growthcraft.milk.screen.MixingVatScreen;
 import growthcraft.milk.screen.PancheonScreen;
 import growthcraft.milk.shared.Reference;
 import net.minecraft.client.gui.screens.MenuScreens;
@@ -55,6 +56,7 @@ public class GrowthcraftMilk {
 
     private void clientSetupEvent(final FMLClientSetupEvent event) {
         GrowthcraftMilkBlockRenderers.setRenderLayers();
+        MenuScreens.register(GrowthcraftMilkMenus.MIXING_VAT_MENU.get(), MixingVatScreen::new);
         MenuScreens.register(GrowthcraftMilkMenus.PANCHEON_MENU.get(), PancheonScreen::new);
         MenuScreens.register(GrowthcraftMilkMenus.CHURN_MENU.get(), ChurnScreen::new);
     }

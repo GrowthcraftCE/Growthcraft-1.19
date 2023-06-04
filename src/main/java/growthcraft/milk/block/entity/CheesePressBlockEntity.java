@@ -75,7 +75,7 @@ public class CheesePressBlockEntity extends BlockEntity implements BlockEntityTi
         if(!level.isClientSide && !this.open && !this.getItemStackHandler().getStackInSlot(0).isEmpty()) {
             try {
                 List<CheesePressRecipe> recipes = this.getMatchingRecipes();
-                CheesePressRecipe recipe = recipes.get(0);
+                CheesePressRecipe recipe = recipes.isEmpty() ? null : recipes.get(0);
 
                 if(recipe != null) {
                     if(this.tickClock <= this.tickMax) {

@@ -47,7 +47,7 @@ public class PancheonBlockEntity extends BlockEntity implements BlockEntityTicke
 
     private final GrowthcraftFluidTank FLUID_TANK_INPUT_0 = new GrowthcraftFluidTank(2000) {
         @Override
-        protected void onContentsChanged() {
+        public void onContentsChanged() {
             setChanged();
             if(!level.isClientSide) {
                 GrowthcraftMilkMessages.sendToClients(new PancheonFluidSyncPacket(0, this.fluid, worldPosition));
@@ -57,7 +57,7 @@ public class PancheonBlockEntity extends BlockEntity implements BlockEntityTicke
 
     private final GrowthcraftFluidTank FLUID_TANK_OUTPUT_0 = new GrowthcraftFluidTank(1000, true) {
         @Override
-        protected void onContentsChanged() {
+        public void onContentsChanged() {
             setChanged();
             if(!level.isClientSide) {
                 GrowthcraftMilkMessages.sendToClients(new PancheonFluidSyncPacket(1, this.fluid, worldPosition));
@@ -67,7 +67,7 @@ public class PancheonBlockEntity extends BlockEntity implements BlockEntityTicke
 
     private final GrowthcraftFluidTank FLUID_TANK_OUTPUT_1 = new GrowthcraftFluidTank(1000, true) {
         @Override
-        protected void onContentsChanged() {
+        public void onContentsChanged() {
             setChanged();
             if(!level.isClientSide) {
                 GrowthcraftMilkMessages.sendToClients(new PancheonFluidSyncPacket(2, this.fluid, worldPosition));
@@ -136,7 +136,7 @@ public class PancheonBlockEntity extends BlockEntity implements BlockEntityTicke
     }
 
     @Override
-    public void tick(Level level, BlockPos pos, BlockState blockState, PancheonBlockEntity blockEntity) {
+    public void tick(Level level, BlockPos blockPos, BlockState blockState, PancheonBlockEntity blockEntity) {
 
         if(!level.isClientSide && this.isInputTankFull()) {
             List<PancheonRecipe> recipes = this.getMatchingRecipes(this.getFluidStackInTank(0));

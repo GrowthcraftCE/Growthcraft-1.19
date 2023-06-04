@@ -30,4 +30,5 @@ public abstract class FluidTankSyncPacket {
     }
 
     public abstract boolean handle(Supplier<NetworkEvent.Context> supplier);
+
 }

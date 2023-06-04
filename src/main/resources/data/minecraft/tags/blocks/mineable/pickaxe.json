@@ -3,6 +3,10 @@
   "values": [
     "growthcraft:salt_ore",
     "growthcraft_milk:pancheon",
-    "growthcraft_milk:cheese_press"
+    "growthcraft_milk:cheese_press",
+    "growthcraft_cellar:fruit_press",
+    "growthcraft_cellar:fruit_press_piston",
+    "growthcraft_cellar:brew_kettle",
+    "growthcraft_milk:mixing_vat"
   ]
 }

@@ -1,8 +1,6 @@
 package growthcraft.cellar.init;
 
-import growthcraft.cellar.block.entity.CultureJarBlockEntity;
-import growthcraft.cellar.block.entity.FermentationBarrelBlockEntity;
-import growthcraft.cellar.block.entity.RoasterBlockEntity;
+import growthcraft.cellar.block.entity.*;
 import growthcraft.cellar.shared.Reference;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.registries.DeferredRegister;
@@ -13,6 +11,14 @@ public class GrowthcraftCellarBlockEntities {
 
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(
             ForgeRegistries.BLOCK_ENTITY_TYPES, Reference.MODID
+    );
+
+    public static final RegistryObject<BlockEntityType<BrewKettleBlockEntity>> BREW_KETTLE_BLOCK_ENTITY = BLOCK_ENTITIES.register(
+            Reference.UnlocalizedName.BREW_KETTLE,
+            () -> BlockEntityType.Builder.of(
+                    BrewKettleBlockEntity::new,
+                    GrowthcraftCellarBlocks.BREW_KETTLE.get()
+            ).build(null)
     );
 
     public static final RegistryObject<BlockEntityType<CultureJarBlockEntity>> CULTURE_JAR_BLOCK_ENTITY = BLOCK_ENTITIES.register(
@@ -28,6 +34,14 @@ public class GrowthcraftCellarBlockEntities {
             () -> BlockEntityType.Builder.of(
                     FermentationBarrelBlockEntity::new,
                     GrowthcraftCellarBlocks.FERMENTATION_BARREL_OAK.get()
+            ).build(null)
+    );
+
+    public static final RegistryObject<BlockEntityType<FruitPressBlockEntity>> FRUIT_PRESS_BLOCK_ENTITY = BLOCK_ENTITIES.register(
+            Reference.UnlocalizedName.FRUIT_PRESS,
+            () -> BlockEntityType.Builder.of(
+                    FruitPressBlockEntity::new,
+                    GrowthcraftCellarBlocks.FRUIT_PRESS.get()
             ).build(null)
     );
 

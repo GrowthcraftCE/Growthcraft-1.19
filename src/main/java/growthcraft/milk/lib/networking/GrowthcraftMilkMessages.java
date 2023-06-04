@@ -1,6 +1,7 @@
 package growthcraft.milk.lib.networking;
 
 import growthcraft.milk.lib.networking.packet.ChurnFluidTankSyncPacket;
+import growthcraft.milk.lib.networking.packet.MixingVatFluidSyncPacket;
 import growthcraft.milk.lib.networking.packet.PancheonFluidSyncPacket;
 import growthcraft.milk.shared.Reference;
 import net.minecraft.resources.ResourceLocation;
@@ -28,6 +29,12 @@ public class GrowthcraftMilkMessages {
                 .simpleChannel();
 
         INSTANCE = net;
+
+        net.messageBuilder(MixingVatFluidSyncPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+                .decoder(MixingVatFluidSyncPacket::new)
+                .encoder(MixingVatFluidSyncPacket::toBytes)
+                .consumerMainThread(MixingVatFluidSyncPacket::handle)
+                .add();
 
         net.messageBuilder(PancheonFluidSyncPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
                 .decoder(PancheonFluidSyncPacket::new)

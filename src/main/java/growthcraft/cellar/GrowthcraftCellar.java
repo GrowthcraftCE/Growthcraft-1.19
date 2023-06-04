@@ -5,9 +5,7 @@ import growthcraft.cellar.init.client.GrowthcraftCellarBlockEntityRenderers;
 import growthcraft.cellar.init.client.GrowthcraftCellarBlockRenderers;
 import growthcraft.cellar.init.config.GrowthcraftCellarConfig;
 import growthcraft.cellar.lib.networking.GrowthcraftCellarMessages;
-import growthcraft.cellar.screen.CultureJarScreen;
-import growthcraft.cellar.screen.FermentationBarrelScreen;
-import growthcraft.cellar.screen.RoasterScreen;
+import growthcraft.cellar.screen.*;
 import growthcraft.cellar.shared.Reference;
 import growthcraft.core.init.GrowthcraftCreativeModeTabs;
 import net.minecraft.client.gui.screens.MenuScreens;
@@ -59,6 +57,11 @@ public class GrowthcraftCellar {
         GrowthcraftCellarBlockRenderers.setRenderLayers();
 
         MenuScreens.register(
+                GrowthcraftCellarMenus.BREW_KETTLE_MENU.get(),
+                BrewKettleScreen::new
+        );
+
+        MenuScreens.register(
                 GrowthcraftCellarMenus.CULTURE_JAR_MENU.get(),
                 CultureJarScreen::new
         );
@@ -66,6 +69,11 @@ public class GrowthcraftCellar {
         MenuScreens.register(
                 GrowthcraftCellarMenus.FERMENTATION_BARREL_MENU.get(),
                 FermentationBarrelScreen::new
+        );
+
+        MenuScreens.register(
+                GrowthcraftCellarMenus.FRUIT_PRESS_MENU.get(),
+                FruitPressScreen::new
         );
 
         MenuScreens.register(

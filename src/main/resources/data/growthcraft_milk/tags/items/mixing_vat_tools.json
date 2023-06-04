@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "#forge:tools/swords",
+    "#forge:rods/wooden",
+    "growthcraft_milk:cheese_cloth"
+  ]
+}
