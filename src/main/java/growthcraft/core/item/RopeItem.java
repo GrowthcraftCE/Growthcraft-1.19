@@ -79,6 +79,7 @@ public class RopeItem extends GrowthcraftBlockItem {
             if (ropeBlockEntity != null) {
                 ropeBlockEntity.setFenceItemStack(new ItemStack(blockState.getBlock(), 1));
                 useOnContext.getItemInHand().shrink(1);
+                return InteractionResult.SUCCESS;
             }
 
         } else {
