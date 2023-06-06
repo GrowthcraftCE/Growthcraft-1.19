@@ -3,6 +3,7 @@ package growthcraft.milk.block;
 import growthcraft.milk.GrowthcraftMilk;
 import growthcraft.milk.block.entity.ChurnBlockEntity;
 import growthcraft.milk.init.GrowthcraftMilkBlockEntities;
+import growthcraft.milk.init.config.GrowthcraftMilkConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -114,7 +115,7 @@ public class ChurnBlock extends BaseEntityBlock {
 
     @Override
     public InteractionResult use(BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand interactionHand, BlockHitResult blockHitResult) {
-        if (!level.isClientSide && player.isCrouching()) {
+        if (!level.isClientSide && player.isCrouching() && GrowthcraftMilkConfig.isChurnGuiEnabled()) {
             try {
                 // Play sound
                 level.playSound(player, blockPos, SoundEvents.BARREL_OPEN, SoundSource.BLOCKS, 1.0F, 1.0F);

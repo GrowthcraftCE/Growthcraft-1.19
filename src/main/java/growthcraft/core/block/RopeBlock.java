@@ -24,6 +24,7 @@ import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -77,13 +78,14 @@ public class RopeBlock extends BaseEntityBlock implements SimpleWaterloggedBlock
 
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
-        BlockGetter blockGetter = context.getLevel();
-        BlockPos blockPos = context.getClickedPos();
+        return this.getActualBlockState(context.getLevel(), context.getClickedPos());
+    }
 
+    public BlockState getActualBlockState(Level level, BlockPos blockPos) {
         Map<String, Boolean> surroundingStateMap =
-                BlockStateUtils.getSurroundingRopeConnections(blockGetter, blockPos);
+                BlockStateUtils.getSurroundingRopeConnections(level, blockPos);
 
-        RopeBlockEntity entity = (RopeBlockEntity) blockGetter.getBlockEntity(blockPos);
+        RopeBlockEntity entity = (RopeBlockEntity) level.getBlockEntity(blockPos);
 
         return this.defaultBlockState()
                 .setValue(NORTH, surroundingStateMap.get("north"))
@@ -97,23 +99,16 @@ public class RopeBlock extends BaseEntityBlock implements SimpleWaterloggedBlock
 
     @Override
     @ParametersAreNonnullByDefault
-    public BlockState updateShape(BlockState blockState0, Direction direction, BlockState blockState1, LevelAccessor levelAccessor, BlockPos blockPos0, BlockPos blockPos1) {
-        if (blockState0.getValue(WATERLOGGED)) {
-            levelAccessor.scheduleTick(blockPos0, Fluids.WATER, Fluids.WATER.getTickDelay(levelAccessor));
+    public @NotNull BlockState updateShape(BlockState blockState, Direction directionFromNeighbor, BlockState neighborBlockState, LevelAccessor levelAccessor, BlockPos blockPos, BlockPos neighborBlockPos) {
+        if (Boolean.TRUE.equals(blockState.getValue(WATERLOGGED))) {
+            levelAccessor.scheduleTick(blockPos, Fluids.WATER, Fluids.WATER.getTickDelay(levelAccessor));
         }
 
-        Map<String, Boolean> surroundingStateMap =
-                BlockStateUtils.getSurroundingRopeConnections(levelAccessor, blockPos0);
+        Level level = (Level) levelAccessor;
+        BlockState actualBlockState = this.getActualBlockState(level, blockPos);
+        level.setBlock(blockPos, actualBlockState, Block.UPDATE_ALL);
 
-        RopeBlockEntity entity = (RopeBlockEntity) levelAccessor.getBlockEntity(blockPos0);
-
-        return this.defaultBlockState().setValue(NORTH, surroundingStateMap.get("north"))
-                .setValue(EAST, surroundingStateMap.get("east"))
-                .setValue(SOUTH, surroundingStateMap.get("south"))
-                .setValue(WEST, surroundingStateMap.get("west"))
-                .setValue(UP, surroundingStateMap.get("above"))
-                .setValue(DOWN, surroundingStateMap.get("below"))
-                .setValue(KNOT, entity != null && entity.hasFenceItemStack());
+        return this.getActualBlockState((Level) levelAccessor, blockPos);
     }
 
     @Override

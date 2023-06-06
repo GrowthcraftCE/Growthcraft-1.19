@@ -12,6 +12,15 @@
     "growthcraft_apples:bee_box_apple",
     "growthcraft_bamboo:bee_box_bamboo",
     "growthcraft_milk:churn",
-    "growthcraft_cellar:fermentation_barrel_oak"
+    "growthcraft_cellar:fermentation_barrel_oak",
+    "growthcraft:rope_linen_acacia_fence",
+    "growthcraft:rope_linen_birch_fence",
+    "growthcraft:rope_linen_crimson_fence",
+    "growthcraft:rope_linen_dark_oak_fence",
+    "growthcraft:rope_linen_jungle_fence",
+    "growthcraft:rope_linen_nether_brick_fence",
+    "growthcraft:rope_linen_oak_fence",
+    "growthcraft:rope_linen_spruce_fence",
+    "growthcraft:rope_linen_warped_fence"
   ]
 }
