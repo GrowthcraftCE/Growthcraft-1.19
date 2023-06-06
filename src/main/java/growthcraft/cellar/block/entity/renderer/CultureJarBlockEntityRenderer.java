@@ -2,19 +2,24 @@ package growthcraft.cellar.block.entity.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Axis;
 import growthcraft.cellar.block.entity.CultureJarBlockEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
-import net.minecraft.client.renderer.texture.TextureAtlas;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.inventory.InventoryMenu;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.phys.Vec2;
 import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.minecraftforge.fluids.FluidStack;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
+import org.joml.Vector3d;
+import org.joml.Vector3f;
 
 import java.awt.*;
 
@@ -31,87 +36,188 @@ public class CultureJarBlockEntityRenderer implements BlockEntityRenderer<Cultur
 
         FluidStack inputFluidStack = blockEntity.getFluidStackInTank(0);
 
-        if (!inputFluidStack.isEmpty()) {
-            float inputFluidStackHeight = baseOffset + (maxFluidHeight - baseOffset) * inputFluidStack.getAmount() / (float) blockEntity.getFluidTank(0).getCapacity();
-            renderFluid(inputFluidStack, inputFluidStackHeight, multiBufferSource, poseStack, light, overlay);
+            if (!inputFluidStack.isEmpty()) {
+                renderBlockEntityFluid(blockEntity, partialTick, poseStack, multiBufferSource, light, overlay);
+            }
+
+
+    }
+
+    public void renderBlockEntityFluid(CultureJarBlockEntity blockEntity, float partialTicks, PoseStack matrixStack, MultiBufferSource buffer, int lightLevel, int overlay) {
+        if (blockEntity.getFluidStackInTank(0).isEmpty()) {
+            return;
         }
 
+        FluidStack inputFluidStack = blockEntity.getFluidStackInTank(0);
+
+        float capacity = (float) blockEntity.getFluidTank(0).getCapacity();
+        float amount = inputFluidStack.getAmount();
+        float inputFluidHeight = amount / capacity;
+
+        renderCubeUsingQuads(matrixStack, buffer, inputFluidStack, inputFluidHeight, lightLevel, overlay);
+
     }
 
+    public void renderCubeUsingQuads(PoseStack matrixStack, MultiBufferSource renderTypeBuffer,
+                                     FluidStack fluidStack, float inputFluidHeight, int lightLevel, int overlay) {
+        final Vector3d TRANSLATION_OFFSET = new Vector3d(0, 0.01, 0);
 
-    @Override
-    public boolean shouldRender(CultureJarBlockEntity p_173568_, Vec3 p_173569_) {
-        return true;
+        matrixStack.pushPose();
+        matrixStack.translate(TRANSLATION_OFFSET.x, TRANSLATION_OFFSET.y, TRANSLATION_OFFSET.z); // translate
+
+        try {
+            Fluid fluid = fluidStack.getFluid();
+            ResourceLocation fluidStill = IClientFluidTypeExtensions.of(fluid).getStillTexture();
+
+            TextureAtlasSprite fluidStillTexture = Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(fluidStill);
+
+            int color1 = IClientFluidTypeExtensions.of(fluid).getTintColor();
+            Color color = new Color(color1);
+
+            drawCubeQuads(matrixStack, renderTypeBuffer, inputFluidHeight, fluidStillTexture, color, lightLevel);
+        } catch (Exception ex) {
+
+        }
+
+        matrixStack.popPose();
     }
 
-    @Override
-    public boolean shouldRenderOffScreen(CultureJarBlockEntity p_112306_) {
-        return true;
+    private void drawCubeQuads(PoseStack matrixStack, MultiBufferSource renderBuffer, float inputFluidHeight, TextureAtlasSprite textureAtlasSprite, Color color, int lightLevel) {
+
+        VertexConsumer vertexBuilderBlockQuads = renderBuffer.getBuffer(RenderType.entityTranslucent(InventoryMenu.BLOCK_ATLAS));
+
+        //IVertexBuilder vertexBuilderBlockQuads = renderBuffer.getBuffer(RenderType.getEntityTranslucent(
+        //        new ResourceLocation("growthcraft_cellar:textures/block/fluid/fluid_still.png")
+        //));
+
+        Matrix4f matrixPos = matrixStack.last().pose();
+        Matrix3f matrixNormal = matrixStack.last().normal();
+
+        Vec2 bottomLeftUV = new Vec2(0.0F, 1.0F);
+        float uVwidth = 1.0F;
+        float uVheight = 1.0F;
+
+        final float WIDTH = 0.25F;
+        final float HEIGHT = 0.25F;
+
+        final Vector3d EAST_FACE_MIDPOINT = new Vector3d(6.0 / 16.0, (2.0 / 16.0) * inputFluidHeight, 0.5);
+        final Vector3d WEST_FACE_MIDPOINT = new Vector3d(10.0 / 16.0, (2.0 / 16.0) * inputFluidHeight, 0.5);
+        final Vector3d NORTH_FACE_MIDPOINT = new Vector3d(0.5, (2.0 / 16.0) * inputFluidHeight, 6.0 / 16.0);
+        final Vector3d SOUTH_FACE_MIDPOINT = new Vector3d(0.5, (2.0 / 16.0) * inputFluidHeight, 10.0 / 16.0);
+
+        final Vector3d UP_FACE_MIDPOINT = new Vector3d(0.5, 0.25 * inputFluidHeight, 0.5);
+
+        final Vector3d DOWN_FACE_MIDPOINT = new Vector3d(0.5, 0.0, 0.5);
+
+        addFace(Direction.EAST, matrixPos, matrixNormal, vertexBuilderBlockQuads,
+                color, EAST_FACE_MIDPOINT, WIDTH, HEIGHT * inputFluidHeight, textureAtlasSprite, bottomLeftUV, uVwidth, uVheight, lightLevel);
+        addFace(Direction.WEST, matrixPos, matrixNormal, vertexBuilderBlockQuads,
+                color, WEST_FACE_MIDPOINT, WIDTH, HEIGHT * inputFluidHeight, textureAtlasSprite, bottomLeftUV, uVwidth, uVheight, lightLevel);
+        addFace(Direction.NORTH, matrixPos, matrixNormal, vertexBuilderBlockQuads,
+                color, NORTH_FACE_MIDPOINT, WIDTH, HEIGHT * inputFluidHeight, textureAtlasSprite, bottomLeftUV, uVwidth, uVheight, lightLevel);
+        addFace(Direction.SOUTH, matrixPos, matrixNormal, vertexBuilderBlockQuads,
+                color, SOUTH_FACE_MIDPOINT, WIDTH, HEIGHT * inputFluidHeight, textureAtlasSprite, bottomLeftUV, uVwidth, uVheight, lightLevel);
+        addFace(Direction.UP, matrixPos, matrixNormal, vertexBuilderBlockQuads,
+                color, UP_FACE_MIDPOINT, WIDTH, HEIGHT, textureAtlasSprite, bottomLeftUV, uVwidth, uVheight, lightLevel);
+        addFace(Direction.DOWN, matrixPos, matrixNormal, vertexBuilderBlockQuads,
+                color, DOWN_FACE_MIDPOINT, WIDTH, HEIGHT, textureAtlasSprite, bottomLeftUV, uVwidth, uVheight, lightLevel);
     }
 
-    public void renderFluid(FluidStack fluidStack, float height, MultiBufferSource buffer, PoseStack poseStack, int lightLevel, int overlay) {
-        poseStack.pushPose();
-        poseStack.translate(0.5F, height, 0.5F);
+    private void addFace(Direction face, Matrix4f matrixPos, Matrix3f matrixNormal,
+                         VertexConsumer vertexBuilder, Color color, Vector3d centrePos,
+                         float width, float height, TextureAtlasSprite textureAtlasSprite, Vec2 bottomLeftUV, float uVwidth, float uVheight,
+                         int lightLevel) {
 
-        float s = 14 / 256F;
-        float v = 1.55F / 8F;
-        float w = -(v) * 2.5F;
+        Vector3f leftToRightDirection;
+        Vector3f bottomToTopDirection;
 
-        int alpha = 2 * 255;
+        switch (face) {
+            case NORTH: {
+                leftToRightDirection = new Vector3f(-1, 0, 0);
+                bottomToTopDirection = new Vector3f(0, 1, 0);
+                break;
+            }
+            case SOUTH: {
+                leftToRightDirection = new Vector3f(1, 0, 0);
+                bottomToTopDirection = new Vector3f(0, 1, 0);
+                break;
+            }
+            case EAST: {
+                leftToRightDirection = new Vector3f(0, 0, -1);
+                bottomToTopDirection = new Vector3f(0, 1, 0);
+                break;
+            }
 
-        poseStack.translate(w, 0.0F, w);
-        poseStack.mulPose(Axis.XP.rotationDegrees(90.0F));
-        poseStack.scale(s, s, s);
+            case UP: {
+                leftToRightDirection = new Vector3f(-1, 0, 0);
+                bottomToTopDirection = new Vector3f(0, 0, 1);
+                break;
+            }
+            case DOWN: {
+                leftToRightDirection = new Vector3f(1, 0, 0);
+                bottomToTopDirection = new Vector3f(0, 0, 1);
+                break;
+            }
+            case WEST:
+            default: {
+                leftToRightDirection = new Vector3f(0, 0, 1);
+                bottomToTopDirection = new Vector3f(0, 1, 0);
+                break;
+            }
+        }
 
-        IClientFluidTypeExtensions fluidTypeExtensions = IClientFluidTypeExtensions.of(fluidStack.getFluid());
-        Color color = new Color(fluidTypeExtensions.getTintColor());
+        leftToRightDirection.mul(0.5F * width);
+        bottomToTopDirection.mul(0.5F * height);
 
-        TextureAtlasSprite sprite = Minecraft.getInstance().getTextureAtlas(TextureAtlas.LOCATION_BLOCKS).apply(fluidTypeExtensions.getStillTexture(fluidStack));
+        Vector3f bottomLeftPos = new Vector3f((float) centrePos.x, (float) centrePos.y, (float) centrePos.z);
+        bottomLeftPos.sub(leftToRightDirection);
+        bottomLeftPos.sub(bottomToTopDirection);
 
-        VertexConsumer vertexBuilder = buffer.getBuffer(RenderType.translucent());
+        Vector3f bottomRightPos = new Vector3f((float) centrePos.x, (float) centrePos.y, (float) centrePos.z);
+        bottomRightPos.add(leftToRightDirection);
+        bottomRightPos.sub(bottomToTopDirection);
 
-        renderIcon(poseStack, vertexBuilder, sprite, color, alpha, overlay, lightLevel);
+        Vector3f topRightPos = new Vector3f((float) centrePos.x, (float) centrePos.y, (float) centrePos.z);
+        topRightPos.add(leftToRightDirection);
+        topRightPos.add(bottomToTopDirection);
 
-        poseStack.popPose();
+        Vector3f topLeftPos = new Vector3f((float) centrePos.x, (float) centrePos.y, (float) centrePos.z);
+        topLeftPos.sub(leftToRightDirection);
+        topLeftPos.add(bottomToTopDirection);
+
+        Vec2 bottomLeftUVpos = new Vec2(bottomLeftUV.x, bottomLeftUV.y);
+        Vec2 bottomRightUVpos = new Vec2(bottomLeftUV.x + uVwidth, bottomLeftUV.y);
+        Vec2 topLeftUVpos = new Vec2(bottomLeftUV.x + uVwidth, bottomLeftUV.y + uVheight);
+        Vec2 topRightUVpos = new Vec2(bottomLeftUV.x, bottomLeftUV.y + uVheight);
+
+        Vector3f normalVector = face.step();
+
+        addQuad(matrixPos, matrixNormal, vertexBuilder,
+                bottomLeftPos, bottomRightPos, topRightPos, topLeftPos,
+                bottomLeftUVpos, bottomRightUVpos, topLeftUVpos, topRightUVpos,
+                normalVector, color, lightLevel);
     }
 
-    private static void renderIcon(PoseStack poseStack, VertexConsumer vertexBuilder, TextureAtlasSprite sprite, Color color, int alpha, int overlay, int light) {
+    private void addQuad(Matrix4f matrixPos, Matrix3f matrixNormal, VertexConsumer vertexBuilder,
+                         Vector3f bottomLeftPos, Vector3f bottomRightPos, Vector3f topRightPos, Vector3f topLeftPos,
+                         Vec2 bottomLeftUVpos, Vec2 bottomRightUVpos, Vec2 topLeftUVpos, Vec2 topRightUVpos,
+                         Vector3f normalVector, Color color, int lightLevel) {
 
-        int red = color.getRed();
-        int green = color.getGreen();
-        int blue = color.getBlue();
+        addQuadVertex(matrixPos, matrixNormal, vertexBuilder, bottomLeftPos, bottomLeftUVpos, normalVector, color, lightLevel);
+        addQuadVertex(matrixPos, matrixNormal, vertexBuilder, bottomRightPos, bottomRightUVpos, normalVector, color, lightLevel);
+        addQuadVertex(matrixPos, matrixNormal, vertexBuilder, topRightPos, topRightUVpos, normalVector, color, lightLevel);
+        addQuadVertex(matrixPos, matrixNormal, vertexBuilder, topLeftPos, topLeftUVpos, normalVector, color, lightLevel);
+    }
 
-        Matrix3f matrix3f = poseStack.last().normal();
-        Matrix4f matrix4f = poseStack.last().pose();
-
-        vertexBuilder.vertex(matrix4f, 6.5F, 11.0F, 0)
-                .color(red, green, blue, alpha)
-                .uv(sprite.getU0(), sprite.getV1())
-                .overlayCoords(overlay)
-                .uv2(light)
-                .normal(matrix3f, 0, 0, 1)
+    private void addQuadVertex(Matrix4f matrixPos, Matrix3f matrixNormal, VertexConsumer vertexBuilder,
+                               Vector3f posVector, Vec2 textureUV, Vector3f normalVector,
+                               Color color, int lightLevel) {
+        vertexBuilder.vertex(matrixPos, posVector.x, posVector.y, posVector.z)
+                .color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha())
+                .overlayCoords(OverlayTexture.NO_OVERLAY)
+                .uv(textureUV.x, textureUV.y)
+                .uv2(lightLevel)
+                .normal(matrixNormal, normalVector.x, normalVector.y, normalVector.z)
                 .endVertex();
-        vertexBuilder.vertex(matrix4f, 11.0F, 11.0F, 0)
-                .color(red, green, blue, alpha)
-                .uv(sprite.getU1(), sprite.getV1())
-                .overlayCoords(overlay)
-                .uv2(light)
-                .normal(matrix3f, 0, 0, 1)
-                .endVertex();
-        vertexBuilder.vertex(matrix4f, 11.0F, 6.5F, 0)
-                .color(red, green, blue, alpha)
-                .uv(sprite.getU1(), sprite.getV0())
-                .overlayCoords(overlay)
-                .uv2(light)
-                .normal(matrix3f, 0, 0, 1)
-                .endVertex();
-        vertexBuilder.vertex(matrix4f, 6.5F, 6.5F, 0)
-                .color(red, green, blue, alpha)
-                .uv(sprite.getU0(), sprite.getV0())
-                .overlayCoords(overlay)
-                .uv2(light)
-                .normal(matrix3f, 0, 0, 1)
-                .endVertex();
-
     }
 }
