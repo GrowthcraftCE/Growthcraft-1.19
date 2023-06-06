@@ -14,6 +14,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.Vec2;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.minecraftforge.fluids.FluidStack;
 import org.joml.Matrix3f;
@@ -26,24 +27,12 @@ import java.awt.*;
 public class CultureJarBlockEntityRenderer implements BlockEntityRenderer<CultureJarBlockEntity> {
 
     @Override
-    public void render(CultureJarBlockEntity blockEntity, float partialTick, PoseStack poseStack, MultiBufferSource multiBufferSource, int light, int overlay) {
-        if (blockEntity.isFluidEmpty()) {
-            return;
-        }
-
-        float baseOffset = 1 / 16F;
-        float maxFluidHeight = 4.0F / 16F;
-
-        FluidStack inputFluidStack = blockEntity.getFluidStackInTank(0);
-
-            if (!inputFluidStack.isEmpty()) {
-                renderBlockEntityFluid(blockEntity, partialTick, poseStack, multiBufferSource, light, overlay);
-            }
-
-
+    public boolean shouldRender(CultureJarBlockEntity p_173568_, Vec3 p_173569_) {
+        return true;
     }
 
-    public void renderBlockEntityFluid(CultureJarBlockEntity blockEntity, float partialTicks, PoseStack matrixStack, MultiBufferSource buffer, int lightLevel, int overlay) {
+    @Override
+    public void render(CultureJarBlockEntity blockEntity, float partialTick, PoseStack poseStack, MultiBufferSource multiBufferSource, int light, int overlay) {
         if (blockEntity.getFluidStackInTank(0).isEmpty()) {
             return;
         }
@@ -54,41 +43,34 @@ public class CultureJarBlockEntityRenderer implements BlockEntityRenderer<Cultur
         float amount = inputFluidStack.getAmount();
         float inputFluidHeight = amount / capacity;
 
-        renderCubeUsingQuads(matrixStack, buffer, inputFluidStack, inputFluidHeight, lightLevel, overlay);
+        poseStack.popPose();
+        renderCubeUsingQuads(poseStack, multiBufferSource, inputFluidStack, inputFluidHeight, light, overlay);
+        poseStack.pushPose();
 
     }
 
-    public void renderCubeUsingQuads(PoseStack matrixStack, MultiBufferSource renderTypeBuffer,
-                                     FluidStack fluidStack, float inputFluidHeight, int lightLevel, int overlay) {
+    public void renderCubeUsingQuads(PoseStack poseStack, MultiBufferSource buffer, FluidStack fluidStack, float inputFluidHeight, int lightLevel, int overlay) {
         final Vector3d TRANSLATION_OFFSET = new Vector3d(0, 0.01, 0);
 
-        matrixStack.pushPose();
-        matrixStack.translate(TRANSLATION_OFFSET.x, TRANSLATION_OFFSET.y, TRANSLATION_OFFSET.z); // translate
+        poseStack.pushPose();
+        poseStack.translate(TRANSLATION_OFFSET.x, TRANSLATION_OFFSET.y, TRANSLATION_OFFSET.z);
 
-        try {
-            Fluid fluid = fluidStack.getFluid();
-            ResourceLocation fluidStill = IClientFluidTypeExtensions.of(fluid).getStillTexture();
+        Fluid fluid = fluidStack.getFluid();
+        ResourceLocation fluidStill = IClientFluidTypeExtensions.of(fluid).getStillTexture();
 
-            TextureAtlasSprite fluidStillTexture = Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(fluidStill);
+        TextureAtlasSprite fluidStillTexture = Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(fluidStill);
 
-            int color1 = IClientFluidTypeExtensions.of(fluid).getTintColor();
-            Color color = new Color(color1);
+        int color1 = IClientFluidTypeExtensions.of(fluid).getTintColor();
+        Color color = new Color(color1);
 
-            drawCubeQuads(matrixStack, renderTypeBuffer, inputFluidHeight, fluidStillTexture, color, lightLevel);
-        } catch (Exception ex) {
+        drawCubeQuads(poseStack, buffer, inputFluidHeight, fluidStillTexture, color, lightLevel);
 
-        }
-
-        matrixStack.popPose();
+        poseStack.popPose();
     }
 
     private void drawCubeQuads(PoseStack matrixStack, MultiBufferSource renderBuffer, float inputFluidHeight, TextureAtlasSprite textureAtlasSprite, Color color, int lightLevel) {
 
         VertexConsumer vertexBuilderBlockQuads = renderBuffer.getBuffer(RenderType.entityTranslucent(InventoryMenu.BLOCK_ATLAS));
-
-        //IVertexBuilder vertexBuilderBlockQuads = renderBuffer.getBuffer(RenderType.getEntityTranslucent(
-        //        new ResourceLocation("growthcraft_cellar:textures/block/fluid/fluid_still.png")
-        //));
 
         Matrix4f matrixPos = matrixStack.last().pose();
         Matrix3f matrixNormal = matrixStack.last().normal();
@@ -109,24 +91,15 @@ public class CultureJarBlockEntityRenderer implements BlockEntityRenderer<Cultur
 
         final Vector3d DOWN_FACE_MIDPOINT = new Vector3d(0.5, 0.0, 0.5);
 
-        addFace(Direction.EAST, matrixPos, matrixNormal, vertexBuilderBlockQuads,
-                color, EAST_FACE_MIDPOINT, WIDTH, HEIGHT * inputFluidHeight, textureAtlasSprite, bottomLeftUV, uVwidth, uVheight, lightLevel);
-        addFace(Direction.WEST, matrixPos, matrixNormal, vertexBuilderBlockQuads,
-                color, WEST_FACE_MIDPOINT, WIDTH, HEIGHT * inputFluidHeight, textureAtlasSprite, bottomLeftUV, uVwidth, uVheight, lightLevel);
-        addFace(Direction.NORTH, matrixPos, matrixNormal, vertexBuilderBlockQuads,
-                color, NORTH_FACE_MIDPOINT, WIDTH, HEIGHT * inputFluidHeight, textureAtlasSprite, bottomLeftUV, uVwidth, uVheight, lightLevel);
-        addFace(Direction.SOUTH, matrixPos, matrixNormal, vertexBuilderBlockQuads,
-                color, SOUTH_FACE_MIDPOINT, WIDTH, HEIGHT * inputFluidHeight, textureAtlasSprite, bottomLeftUV, uVwidth, uVheight, lightLevel);
-        addFace(Direction.UP, matrixPos, matrixNormal, vertexBuilderBlockQuads,
-                color, UP_FACE_MIDPOINT, WIDTH, HEIGHT, textureAtlasSprite, bottomLeftUV, uVwidth, uVheight, lightLevel);
-        addFace(Direction.DOWN, matrixPos, matrixNormal, vertexBuilderBlockQuads,
-                color, DOWN_FACE_MIDPOINT, WIDTH, HEIGHT, textureAtlasSprite, bottomLeftUV, uVwidth, uVheight, lightLevel);
+        addFace(Direction.EAST, matrixPos, matrixNormal, vertexBuilderBlockQuads, color, EAST_FACE_MIDPOINT, WIDTH, HEIGHT * inputFluidHeight, textureAtlasSprite, bottomLeftUV, uVwidth, uVheight, lightLevel);
+        addFace(Direction.WEST, matrixPos, matrixNormal, vertexBuilderBlockQuads, color, WEST_FACE_MIDPOINT, WIDTH, HEIGHT * inputFluidHeight, textureAtlasSprite, bottomLeftUV, uVwidth, uVheight, lightLevel);
+        addFace(Direction.NORTH, matrixPos, matrixNormal, vertexBuilderBlockQuads, color, NORTH_FACE_MIDPOINT, WIDTH, HEIGHT * inputFluidHeight, textureAtlasSprite, bottomLeftUV, uVwidth, uVheight, lightLevel);
+        addFace(Direction.SOUTH, matrixPos, matrixNormal, vertexBuilderBlockQuads, color, SOUTH_FACE_MIDPOINT, WIDTH, HEIGHT * inputFluidHeight, textureAtlasSprite, bottomLeftUV, uVwidth, uVheight, lightLevel);
+        addFace(Direction.UP, matrixPos, matrixNormal, vertexBuilderBlockQuads, color, UP_FACE_MIDPOINT, WIDTH, HEIGHT, textureAtlasSprite, bottomLeftUV, uVwidth, uVheight, lightLevel);
+        addFace(Direction.DOWN, matrixPos, matrixNormal, vertexBuilderBlockQuads, color, DOWN_FACE_MIDPOINT, WIDTH, HEIGHT, textureAtlasSprite, bottomLeftUV, uVwidth, uVheight, lightLevel);
     }
 
-    private void addFace(Direction face, Matrix4f matrixPos, Matrix3f matrixNormal,
-                         VertexConsumer vertexBuilder, Color color, Vector3d centrePos,
-                         float width, float height, TextureAtlasSprite textureAtlasSprite, Vec2 bottomLeftUV, float uVwidth, float uVheight,
-                         int lightLevel) {
+    private void addFace(Direction face, Matrix4f matrixPos, Matrix3f matrixNormal, VertexConsumer vertexBuilder, Color color, Vector3d centrePos, float width, float height, TextureAtlasSprite textureAtlasSprite, Vec2 bottomLeftUV, float uVwidth, float uVheight, int lightLevel) {
 
         Vector3f leftToRightDirection;
         Vector3f bottomToTopDirection;
@@ -192,16 +165,10 @@ public class CultureJarBlockEntityRenderer implements BlockEntityRenderer<Cultur
 
         Vector3f normalVector = face.step();
 
-        addQuad(matrixPos, matrixNormal, vertexBuilder,
-                bottomLeftPos, bottomRightPos, topRightPos, topLeftPos,
-                bottomLeftUVpos, bottomRightUVpos, topLeftUVpos, topRightUVpos,
-                normalVector, color, lightLevel);
+        addQuad(matrixPos, matrixNormal, vertexBuilder, bottomLeftPos, bottomRightPos, topRightPos, topLeftPos, bottomLeftUVpos, bottomRightUVpos, topLeftUVpos, topRightUVpos, normalVector, color, lightLevel);
     }
 
-    private void addQuad(Matrix4f matrixPos, Matrix3f matrixNormal, VertexConsumer vertexBuilder,
-                         Vector3f bottomLeftPos, Vector3f bottomRightPos, Vector3f topRightPos, Vector3f topLeftPos,
-                         Vec2 bottomLeftUVpos, Vec2 bottomRightUVpos, Vec2 topLeftUVpos, Vec2 topRightUVpos,
-                         Vector3f normalVector, Color color, int lightLevel) {
+    private void addQuad(Matrix4f matrixPos, Matrix3f matrixNormal, VertexConsumer vertexBuilder, Vector3f bottomLeftPos, Vector3f bottomRightPos, Vector3f topRightPos, Vector3f topLeftPos, Vec2 bottomLeftUVpos, Vec2 bottomRightUVpos, Vec2 topLeftUVpos, Vec2 topRightUVpos, Vector3f normalVector, Color color, int lightLevel) {
 
         addQuadVertex(matrixPos, matrixNormal, vertexBuilder, bottomLeftPos, bottomLeftUVpos, normalVector, color, lightLevel);
         addQuadVertex(matrixPos, matrixNormal, vertexBuilder, bottomRightPos, bottomRightUVpos, normalVector, color, lightLevel);
@@ -209,13 +176,11 @@ public class CultureJarBlockEntityRenderer implements BlockEntityRenderer<Cultur
         addQuadVertex(matrixPos, matrixNormal, vertexBuilder, topLeftPos, topLeftUVpos, normalVector, color, lightLevel);
     }
 
-    private void addQuadVertex(Matrix4f matrixPos, Matrix3f matrixNormal, VertexConsumer vertexBuilder,
-                               Vector3f posVector, Vec2 textureUV, Vector3f normalVector,
-                               Color color, int lightLevel) {
+    private void addQuadVertex(Matrix4f matrixPos, Matrix3f matrixNormal, VertexConsumer vertexBuilder, Vector3f posVector, Vec2 textureUV, Vector3f normalVector, Color color, int lightLevel) {
         vertexBuilder.vertex(matrixPos, posVector.x, posVector.y, posVector.z)
                 .color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha())
-                .overlayCoords(OverlayTexture.NO_OVERLAY)
                 .uv(textureUV.x, textureUV.y)
+                .overlayCoords(OverlayTexture.NO_OVERLAY)
                 .uv2(lightLevel)
                 .normal(matrixNormal, normalVector.x, normalVector.y, normalVector.z)
                 .endVertex();
