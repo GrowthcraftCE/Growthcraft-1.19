@@ -1,5 +1,6 @@
 package growthcraft.cellar.init.client;
 
+import growthcraft.cellar.block.entity.renderer.BrewKettleBlockEntityRenderer;
 import growthcraft.cellar.block.entity.renderer.CultureJarBlockEntityRenderer;
 import growthcraft.cellar.init.GrowthcraftCellarBlockEntities;
 import net.minecraftforge.api.distmarker.Dist;
@@ -12,6 +13,7 @@ public class GrowthcraftCellarBlockEntityRenderers {
     @SubscribeEvent
     public static void register(EntityRenderersEvent.RegisterRenderers event) {
         event.registerBlockEntityRenderer(GrowthcraftCellarBlockEntities.CULTURE_JAR_BLOCK_ENTITY.get(), context -> new CultureJarBlockEntityRenderer());
+        event.registerBlockEntityRenderer(GrowthcraftCellarBlockEntities.BREW_KETTLE_BLOCK_ENTITY.get(), context -> new BrewKettleBlockEntityRenderer());
     }
 
     private GrowthcraftCellarBlockEntityRenderers() {
