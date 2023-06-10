@@ -50,7 +50,6 @@ import java.util.Objects;
 import static growthcraft.cellar.block.CultureJarBlock.LIT;
 
 public class MixingVatBlockEntity extends BlockEntity implements BlockEntityTicker<MixingVatBlockEntity>, MenuProvider {
-    //TODO[5]: Implement MixingVatBlockEntity
     private int tickClock = 0;
     private int tickMax = -1;
     private boolean activated = false;
@@ -447,7 +446,7 @@ public class MixingVatBlockEntity extends BlockEntity implements BlockEntityTick
         };
     }
 
-    private FluidTank getFluidTank(int tankID) {
+    public FluidTank getFluidTank(int tankID) {
         return tankID == 0 ? this.FLUID_TANK_INPUT : this.FLUID_TANK_OUTPUT;
     }
 
