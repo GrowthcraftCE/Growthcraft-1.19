@@ -15,29 +15,11 @@ import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.minecraftforge.fluids.FluidStack;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
+import org.joml.Quaternionf;
 
 import java.awt.*;
 
 public class CultureJarBlockEntityRenderer implements BlockEntityRenderer<CultureJarBlockEntity> {
-
-    @Override
-    public void render(CultureJarBlockEntity blockEntity, float partialTick, PoseStack poseStack, MultiBufferSource multiBufferSource, int light, int overlay) {
-        if (blockEntity.isFluidEmpty()) {
-            return;
-        }
-
-        float baseOffset = 1 / 16F;
-        float maxFluidHeight = 4.0F / 16F;
-
-        FluidStack inputFluidStack = blockEntity.getFluidStackInTank(0);
-
-        if (!inputFluidStack.isEmpty()) {
-            float inputFluidStackHeight = baseOffset + (maxFluidHeight - baseOffset) * inputFluidStack.getAmount() / (float) blockEntity.getFluidTank(0).getCapacity();
-            renderFluid(inputFluidStack, inputFluidStackHeight, multiBufferSource, poseStack, light, overlay);
-        }
-
-    }
-
 
     @Override
     public boolean shouldRender(CultureJarBlockEntity p_173568_, Vec3 p_173569_) {
@@ -49,7 +31,40 @@ public class CultureJarBlockEntityRenderer implements BlockEntityRenderer<Cultur
         return true;
     }
 
-    public void renderFluid(FluidStack fluidStack, float height, MultiBufferSource buffer, PoseStack poseStack, int lightLevel, int overlay) {
+    @Override
+    public void render(CultureJarBlockEntity blockEntity, float partialTick, PoseStack poseStack, MultiBufferSource multiBufferSource, int light, int overlay) {
+        if (blockEntity.getFluidStackInTank(0).isEmpty()) {
+            return;
+        }
+
+        float baseOffset = 1 / 16F;
+        float maxFluidHeight = 4.0F / 16F;
+
+        FluidStack inputFluidStack = blockEntity.getFluidStackInTank(0);
+
+        float capacity = blockEntity.getFluidTank(0).getCapacity();
+        float amount = inputFluidStack.getAmount();
+        float inputFluidHeight = baseOffset + (maxFluidHeight - baseOffset) * amount / capacity;
+
+        //poseStack.popPose();
+        // TOP
+        renderFluidSingle(poseStack, multiBufferSource, inputFluidStack, 0.0F, inputFluidHeight, 0.0F,Axis.XP.rotationDegrees(90.0F), light, overlay);
+        // SOUTH FACING
+        renderFluidSingle(poseStack, multiBufferSource, inputFluidStack, 0.0F, 0.605F, 0.6F, Axis.XP.rotationDegrees(180.0F), light, overlay);
+        // NORTH FACING
+        renderFluidSingle(poseStack, multiBufferSource, inputFluidStack, 0.0F, -0.35F, 0.355F, Axis.XP.rotationDegrees(0.0F), light, overlay);
+        // BOTTOM FACING
+        renderFluidSingle(poseStack, multiBufferSource, inputFluidStack, 0.0F, 0.01F, 0.955F, Axis.XP.rotationDegrees(270.0F), light, overlay);
+        // WEST FACING
+        renderFluidSingle(poseStack, multiBufferSource, inputFluidStack, 0.355F, -0.35F, 0.956F, Axis.YP.rotationDegrees(90.0F), light, overlay);
+        // EAST FACING
+        renderFluidSingle(poseStack, multiBufferSource, inputFluidStack, 0.6F, -0.35F, 0.0F, Axis.YP.rotationDegrees(270.0F), light, overlay);
+
+        //poseStack.pushPose();
+
+    }
+
+    public void renderFluidSingle(PoseStack poseStack, MultiBufferSource buffer, FluidStack fluidStack, float xOffset, float height, float zOffset, Quaternionf rotation, int lightLevel, int overlay) {
         poseStack.pushPose();
         poseStack.translate(0.5F, height, 0.5F);
 
@@ -59,8 +74,9 @@ public class CultureJarBlockEntityRenderer implements BlockEntityRenderer<Cultur
 
         int alpha = 2 * 255;
 
-        poseStack.translate(w, 0.0F, w);
-        poseStack.mulPose(Axis.XP.rotationDegrees(90.0F));
+        poseStack.translate(w + xOffset, 0.0F, w + zOffset);
+        poseStack.mulPose(rotation);
+
         poseStack.scale(s, s, s);
 
         IClientFluidTypeExtensions fluidTypeExtensions = IClientFluidTypeExtensions.of(fluidStack.getFluid());
@@ -114,4 +130,5 @@ public class CultureJarBlockEntityRenderer implements BlockEntityRenderer<Cultur
                 .endVertex();
 
     }
+
 }
