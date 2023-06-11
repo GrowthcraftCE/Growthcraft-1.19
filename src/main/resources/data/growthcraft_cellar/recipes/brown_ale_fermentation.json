@@ -1,6 +1,6 @@
 {
   "type": "growthcraft_cellar:fermentation_barrel_recipe",
-  "processing_time": 72000,
+  "processing_time": 7200,
   "ingredient_item": {
     "item": "growthcraft_cellar:yeast_brewers",
     "count": 1
@@ -16,7 +16,7 @@
   "effects": [
     {
       "effect": "minecraft:haste",
-      "duration": 72000,
+      "duration": 7200,
       "amplifier": 3
     }
   ],
