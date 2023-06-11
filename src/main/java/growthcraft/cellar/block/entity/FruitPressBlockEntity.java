@@ -128,6 +128,7 @@ public class FruitPressBlockEntity extends BlockEntity implements BlockEntityTic
     public void tick(Level level, BlockPos blockPos, BlockState blockState, FruitPressBlockEntity blockEntity) {
         if(!level.isClientSide
                 && level.getBlockState(blockPos.above()).getValue(PRESSED)
+                && this.isFluidTankNotFull()
         ) {
             List<FruitPressRecipe> recipes = this.getMatchingRecipes();
             FruitPressRecipe recipe = recipes.isEmpty() ? null : recipes.get(0);
@@ -200,6 +201,10 @@ public class FruitPressBlockEntity extends BlockEntity implements BlockEntityTic
 
     public boolean isFluidEmpty() {
         return getFluidStackInTank(0).isEmpty();
+    }
+
+    public boolean isFluidTankNotFull() {
+        return getFluidTank(0).getFluidAmount() < getFluidTank(0).getCapacity();
     }
 
     public int getTickClock(String type) {
