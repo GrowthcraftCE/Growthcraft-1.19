@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SPS",
+    "PBP",
+    "SPS"
+  ],
+  "key": {
+    "B": {
+      "item": "growthcraft_bamboo:bamboo_plank_slab"
+    },
+    "P": {
+      "item": "growthcraft_bamboo:bamboo_plank"
+    },
+    "S": {
+      "tag": "forge:rods/wooden"
+    }
+  },
+  "result": {
+    "item": "growthcraft_bamboo:bee_box_bamboo"
+  }
+}

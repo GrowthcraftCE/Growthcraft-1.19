@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SPS",
+    "PBP",
+    "SPS"
+  ],
+  "key": {
+    "B": {
+      "item": "growthcraft_apples:apple_plank_slab"
+    },
+    "P": {
+      "item": "growthcraft_apples:apple_plank"
+    },
+    "S": {
+      "tag": "forge:rods/wooden"
+    }
+  },
+  "result": {
+    "item": "growthcraft_apples:bee_box_apple"
+  }
+}

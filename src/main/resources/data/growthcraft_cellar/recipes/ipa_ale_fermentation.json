@@ -1,12 +1,12 @@
 {
   "type": "growthcraft_cellar:fermentation_barrel_recipe",
-  "processing_time": 120,
+  "processing_time": 3600,
   "ingredient_item": {
     "item": "growthcraft_cellar:yeast_brewers",
     "count": 1
   },
   "ingredient_fluid": {
-    "fluid": "growthcraft_cellar:golden_wort_fluid_source",
+    "fluid": "growthcraft_cellar:hopped_golden_wort_fluid_source",
     "amount": 1000
   },
   "result": {
@@ -16,7 +16,7 @@
   "effects": [
     {
       "effect": "minecraft:regeneration",
-      "duration": 120,
+      "duration": 3600,
       "amplifier": 1
     }
   ],
