@@ -1,0 +1,12 @@
+{
+  "type": "patchouli:shapeless_book_recipe",
+  "ingredients": [
+    {
+      "item": "growthcraft_cellar:yeast_brewers"
+    },
+    {
+      "item": "minecraft:book"
+    }
+  ],
+  "book": "growthcraft:manual"
+}
