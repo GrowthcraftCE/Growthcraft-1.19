@@ -1,0 +1,22 @@
+{
+  "name": "Change Log",
+  "icon": "growthcraft:textures/patchouli/logos/github.png",
+  "category": "growthcraft:core",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "8.1.1 - TBD$(br)8.1.0 - Jun 9, 2023"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "8.1.1",
+      "text": "$(li)Growthcraft In-Game Manual$(li)Mixing Cider Recipes$(li)Mixing Vat Particles$(li)Thistle Collision Box"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "8.1.0",
+      "text": "$(li)Initial stable release for Minecraft 1.19.4"
+    }
+  ]
+}

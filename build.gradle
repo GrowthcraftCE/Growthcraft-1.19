@@ -102,16 +102,21 @@ sourceSets.main.resources { srcDir 'src/generated/resources' }
 repositories {
     // Curse Forge
     maven { url "https://www.cursemaven.com" }
+    // Patchouli
+    maven { url 'https://maven.blamejared.com' }
 }
 
 dependencies {
     minecraft "net.minecraftforge:forge:${forge_version}"
+
+    compileOnly fg.deobf("vazkii.patchouli:Patchouli:${minecraft_version}-${blamejared_patchouli}:api")
+
     runtimeOnly fg.deobf("curse.maven:growthcraft-trapper-${curseforge_growthcraft_trapper}")
     runtimeOnly fg.deobf("curse.maven:growthcraft-decorations-${curseforge_growthcraft_deco}")
     runtimeOnly fg.deobf("curse.maven:jei-${curseforge_jei}")
     runtimeOnly fg.deobf("curse.maven:theoneprobe-${curseforge_theoneprobe}")
-    // TODO: 2023.04.08 - Not available for 1.19.4
     //runtimeOnly fg.deobf("curse.maven:patchouli-${curseforge_patchouli}")
+    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${minecraft_version}-${blamejared_patchouli}")
 }
 
 jar {

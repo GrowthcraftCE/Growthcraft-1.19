@@ -113,7 +113,7 @@ public class FermentationBarrelRecipe implements Recipe<SimpleContainer> {
      * @param outputFluidStack
      * @return
      */
-    @Deprecated(since = "8.1.0", forRemoval = true)
+    @Deprecated(since = "8.1.1", forRemoval = true)
     public boolean matches(ItemStack inputItemStack, FluidStack inputFluidStack, FluidStack outputFluidStack) {
         boolean inputMatches = matches(inputItemStack, inputFluidStack);
         boolean outputMatches = this.outputFluidStack.getFluid() == outputFluidStack.getFluid();

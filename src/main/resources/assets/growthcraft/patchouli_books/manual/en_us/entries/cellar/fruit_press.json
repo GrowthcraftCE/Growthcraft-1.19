@@ -1,0 +1,13 @@
+{
+  "name": "Fermentation Barrel",
+  "icon": "growthcraft_cellar:fruit_press",
+  "category": "growthcraft:cellar",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "growthcraft_cellar:fruit_press",
+      "text": "The fruit press ..."
+    }
+  ]
+}
