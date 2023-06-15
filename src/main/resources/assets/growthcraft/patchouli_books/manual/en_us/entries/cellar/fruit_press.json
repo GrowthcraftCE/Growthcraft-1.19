@@ -2,7 +2,7 @@
   "name": "Fermentation Barrel",
   "icon": "growthcraft_cellar:fruit_press",
   "category": "growthcraft:cellar",
-  "sortnum": 2,
+  "sortnum": 5,
   "pages": [
     {
       "type": "patchouli:spotlight",

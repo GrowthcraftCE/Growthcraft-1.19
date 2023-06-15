@@ -307,7 +307,7 @@ public class RoasterBlockEntity extends BlockEntity implements BlockEntityTicker
         RandomSource randomsource = level.random;
         if (randomsource.nextFloat() < 0.11F) {
             for (int i = 0; i < randomsource.nextInt(2) + 2; ++i) {
-                RoasterBlock.makeParticles(level, blockPos, blockState.getValue(RoasterBlock.SIGNAL_FIRE), false);
+                RoasterBlock.makeParticles(level, blockPos, blockState);
             }
         }
     }

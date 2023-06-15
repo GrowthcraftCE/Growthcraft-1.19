@@ -118,7 +118,7 @@ public class RoasterBlock extends BaseEntityBlock {
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState blockState, BlockEntityType<T> blockEntityType) {
         if (level.isClientSide) {
-            return blockState.getValue(SIGNAL_FIRE) ? createTickerHelper(blockEntityType, GrowthcraftCellarBlockEntities.ROASTER_BLOCK_ENTITY.get(), RoasterBlockEntity::particleTick) : null;
+            return blockState.getValue(LIT) ? createTickerHelper(blockEntityType, GrowthcraftCellarBlockEntities.ROASTER_BLOCK_ENTITY.get(), RoasterBlockEntity::particleTick) : null;
         } else {
             return createTickerHelper(
                     blockEntityType,
@@ -171,30 +171,39 @@ public class RoasterBlock extends BaseEntityBlock {
         super.onRemove(blockState, level, blockPos, newBlockState, isMoving);
     }
 
-    public static void makeParticles(Level level, BlockPos blockPos, boolean showSignalFire, boolean p_51255_) {
-        RandomSource randomsource = level.getRandom();
-        SimpleParticleType simpleparticletype = ParticleTypes.CAMPFIRE_COSY_SMOKE;
+    public static void makeParticles(Level level, BlockPos blockPos, BlockState blockState) {
+        try {
+            RoasterBlockEntity blockEntity = (RoasterBlockEntity) level.getBlockEntity(blockPos);
 
-        level.addAlwaysVisibleParticle(
-                simpleparticletype,
-                true,
-                (double) blockPos.getX() + 0.5D + randomsource.nextDouble() / 3.0D * (double) (randomsource.nextBoolean() ? 1 : -1),
-                (double) blockPos.getY() + randomsource.nextDouble() + randomsource.nextDouble(),
-                (double) blockPos.getZ() + 0.5D + randomsource.nextDouble() / 3.0D * (double) (randomsource.nextBoolean() ? 1 : -1),
-                0.0D,
-                0.07D,
-                0.0D
-        );
+            if (blockState.getValue(LIT) && blockEntity.getTickClock("current") > 0) {
+                RandomSource randomsource = level.getRandom();
+                SimpleParticleType simpleparticletype = ParticleTypes.CAMPFIRE_COSY_SMOKE;
 
-        if (p_51255_) {
-            level.addParticle(
-                    ParticleTypes.SMOKE,
-                    (double) blockPos.getX() + 0.5D + randomsource.nextDouble() / 4.0D * (double) (randomsource.nextBoolean() ? 1 : -1),
-                    (double) blockPos.getY() + 0.4D, (double) blockPos.getZ() + 0.5D + randomsource.nextDouble() / 4.0D * (double) (randomsource.nextBoolean() ? 1 : -1),
-                    0.0D,
-                    0.005D,
-                    0.0D
-            );
+                if (true) {
+                    level.addAlwaysVisibleParticle(
+                            simpleparticletype,
+                            true,
+                            (double) blockPos.getX() + 0.5D + randomsource.nextDouble() / 3.0D * (double) (randomsource.nextBoolean() ? 1 : -1),
+                            (double) blockPos.getY() + randomsource.nextDouble() + randomsource.nextDouble(),
+                            (double) blockPos.getZ() + 0.5D + randomsource.nextDouble() / 3.0D * (double) (randomsource.nextBoolean() ? 1 : -1),
+                            0.0D,
+                            0.01D,
+                            0.0D
+                    );
+                }
+                if (true) {
+                    level.addParticle(
+                            ParticleTypes.SMOKE,
+                            (double) blockPos.getX() + 0.5D + randomsource.nextDouble() / 4.0D * (double) (randomsource.nextBoolean() ? 1 : -1),
+                            (double) blockPos.getY() + 0.4D, (double) blockPos.getZ() + 0.5D + randomsource.nextDouble() / 4.0D * (double) (randomsource.nextBoolean() ? 1 : -1),
+                            0.0D,
+                            0.005D,
+                            0.0D
+                    );
+                }
+            }
+        } catch (Exception e) {
+            GrowthcraftCellar.LOGGER.error("RoasterBlockEntity at %d threw an Exception: %s", blockPos.toString(), e.getMessage());
         }
 
     }
