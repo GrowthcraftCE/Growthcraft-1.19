@@ -1,7 +1,7 @@
 package growthcraft.lib.utils;
 
+import com.mojang.math.Vector3f;
 import net.minecraft.client.color.item.ItemColor;
-import org.joml.Vector3f;
 
 import java.awt.*;
 import java.util.HashMap;
