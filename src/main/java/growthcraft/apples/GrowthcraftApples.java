@@ -47,7 +47,10 @@ public class GrowthcraftApples {
     }
 
     private void setup(final FMLCommonSetupEvent event) {
+
         GrowthcraftApplesItems.registerCompostables();
+
+        GrowthcraftApplesPlacedFeatures.load();
     }
 
     @SubscribeEvent

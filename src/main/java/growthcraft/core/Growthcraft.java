@@ -36,8 +36,6 @@ public class Growthcraft {
 
         GrowthcraftLootModifiers.register(modEventBus);
 
-        GrowthcraftPlacedFeatures.load();
-
         MinecraftForge.EVENT_BUS.register(this);
     }
 
@@ -46,7 +44,7 @@ public class Growthcraft {
     }
 
     private void setup(final FMLCommonSetupEvent event) {
-        // Do Nothing
+        GrowthcraftPlacedFeatures.load();
     }
 
     @SubscribeEvent
