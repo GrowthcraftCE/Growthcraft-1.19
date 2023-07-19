@@ -18,7 +18,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
@@ -99,8 +98,8 @@ public class HopsCropBlock extends GrowthcraftCropsRopeBlock {
     }
 
     @Override
-    public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state, boolean isClientSide) {
-        return super.isValidBonemealTarget(level, pos, state, isClientSide) || level.getBlockState(pos.above()).getBlock() instanceof RopeBlock;
+    public boolean isValidBonemealTarget(BlockGetter blockGetter, BlockPos pos, BlockState state, boolean isClientSide) {
+        return super.isValidBonemealTarget(blockGetter, pos, state, isClientSide) || blockGetter.getBlockState(pos.above()).getBlock() instanceof RopeBlock;
     }
 
     @Override
