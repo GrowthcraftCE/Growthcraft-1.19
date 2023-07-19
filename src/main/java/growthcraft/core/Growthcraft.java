@@ -1,9 +1,12 @@
 package growthcraft.core;
 
-import growthcraft.core.init.*;
+import growthcraft.core.init.GrowthcraftBlockEntities;
+import growthcraft.core.init.GrowthcraftBlocks;
+import growthcraft.core.init.GrowthcraftItems;
+import growthcraft.core.init.GrowthcraftLootModifiers;
 import growthcraft.core.init.config.GrowthcraftConfig;
 import growthcraft.core.shared.Reference;
-import net.minecraft.world.item.ItemStack;
+import growthcraft.core.world.GrowthcraftPlacedFeatures;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
@@ -35,6 +38,8 @@ public class Growthcraft {
         GrowthcraftBlockEntities.BLOCK_ENTITIES.register(modEventBus);
 
         GrowthcraftLootModifiers.register(modEventBus);
+
+        GrowthcraftPlacedFeatures.load();
 
         MinecraftForge.EVENT_BUS.register(this);
     }
