@@ -4,10 +4,7 @@ import growthcraft.apiary.init.*;
 import growthcraft.apiary.init.client.GrowthcraftApiaryBlockRenders;
 import growthcraft.apiary.init.config.GrowthcraftApiaryConfig;
 import growthcraft.apiary.shared.Reference;
-import growthcraft.core.init.GrowthcraftCreativeModeTabs;
-import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -28,7 +25,6 @@ public class GrowthcraftApiary {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         modEventBus.addListener(this::setup);
         modEventBus.addListener(this::clientSetupEvent);
-        modEventBus.addListener(this::buildCreativeTabContents);
 
         GrowthcraftApiaryConfig.loadConfig();
 
@@ -51,16 +47,6 @@ public class GrowthcraftApiary {
         //event.enqueueWork( () -> {
         //   GrowthcraftOreGeneration.registerConfiguredFeatures();
         //});
-    }
-
-    public void buildCreativeTabContents(CreativeModeTabEvent.BuildContents event) {
-        if (event.getTab() == GrowthcraftCreativeModeTabs.GROWTHCRAFT_CREATIVE_TAB) {
-            GrowthcraftApiaryItems.ITEMS.getEntries().forEach(itemRegistryObject -> {
-                if (!GrowthcraftApiaryItems.excludeItemRegistry(itemRegistryObject.getId())) {
-                    event.accept(new ItemStack(itemRegistryObject.get()));
-                }
-            });
-        }
     }
 
     @SubscribeEvent

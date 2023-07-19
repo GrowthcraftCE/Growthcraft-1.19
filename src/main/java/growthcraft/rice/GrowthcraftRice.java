@@ -1,15 +1,12 @@
 package growthcraft.rice;
 
-import growthcraft.core.init.GrowthcraftCreativeModeTabs;
 import growthcraft.rice.init.GrowthcraftRiceBlocks;
 import growthcraft.rice.init.GrowthcraftRiceFluids;
 import growthcraft.rice.init.GrowthcraftRiceItems;
 import growthcraft.rice.init.client.GrowthcraftRiceBlockRenderers;
 import growthcraft.rice.init.config.GrowthcraftRiceConfig;
 import growthcraft.rice.shared.Reference;
-import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -29,7 +26,6 @@ public class GrowthcraftRice {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         modEventBus.addListener(this::setup);
         modEventBus.addListener(this::clientSetupEvent);
-        modEventBus.addListener(this::buildCreativeTabContents);
 
         // Config
         GrowthcraftRiceConfig.loadConfig();
@@ -49,16 +45,6 @@ public class GrowthcraftRice {
 
     private void setup(final FMLCommonSetupEvent event) {
         // Do Nothing for now ...
-    }
-
-    public void buildCreativeTabContents(CreativeModeTabEvent.BuildContents event) {
-        if (event.getTab() == GrowthcraftCreativeModeTabs.GROWTHCRAFT_CREATIVE_TAB) {
-            GrowthcraftRiceItems.ITEMS.getEntries().forEach(itemRegistryObject -> {
-                if (!GrowthcraftRiceItems.excludeItemRegistry(itemRegistryObject.getId())) {
-                    event.accept(new ItemStack(itemRegistryObject.get()));
-                }
-            });
-        }
     }
 
     @SubscribeEvent
