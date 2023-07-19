@@ -119,11 +119,11 @@ public class CheesePressBlock extends BaseEntityBlock {
             if (player.getItemInHand(interactionHand).getItem() == GrowthcraftItems.WRENCH.get()) {
                 if (!player.isCrouching()) {
                     // Then tighten the cheese press.
-                    level.playSound(null, blockPos, SoundEvents.CHAIN_PLACE, SoundSource.BLOCKS);
+                    level.playSound(null, blockPos, SoundEvents.CHAIN_PLACE, SoundSource.BLOCKS, 1.0f, 1.0f);
                     level.setBlock(blockPos, blockState.setValue(ROTATION, blockEntity.doRotation(true)), Block.UPDATE_ALL_IMMEDIATE);
                 } else {
                     // Then loosen the cheese press and extract the result item.
-                    level.playSound(null, blockPos, SoundEvents.CHAIN_BREAK, SoundSource.BLOCKS);
+                    level.playSound(null, blockPos, SoundEvents.CHAIN_BREAK, SoundSource.BLOCKS, 1.0f, 1.0f);
                     level.setBlock(blockPos, blockState.setValue(ROTATION, blockEntity.doRotation(false)), Block.UPDATE_ALL_IMMEDIATE);
 
                     // Retrieve the itemstack in the output slot.
