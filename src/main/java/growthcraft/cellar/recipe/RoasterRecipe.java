@@ -3,7 +3,6 @@ package growthcraft.cellar.recipe;
 import com.google.gson.JsonObject;
 import growthcraft.cellar.GrowthcraftCellar;
 import growthcraft.cellar.shared.Reference;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
@@ -44,7 +43,7 @@ public class RoasterRecipe implements Recipe<SimpleContainer> {
     }
 
     @Override
-    public ItemStack assemble(SimpleContainer simpleContainer, RegistryAccess registryAccess) {
+    public ItemStack assemble(SimpleContainer simpleContainer) {
         return this.inputItem;
     }
 
@@ -54,10 +53,6 @@ public class RoasterRecipe implements Recipe<SimpleContainer> {
     }
 
     @Override
-    public ItemStack getResultItem(RegistryAccess registryAccess) {
-        return this.resultItem;
-    }
-
     public ItemStack getResultItem() {
         return this.resultItem;
     }

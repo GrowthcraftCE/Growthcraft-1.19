@@ -3,7 +3,6 @@ package growthcraft.milk.recipe;
 import com.google.gson.JsonObject;
 import growthcraft.milk.GrowthcraftMilk;
 import growthcraft.milk.shared.Reference;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
@@ -48,7 +47,7 @@ public class CheesePressRecipe implements Recipe<SimpleContainer> {
     }
 
     @Override
-    public ItemStack assemble(SimpleContainer container, RegistryAccess registryAccess) {
+    public ItemStack assemble(SimpleContainer container) {
         return this.outputItemStack;
     }
 
@@ -58,7 +57,7 @@ public class CheesePressRecipe implements Recipe<SimpleContainer> {
     }
 
     @Override
-    public ItemStack getResultItem(RegistryAccess registryAccess) {
+    public ItemStack getResultItem() {
         return this.getResultItemStack();
     }
 

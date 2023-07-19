@@ -5,7 +5,6 @@ import com.google.gson.JsonObject;
 import growthcraft.lib.utils.CraftingUtils;
 import growthcraft.milk.GrowthcraftMilk;
 import growthcraft.milk.shared.Reference;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
@@ -53,7 +52,7 @@ public class PancheonRecipe implements Recipe<SimpleContainer> {
     }
 
     @Override
-    public ItemStack assemble(SimpleContainer simpleContainer, RegistryAccess registryAccess) {
+    public ItemStack assemble(SimpleContainer simpleContainer) {
         return this.outputFluidStack1.getFluid().getBucket().getDefaultInstance();
     }
 
@@ -63,7 +62,7 @@ public class PancheonRecipe implements Recipe<SimpleContainer> {
     }
 
     @Override
-    public ItemStack getResultItem(RegistryAccess registryAccess) {
+    public ItemStack getResultItem() {
         return this.getFluidStack(OUTPUT_0).getFluid().getBucket().getDefaultInstance();
     }
 

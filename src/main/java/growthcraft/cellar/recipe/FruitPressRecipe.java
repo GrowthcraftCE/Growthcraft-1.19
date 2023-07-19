@@ -4,7 +4,6 @@ import com.google.gson.JsonObject;
 import growthcraft.cellar.GrowthcraftCellar;
 import growthcraft.cellar.shared.Reference;
 import growthcraft.lib.utils.CraftingUtils;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
@@ -50,7 +49,7 @@ public class FruitPressRecipe implements Recipe<SimpleContainer> {
     }
 
     @Override
-    public ItemStack assemble(SimpleContainer container, RegistryAccess registryAccess) {
+    public ItemStack assemble(SimpleContainer simpleContainer){
         return this.outputFluidStack.getFluid().getBucket().getDefaultInstance().copy();
     }
 
@@ -60,7 +59,7 @@ public class FruitPressRecipe implements Recipe<SimpleContainer> {
     }
 
     @Override
-    public ItemStack getResultItem(RegistryAccess registryAccess) {
+    public ItemStack getResultItem() {
         return this.outputFluidStack.getFluid().getBucket().getDefaultInstance().copy();
     }
 
