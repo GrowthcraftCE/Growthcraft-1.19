@@ -409,7 +409,7 @@ public class BrewKettleBlockEntity extends BlockEntity implements BlockEntityTic
 
     public void playSound(String sound) {
         if(Objects.equals(sound, "open") && this.level != null) {
-            this.level.playSound(null, this.getBlockPos(), SoundEvents.IRON_DOOR_OPEN, SoundSource.BLOCKS);
+            this.level.playSound(null, this.getBlockPos(), SoundEvents.IRON_DOOR_OPEN, SoundSource.BLOCKS, 1.0f, 1.0f);
         }
     }
 

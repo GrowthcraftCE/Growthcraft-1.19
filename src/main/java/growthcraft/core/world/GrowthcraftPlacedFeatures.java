@@ -3,9 +3,8 @@ package growthcraft.core.world;
 import growthcraft.core.init.config.GrowthcraftConfig;
 import growthcraft.core.shared.Reference;
 import net.minecraft.core.Holder;
-import net.minecraft.core.HolderGetter;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.data.worldgen.BootstapContext;
+import net.minecraft.core.Registry;
+import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
@@ -19,43 +18,35 @@ import java.util.List;
 public class GrowthcraftPlacedFeatures {
 
     public static final ResourceKey<PlacedFeature> SALT_ORE_PLACED_KEY = createKey(Reference.UnlocalizedName.SALT_ORE_PLACED);
-
-    public static void bootstrap(BootstapContext<PlacedFeature> context) {
-        HolderGetter<ConfiguredFeature<?, ?>> configuredFeatures = context.lookup(Registries.CONFIGURED_FEATURE);
-
-        register(context, SALT_ORE_PLACED_KEY, configuredFeatures.getOrThrow(GrowthcraftConfiguredFeatures.OVERWORLD_SALT_ORE_KEY),
-                GrowthcraftOrePlacement.commonOrePlacement(
-                        GrowthcraftConfig.getSaltOreGenSpreadAmount(),
-                        HeightRangePlacement.uniform(
-                                VerticalAnchor.absolute(GrowthcraftConfig.getSaltOreGenHeightMin()),
-                                VerticalAnchor.absolute(GrowthcraftConfig.getSaltOreGenHeightMax()))
-                ));
-    }
+    public static final Holder<PlacedFeature> PLACED_SALT_ORE = register(SALT_ORE_PLACED_KEY,
+            GrowthcraftConfiguredFeatures.CONFIGURED_OVERWORLD_SALT_ORE,
+            GrowthcraftOrePlacement.commonOrePlacement(
+                    GrowthcraftConfig.getSaltOreGenSpreadAmount(),
+                    HeightRangePlacement.uniform(
+                            VerticalAnchor.absolute(GrowthcraftConfig.getSaltOreGenHeightMin()),
+                            VerticalAnchor.absolute(GrowthcraftConfig.getSaltOreGenHeightMax()))
+            ));
 
     private static ResourceKey<PlacedFeature> createKey(String name) {
-        return ResourceKey.create(Registries.PLACED_FEATURE, new ResourceLocation(Reference.MODID, name));
+        return ResourceKey.create(Registry.PLACED_FEATURE_REGISTRY, new ResourceLocation(growthcraft.apples.shared.Reference.MODID, name));
     }
 
-    private static void register(
-            BootstapContext<PlacedFeature> context,
-            ResourceKey<PlacedFeature> key,
-            Holder<ConfiguredFeature<?, ?>> configuration,
-            List<PlacementModifier> modifiers
-    ) {
-        context.register(key, new PlacedFeature(configuration, List.copyOf(modifiers)));
+    private static Holder<PlacedFeature> register(ResourceKey<PlacedFeature> key, Holder<ConfiguredFeature<?, ?>> configuration,
+                                                  List<PlacementModifier> modifiers) {
+        return BuiltinRegistries.register(BuiltinRegistries.PLACED_FEATURE, key, new PlacedFeature(configuration, List.copyOf(modifiers)));
     }
 
-    private static void register(
-            BootstapContext<PlacedFeature> context,
-            ResourceKey<PlacedFeature> key,
-            Holder<ConfiguredFeature<?, ?>> configuration,
-            PlacementModifier... modifiers
-    ) {
-        register(context, key, configuration, List.of(modifiers));
+    private static Holder<PlacedFeature> register(ResourceKey<PlacedFeature> key, Holder<ConfiguredFeature<?, ?>> configuration,
+                                                  PlacementModifier... modifiers) {
+        return register(key, configuration, List.of(modifiers));
     }
 
     private GrowthcraftPlacedFeatures() {
         /* Prevent generation of default public constructor. */
+    }
+
+    public static void load() {
+        // Just to trigger class loading
     }
 
 }

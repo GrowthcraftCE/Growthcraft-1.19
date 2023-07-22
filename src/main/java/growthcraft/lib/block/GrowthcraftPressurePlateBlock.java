@@ -2,7 +2,6 @@ package growthcraft.lib.block;
 
 import net.minecraft.world.level.block.PressurePlateBlock;
 import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.material.Material;
 
 public class GrowthcraftPressurePlateBlock extends PressurePlateBlock {
@@ -15,7 +14,7 @@ public class GrowthcraftPressurePlateBlock extends PressurePlateBlock {
     }
 
     public GrowthcraftPressurePlateBlock(Sensitivity sensitivity, Properties properties) {
-        super(sensitivity, properties, BlockSetType.OAK);
+        super(sensitivity, properties);
     }
 
     private static Properties getInitProperties(Material material) {

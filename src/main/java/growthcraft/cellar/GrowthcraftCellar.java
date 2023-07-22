@@ -7,12 +7,9 @@ import growthcraft.cellar.init.config.GrowthcraftCellarConfig;
 import growthcraft.cellar.lib.networking.GrowthcraftCellarMessages;
 import growthcraft.cellar.screen.*;
 import growthcraft.cellar.shared.Reference;
-import growthcraft.core.init.GrowthcraftCreativeModeTabs;
 import net.minecraft.client.gui.screens.MenuScreens;
-import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -33,7 +30,6 @@ public class GrowthcraftCellar {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         modEventBus.addListener(this::setup);
         modEventBus.addListener(this::clientSetupEvent);
-        modEventBus.addListener(this::buildCreativeTabContents);
         modEventBus.addListener(this::onRegisterRenderers);
 
         // Config
@@ -84,16 +80,6 @@ public class GrowthcraftCellar {
 
     private void setup(final FMLCommonSetupEvent event) {
         GrowthcraftCellarMessages.register();
-    }
-
-    public void buildCreativeTabContents(CreativeModeTabEvent.BuildContents event) {
-        if (event.getTab() == GrowthcraftCreativeModeTabs.GROWTHCRAFT_CREATIVE_TAB) {
-            GrowthcraftCellarItems.ITEMS.getEntries().forEach(itemRegistryObject -> {
-                if (!GrowthcraftCellarItems.excludeItemRegistry(itemRegistryObject.getId())) {
-                    event.accept(new ItemStack(itemRegistryObject.get()));
-                }
-            });
-        }
     }
 
     @SubscribeEvent
