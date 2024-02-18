@@ -6,7 +6,7 @@ public class Reference {
     public static final String MODID = "growthcraft";
     public static final String NAME = "Growthcraft";
     public static final String NAME_SHORT = "core";
-    public static final String VERSION = "8.1.0";
+    public static final String VERSION = "8.2.0";
 
     private Reference() { /* Prevent default public constructor */ }
 

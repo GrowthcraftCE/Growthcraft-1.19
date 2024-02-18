@@ -5,6 +5,8 @@ import net.minecraft.world.item.ItemStack;
 
 import java.awt.*;
 
+import static growthcraft.core.init.GrowthcraftCreativeModeTabs.GROWTHCRAFT_CREATIVE_TAB;
+
 public class GrowthcraftItem extends Item {
 
     private int color;
@@ -27,6 +29,7 @@ public class GrowthcraftItem extends Item {
     private static Properties getInitProperties(int maxStackSize) {
         Properties properties = new Properties();
         properties.stacksTo(maxStackSize);
+        properties.tab(GROWTHCRAFT_CREATIVE_TAB);
         return properties;
     }
 
