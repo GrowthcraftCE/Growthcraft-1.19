@@ -111,6 +111,7 @@ public class CheeseCurdBlock extends Block implements IForgeShearable {
         level.setBlock(blockPos, this.getStateForAge(i + 1), Block.UPDATE_ALL_IMMEDIATE);
     }
 
+    /* -------Disabled because it'd dupe curds-------
     @Override
     public InteractionResult use(BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand interactionHand, BlockHitResult blockHitResult) {
         ItemStack heldItemStack = player.getItemInHand(interactionHand);
@@ -131,7 +132,7 @@ public class CheeseCurdBlock extends Block implements IForgeShearable {
         }
 
         return super.use(blockState, level, blockPos, player, interactionHand, blockHitResult);
-    }
+    } */
 
     @Override
     @OnlyIn(Dist.CLIENT)

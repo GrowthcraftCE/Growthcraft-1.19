@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "planks",
+  "ingredients": [
+    {
+      "item": "minecraft:bucket"
+    }
+  ],
+  "result": {
+    "item": "growthcraft_milk:milking_bucket_iron",
+    "count": 1
+  }
+}

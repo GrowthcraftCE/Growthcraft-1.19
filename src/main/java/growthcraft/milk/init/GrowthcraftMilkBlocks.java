@@ -1,5 +1,6 @@
 package growthcraft.milk.init;
 
+import growthcraft.core.init.GrowthcraftCreativeModeTabs;
 import growthcraft.lib.utils.CheeseUtils;
 import growthcraft.milk.block.*;
 import growthcraft.milk.shared.Reference;
@@ -170,7 +171,7 @@ public class GrowthcraftMilkBlocks {
     }
 
     private static Item.Properties getDefaultItemProperties() {
-        Item.Properties properties = new Item.Properties();
+        Item.Properties properties = new Item.Properties().tab(GrowthcraftCreativeModeTabs.GROWTHCRAFT_CREATIVE_TAB);
         return properties;
     }
 

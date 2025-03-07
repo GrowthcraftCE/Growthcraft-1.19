@@ -6,11 +6,13 @@ import growthcraft.lib.utils.CraftingUtils;
 import growthcraft.lib.utils.RecipeUtils;
 import growthcraft.milk.GrowthcraftMilk;
 import growthcraft.milk.shared.Reference;
+import net.minecraft.core.NonNullList;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -99,6 +101,11 @@ public class MixingVatItemRecipe implements Recipe<SimpleContainer> {
 
     public ItemStack getResultItemStack() {
         return this.resultItemStack.copy();
+    }
+
+    @Override
+    public NonNullList<Ingredient> getIngredients() {
+        return Recipe.super.getIngredients();
     }
 
     public ItemStack getResultActivationTool() {

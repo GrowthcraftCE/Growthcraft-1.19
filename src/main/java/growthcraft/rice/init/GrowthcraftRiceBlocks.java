@@ -1,5 +1,6 @@
 package growthcraft.rice.init;
 
+import growthcraft.core.init.GrowthcraftCreativeModeTabs;
 import growthcraft.rice.block.CultivatedFarmlandBlock;
 import growthcraft.rice.block.RiceCropBlock;
 import growthcraft.rice.shared.Reference;
@@ -45,7 +46,7 @@ public class GrowthcraftRiceBlocks {
     }
 
     private static Item.Properties getDefaultItemProperties() {
-        Item.Properties properties = new Item.Properties();
+        Item.Properties properties = new Item.Properties().tab(GrowthcraftCreativeModeTabs.GROWTHCRAFT_CREATIVE_TAB);
         return properties;
     }
 

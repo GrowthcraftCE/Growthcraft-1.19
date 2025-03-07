@@ -1,5 +1,6 @@
 package growthcraft.rice.item;
 
+import growthcraft.core.init.GrowthcraftCreativeModeTabs;
 import growthcraft.rice.init.GrowthcraftRiceBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -26,6 +27,7 @@ public class CultivatorItem extends HoeItem {
     private static Item.Properties getInitProperties() {
         Item.Properties properties = new Item.Properties();
         properties.stacksTo(1);
+        properties.tab(GrowthcraftCreativeModeTabs.GROWTHCRAFT_CREATIVE_TAB);
         return properties;
     }
 
