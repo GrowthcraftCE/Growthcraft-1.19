@@ -9,6 +9,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import java.util.ArrayList;
 
 public class GrowthcraftBambooItems {
+
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(
             ForgeRegistries.ITEMS, Reference.MODID
     );

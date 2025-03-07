@@ -2,6 +2,7 @@ package growthcraft.apiary.init;
 
 import growthcraft.apiary.block.BeeBoxBlock;
 import growthcraft.apiary.shared.Reference;
+import growthcraft.core.init.GrowthcraftCreativeModeTabs;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -65,6 +66,7 @@ public class GrowthcraftApiaryBlocks {
 
     private static Item.Properties getDefaultItemProperties() {
         Item.Properties properties = new Item.Properties();
+        properties.tab(GrowthcraftCreativeModeTabs.GROWTHCRAFT_CREATIVE_TAB);
         //properties;
         return properties;
     }

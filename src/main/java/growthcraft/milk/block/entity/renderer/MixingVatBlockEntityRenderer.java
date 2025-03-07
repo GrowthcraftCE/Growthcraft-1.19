@@ -2,7 +2,10 @@ package growthcraft.milk.block.entity.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Axis;
+import com.mojang.math.Matrix3f;
+import com.mojang.math.Matrix4f;
+import com.mojang.math.Quaternion;
+import com.mojang.math.Vector3f;
 import growthcraft.milk.block.entity.MixingVatBlockEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -13,9 +16,6 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.minecraftforge.fluids.FluidStack;
-import org.joml.Matrix3f;
-import org.joml.Matrix4f;
-import org.joml.Quaternionf;
 
 import java.awt.*;
 
@@ -44,7 +44,7 @@ public class MixingVatBlockEntityRenderer implements BlockEntityRenderer<MixingV
             float inputAmount = inputFluidStack.getAmount();
             float inputFluidHeight = baseOffset + (maxFluidHeight - baseOffset) * inputAmount / inputCapacity;
 
-            renderFluidSingle(poseStack, multiBufferSource, inputFluidStack, 0.0F, inputFluidHeight, 0.0F, Axis.XP.rotationDegrees(90.0F), light, overlay);
+            renderFluidSingle(poseStack, multiBufferSource, inputFluidStack, 0.0F, inputFluidHeight, 0.0F, Vector3f.XP.rotationDegrees(90.0F), light, overlay);
         }
 
         if(!blockEntity.getFluidStackInTank(1).isEmpty()) {
@@ -54,11 +54,11 @@ public class MixingVatBlockEntityRenderer implements BlockEntityRenderer<MixingV
             float outputAmount = outputFluidStack.getAmount();
             float outputFluidHeight = baseOffset + (maxFluidHeight - baseOffset) * outputAmount / outputCapacity;
 
-            renderFluidSingle(poseStack, multiBufferSource, outputFluidStack, 0.0F, outputFluidHeight, 0.0F, Axis.XP.rotationDegrees(90.0F), light, overlay);
+            renderFluidSingle(poseStack, multiBufferSource, outputFluidStack, 0.0F, outputFluidHeight, 0.0F, Vector3f.XP.rotationDegrees(90.0F), light, overlay);
         }
     }
 
-    public void renderFluidSingle(PoseStack poseStack, MultiBufferSource buffer, FluidStack fluidStack, float xOffset, float height, float zOffset, Quaternionf rotation, int lightLevel, int overlay) {
+    public void renderFluidSingle(PoseStack poseStack, MultiBufferSource buffer, FluidStack fluidStack, float xOffset, float height, float zOffset, Quaternion rotation, int lightLevel, int overlay) {
         poseStack.pushPose();
         poseStack.translate(0.5F, height, 0.5F);
 

@@ -1,6 +1,5 @@
 package growthcraft.milk;
 
-import growthcraft.core.init.GrowthcraftCreativeModeTabs;
 import growthcraft.milk.init.*;
 import growthcraft.milk.init.client.GrowthcraftMilkBlockEntityRenderers;
 import growthcraft.milk.init.client.GrowthcraftMilkBlockRenderers;
@@ -11,10 +10,8 @@ import growthcraft.milk.screen.MixingVatScreen;
 import growthcraft.milk.screen.PancheonScreen;
 import growthcraft.milk.shared.Reference;
 import net.minecraft.client.gui.screens.MenuScreens;
-import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -35,7 +32,6 @@ public class GrowthcraftMilk {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         modEventBus.addListener(this::setup);
         modEventBus.addListener(this::clientSetupEvent);
-        modEventBus.addListener(this::buildCreativeTabContents);
         modEventBus.addListener(this::onRegisterRenderers);
 
         // Config
@@ -64,16 +60,6 @@ public class GrowthcraftMilk {
     private void setup(final FMLCommonSetupEvent event) {
         MinecraftForge.EVENT_BUS.register(new LivingDropLootModifier());
         GrowthcraftMilkMessages.register();
-    }
-
-    public void buildCreativeTabContents(CreativeModeTabEvent.BuildContents event) {
-        if (event.getTab() == GrowthcraftCreativeModeTabs.GROWTHCRAFT_CREATIVE_TAB) {
-            GrowthcraftMilkItems.ITEMS.getEntries().forEach(itemRegistryObject -> {
-                if (!GrowthcraftMilkItems.excludeItemRegistry(itemRegistryObject.getId())) {
-                    event.accept(new ItemStack(itemRegistryObject.get()));
-                }
-            });
-        }
     }
 
     @SubscribeEvent

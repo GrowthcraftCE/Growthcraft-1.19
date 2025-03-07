@@ -1,7 +1,7 @@
 package growthcraft.milk.init;
 
 import growthcraft.milk.shared.Reference;
-import net.minecraft.core.registries.Registries;
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
@@ -67,7 +67,7 @@ public class GrowthcraftMilkTags {
         public static final TagKey<EntityType<?>> MILKABLE = tag("milkable");
 
         private static TagKey<EntityType<?>> tag(String name) {
-            return TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation(Reference.MODID, name));
+            return TagKey.create(Registry.ENTITY_TYPE_REGISTRY, new ResourceLocation(Reference.MODID, name));
         }
     }
 }

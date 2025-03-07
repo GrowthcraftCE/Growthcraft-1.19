@@ -3,9 +3,8 @@ package growthcraft.apples.world;
 import growthcraft.apples.init.GrowthcraftApplesBlocks;
 import growthcraft.apples.shared.Reference;
 import net.minecraft.core.Holder;
-import net.minecraft.core.HolderGetter;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.data.worldgen.BootstapContext;
+import net.minecraft.core.Registry;
+import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.data.worldgen.placement.VegetationPlacements;
 import net.minecraft.resources.ResourceKey;
@@ -20,27 +19,28 @@ public class GrowthcraftApplesPlacedFeatures {
 
     public static final ResourceKey<PlacedFeature> APPLE_TREE_PLACED_KEY = createKey(Reference.UnlocalizedName.APPLE_TREE + "_placed");
 
+    public static final Holder<PlacedFeature> PLACED_APPLE_TREE = register(APPLE_TREE_PLACED_KEY,
+            GrowthcraftApplesConfiguredFeatures.CONFIGURED_APPLE_TREE,
+            VegetationPlacements.treePlacement(PlacementUtils.countExtra(3, 0.1f, 2),
+                    GrowthcraftApplesBlocks.APPLE_TREE_SAPLING.get()));
 
-    public static void bootstrap(BootstapContext<PlacedFeature> context) {
-        HolderGetter<ConfiguredFeature<?, ?>> configuredFeatures = context.lookup(Registries.CONFIGURED_FEATURE);
-
-        register(context, APPLE_TREE_PLACED_KEY, configuredFeatures.getOrThrow(GrowthcraftApplesConfiguredFeatures.APPLE_TREE_KEY),
-                VegetationPlacements.treePlacement(PlacementUtils.countExtra(3, 0.1f, 2), GrowthcraftApplesBlocks.APPLE_TREE_SAPLING.get()));
-    }
 
     private static ResourceKey<PlacedFeature> createKey(String name) {
-        return ResourceKey.create(Registries.PLACED_FEATURE, new ResourceLocation(Reference.MODID, name));
+        return ResourceKey.create(Registry.PLACED_FEATURE_REGISTRY, new ResourceLocation(Reference.MODID, name));
     }
 
-    private static void register(BootstapContext<PlacedFeature> context, ResourceKey<PlacedFeature> key, Holder<ConfiguredFeature<?, ?>> configuration,
-                                 List<PlacementModifier> modifiers) {
-        context.register(key, new PlacedFeature(configuration, List.copyOf(modifiers)));
+    private static Holder<PlacedFeature> register(ResourceKey<PlacedFeature> key, Holder<ConfiguredFeature<?, ?>> configuration,
+                                                  List<PlacementModifier> modifiers) {
+        return BuiltinRegistries.register(BuiltinRegistries.PLACED_FEATURE, key, new PlacedFeature(configuration, List.copyOf(modifiers)));
     }
 
-    private static void register(BootstapContext<PlacedFeature> context, ResourceKey<PlacedFeature> key, Holder<ConfiguredFeature<?, ?>> configuration,
+    private static Holder<PlacedFeature> register(ResourceKey<PlacedFeature> key, Holder<ConfiguredFeature<?, ?>> configuration,
                                  PlacementModifier... modifiers) {
-        register(context, key, configuration, List.of(modifiers));
+        return register(key, configuration, List.of(modifiers));
     }
 
+    public static void load() {
+        // Just to trigger class loading
+    }
 
 }

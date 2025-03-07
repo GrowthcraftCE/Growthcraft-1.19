@@ -7,7 +7,6 @@ import growthcraft.cellar.shared.Reference;
 import growthcraft.lib.utils.CraftingUtils;
 import growthcraft.lib.utils.EffectUtils;
 import net.minecraft.core.NonNullList;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -121,7 +120,7 @@ public class FermentationBarrelRecipe implements Recipe<SimpleContainer> {
     }
 
     @Override
-    public ItemStack assemble(SimpleContainer simpleContainer, RegistryAccess registryAccess) {
+    public ItemStack assemble(SimpleContainer simpleContainer) {
         return this.inputItemStack;
     }
 
@@ -131,7 +130,7 @@ public class FermentationBarrelRecipe implements Recipe<SimpleContainer> {
     }
 
     @Override
-    public ItemStack getResultItem(RegistryAccess registryAccess) {
+    public ItemStack getResultItem() {
         return this.outputFluidStack.getFluid().getBucket().getDefaultInstance();
     }
 

@@ -2,7 +2,7 @@ plugins {
     id 'eclipse'
     id 'maven-publish'
     id 'net.minecraftforge.gradle' version '5.1.+'
-    id "org.sonarqube" version "3.4.0.2513"
+    id "org.sonarqube" version "4.3.0.3225"
 }
 
 version = "${minecraft_version}-${growthcraft_version}"
@@ -11,7 +11,7 @@ archivesBaseName = 'growthcraft'
 
 sonarqube {
     properties {
-        property "sonar.projectKey", "Growthcraft-1.19"
+        property "sonar.projectKey", "GrowthcraftCE_Growthcraft-1.19"
         property "sonar.organization", "growthcraftce"
         property "sonar.host.url", "https://sonarcloud.io"
     }
@@ -106,12 +106,13 @@ repositories {
 
 dependencies {
     minecraft "net.minecraftforge:forge:${forge_version}"
-    runtimeOnly fg.deobf("curse.maven:growthcraft-trapper-${curseforge_growthcraft_trapper}")
-    runtimeOnly fg.deobf("curse.maven:growthcraft-decorations-${curseforge_growthcraft_deco}")
+    //runtimeOnly fg.deobf("curse.maven:growthcraft-trapper-${curseforge_growthcraft_trapper}")
+    //runtimeOnly fg.deobf("curse.maven:growthcraft-decorations-${curseforge_growthcraft_deco}")
+    compileOnly fg.deobf("curse.maven:jei-${curseforge_jei}")
     runtimeOnly fg.deobf("curse.maven:jei-${curseforge_jei}")
     runtimeOnly fg.deobf("curse.maven:theoneprobe-${curseforge_theoneprobe}")
-    // TODO: 2023.04.08 - Not available for 1.19.4
-    //runtimeOnly fg.deobf("curse.maven:patchouli-${curseforge_patchouli}")
+    compileOnly fg.deobf("curse.maven:patchouli-${curseforge_patchouli}")
+    runtimeOnly fg.deobf("curse.maven:patchouli-${curseforge_patchouli}")
 }
 
 jar {

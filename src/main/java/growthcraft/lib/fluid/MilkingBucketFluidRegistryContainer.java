@@ -2,6 +2,7 @@ package growthcraft.lib.fluid;
 
 import com.mojang.blaze3d.shaders.FogShape;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.math.Vector3f;
 import growthcraft.lib.client.ClientFluidTypeExtensions;
 import growthcraft.milk.item.MilkingBucketItem;
 import net.minecraft.client.Camera;
@@ -27,7 +28,6 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.joml.Vector3f;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;

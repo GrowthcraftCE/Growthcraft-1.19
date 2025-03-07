@@ -139,9 +139,9 @@ public class ChurnBlockEntity extends BlockEntity implements BlockEntityTicker<C
             boolean plungerState = blockState.getValue(PLUNGED);
 
             if(plungerState) {
-                level.playSound(null, this.getBlockPos(), SoundEvents.WOODEN_BUTTON_CLICK_OFF, SoundSource.BLOCKS);
+                level.playSound(null, this.getBlockPos(), SoundEvents.WOODEN_BUTTON_CLICK_OFF, SoundSource.BLOCKS, 1.0f, 1.0f);
             } else {
-                level.playSound(null, this.getBlockPos(), SoundEvents.WOODEN_BUTTON_CLICK_ON, SoundSource.BLOCKS);
+                level.playSound(null, this.getBlockPos(), SoundEvents.WOODEN_BUTTON_CLICK_ON, SoundSource.BLOCKS, 1.0f, 1.0f);
                 tryPlunger();
             }
 

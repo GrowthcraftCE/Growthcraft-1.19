@@ -4,6 +4,7 @@ import growthcraft.bamboo.block.BambooBeeBoxBlock;
 import growthcraft.bamboo.block.BambooLogBlock;
 import growthcraft.bamboo.block.BambooRopeBlock;
 import growthcraft.bamboo.shared.Reference;
+import growthcraft.core.init.GrowthcraftCreativeModeTabs;
 import growthcraft.lib.block.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
@@ -112,6 +113,7 @@ public class GrowthcraftBambooBlocks {
 
     private static Item.Properties getDefaultItemProperties() {
         Item.Properties properties = new Item.Properties();
+        properties.tab(GrowthcraftCreativeModeTabs.GROWTHCRAFT_CREATIVE_TAB);
         return properties;
     }
 

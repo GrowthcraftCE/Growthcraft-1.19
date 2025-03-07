@@ -24,7 +24,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class ThistleCropBlock extends CropBlock {
+public class ThistleCropBlock extends CropBlock{
 
     private static final VoxelShape[] SHAPE_BY_AGE = new VoxelShape[]{
             Block.box(5.0F, 0.0F, 5.0F, 11.0F, 4.0F, 11.0F),

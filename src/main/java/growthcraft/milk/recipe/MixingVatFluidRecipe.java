@@ -6,13 +6,14 @@ import growthcraft.lib.utils.CraftingUtils;
 import growthcraft.lib.utils.RecipeUtils;
 import growthcraft.milk.GrowthcraftMilk;
 import growthcraft.milk.shared.Reference;
-import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.NonNullList;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -35,6 +36,11 @@ public class MixingVatFluidRecipe implements Recipe<SimpleContainer> {
     private final FluidStack reagentFluidStack;
     private final FluidStack outputFluidStack;
     private final FluidStack wasteFluidStack;
+
+    @Override
+    public NonNullList<Ingredient> getIngredients() {
+        return Recipe.super.getIngredients();
+    }
 
     public MixingVatFluidRecipe(ResourceLocation recipeId, RecipeUtils.Category category,
                                 FluidStack inputFluidStack, FluidStack reagentFluidStack,
@@ -103,12 +109,12 @@ public class MixingVatFluidRecipe implements Recipe<SimpleContainer> {
     }
 
     @Override
-    public ItemStack assemble(SimpleContainer container, RegistryAccess registryAccess) {
+    public ItemStack assemble(SimpleContainer simpleContainer) {
         return this.outputFluidStack.getFluid().getBucket().getDefaultInstance();
     }
 
     @Override
-    public ItemStack getResultItem(RegistryAccess registryAccess) {
+    public ItemStack getResultItem() {
         return this.outputFluidStack.getFluid().getBucket().getDefaultInstance();
     }
 

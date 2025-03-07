@@ -1,5 +1,6 @@
 package growthcraft.milk.item;
 
+import growthcraft.core.init.GrowthcraftCreativeModeTabs;
 import growthcraft.milk.init.GrowthcraftMilkFluids;
 import growthcraft.milk.init.GrowthcraftMilkItems;
 import growthcraft.milk.init.GrowthcraftMilkTags;
@@ -47,7 +48,7 @@ public class MilkingBucketItem extends Item implements DispensibleContainerItem 
     private final Supplier<? extends Fluid> fluidSupplier;
 
     public MilkingBucketItem(Fluid fluid) {
-        super(getInitProperties());
+        super(getInitProperties().tab(GrowthcraftCreativeModeTabs.GROWTHCRAFT_CREATIVE_TAB));
         this.content = fluid;
         this.fluidSupplier = net.minecraftforge.registries.ForgeRegistries.FLUIDS.getDelegateOrThrow(fluid);
     }
