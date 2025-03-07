@@ -2,6 +2,7 @@ package growthcraft.cellar.init;
 
 import growthcraft.cellar.block.*;
 import growthcraft.cellar.shared.Reference;
+import growthcraft.core.init.GrowthcraftCreativeModeTabs;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -114,6 +115,7 @@ public class GrowthcraftCellarBlocks {
 
     private static Item.Properties getDefaultItemProperties() {
         Item.Properties properties = new Item.Properties();
+        properties.tab(GrowthcraftCreativeModeTabs.GROWTHCRAFT_CREATIVE_TAB);
         return properties;
     }
 

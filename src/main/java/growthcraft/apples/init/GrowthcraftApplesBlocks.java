@@ -6,6 +6,7 @@ import growthcraft.apples.block.AppleTreeFruit;
 import growthcraft.apples.block.AppleTreeLeaves;
 import growthcraft.apples.shared.Reference;
 import growthcraft.apples.world.feature.tree.AppleTreeGrower;
+import growthcraft.core.init.GrowthcraftCreativeModeTabs;
 import growthcraft.lib.block.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
@@ -138,6 +139,7 @@ public class GrowthcraftApplesBlocks {
   
     private static Item.Properties getDefaultItemProperties() {
         Item.Properties properties = new Item.Properties();
+        properties.tab(GrowthcraftCreativeModeTabs.GROWTHCRAFT_CREATIVE_TAB);
         return properties;
     }
 

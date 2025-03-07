@@ -1,5 +1,6 @@
 package growthcraft.rice.init;
 
+import growthcraft.core.init.GrowthcraftCreativeModeTabs;
 import growthcraft.lib.client.ClientFluidTypeExtensions;
 import growthcraft.lib.utils.FluidUtils;
 import growthcraft.rice.lib.fluid.GrowthcraftRiceFluidRegistryContainer;
@@ -72,7 +73,7 @@ public class GrowthcraftRiceFluids {
                             )
             ),
             BlockBehaviour.Properties.copy(Blocks.WATER),
-            new Item.Properties().stacksTo(1)
+            new Item.Properties().stacksTo(1).tab(GrowthcraftCreativeModeTabs.GROWTHCRAFT_CREATIVE_TAB)
     );
 
     private GrowthcraftRiceFluids() {

@@ -5,9 +5,13 @@ import growthcraft.lib.utils.BlockStateUtils;
 import growthcraft.milk.GrowthcraftMilk;
 import growthcraft.milk.block.entity.MixingVatBlockEntity;
 import growthcraft.milk.init.GrowthcraftMilkBlockEntities;
+import growthcraft.milk.init.GrowthcraftMilkFluids;
 import growthcraft.milk.init.GrowthcraftMilkTags;
+import growthcraft.milk.lib.fluid.GrowthcraftMilkFluidRegistryContainer;
+import mezz.jei.forge.platform.FluidHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -24,9 +28,12 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
 import net.minecraftforge.network.NetworkHooks;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.Nullable;
 
 public class MixingVatBlock extends BaseEntityBlock {
